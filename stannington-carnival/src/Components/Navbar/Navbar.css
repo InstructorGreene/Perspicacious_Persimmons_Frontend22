@@ -1,0 +1,40 @@
+.logo {
+  height: 100px;
+  width: 100px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  height: 30px;
+  width: 80px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+button:hover {
+  background-color: #003566;
+}
+
+a:hover {
+  color: white;
+}
+
+.btn-space {
+  display: flex;
+  justify-content: space-around;
+  column-gap: 10px;
+}
+
+.nav-text {
+  font-family: "Dancing Script", cursive;
+  font-size: large;
+  font-weight: bold;
+}
