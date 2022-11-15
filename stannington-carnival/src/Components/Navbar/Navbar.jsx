@@ -23,7 +23,7 @@ const NavbarMenu = () => {
                 Login
               </a>
             </Button>
-            <Button>
+            <Button variant="custom">
               <a className="button" href="/register">
                 Register
               </a>

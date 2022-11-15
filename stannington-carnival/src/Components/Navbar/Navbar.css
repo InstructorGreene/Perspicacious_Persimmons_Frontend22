@@ -1,6 +1,7 @@
 .logo {
   height: 100px;
   width: 100px;
+  /* margin-top: -10px; */
 }
 
 .nav-container {
@@ -21,10 +22,12 @@ a {
 
 button:hover {
   background-color: #003566;
+  color: white;
 }
 
 a:hover {
   color: white;
+  text-decoration: none;
 }
 
 .btn-space {
