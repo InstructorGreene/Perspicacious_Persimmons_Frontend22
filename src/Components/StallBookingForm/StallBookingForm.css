@@ -1,0 +1,39 @@
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+.booking-container {
+  padding: 5%;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.booking-form-box {
+  width: 40vw;
+  height: 70vh;
+  padding: 5%;
+  border: 1px solid black;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+}
+
+.add-button {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: cadetblue;
+}
+
+.add-button:hover {
+  color: white;
+}
+
+input {
+  align-items: center;
+  width: 30vw;
+  height: 5vh;
+  margin: 10px 0;
+}
