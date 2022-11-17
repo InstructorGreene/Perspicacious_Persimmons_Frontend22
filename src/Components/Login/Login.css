@@ -31,9 +31,9 @@ body {
   color: white;
 }
 
-input {
+.login-input {
   align-items: center;
   width: 30vw;
   height: 5vh;
-  margin: 10px 0;
+  margin-bottom: 20px;
 }

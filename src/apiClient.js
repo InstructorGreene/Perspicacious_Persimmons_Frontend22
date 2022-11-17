@@ -24,11 +24,11 @@ export class ApiClient {
     });
   }
 
-  addUser(firstName, lastName, userEmail, password, role) {
+  addUser(firstName, lastName, email, password, role) {
     return this.authenticatedCall("post", `${url}/user`, {
       firstName,
       lastName,
-      userEmail,
+      email,
       password,
       role,
     });
@@ -38,12 +38,12 @@ export class ApiClient {
     return this.authenticatedCall("get", `${url}/user/${id}`);
   }
 
-  async login(userEmail, password) {
+  async login(email, password) {
     return axios({
       method: "post",
       url: `${url}auth`,
       data: {
-        userEmail,
+        email,
         password,
       },
     }).catch((error) => {
@@ -70,7 +70,15 @@ export class ApiClient {
     return this.authenticatedCall("delete", `${url}${id}`);
   }
 
-  updateBooking(businessName, mobileNumber, stallType, comments, status, date) {
+  updateBooking(
+    id,
+    businessName,
+    mobileNumber,
+    stallType,
+    comments,
+    status,
+    date
+  ) {
     return this.authenticatedCall("put", `${url}${id}`, {
       businessName,
       mobileNumber,
