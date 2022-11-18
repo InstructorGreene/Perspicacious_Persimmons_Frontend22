@@ -3,9 +3,11 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import logo from "../../img/logo.jpg";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 const NavbarMenu = (props) => {
+  const navigate = useNavigate();
   return (
     <>
       <Navbar>
@@ -18,15 +20,11 @@ const NavbarMenu = (props) => {
           </Navbar.Text>
 
           <div className="btn-space">
-            <Button variant="custom">
-              <a className="button" href="/login">
-                Login
-              </a>
+            <Button variant="custom" onClick={() => navigate("/login")}>
+              Login
             </Button>
-            <Button variant="custom">
-              <a className="button" href="/register">
-                Register
-              </a>
+            <Button variant="custom" onClick={() => navigate("/register")}>
+              Register
             </Button>
             <Button variant="custom" onClick={props.logout}>
               <a className="button" href="/">
