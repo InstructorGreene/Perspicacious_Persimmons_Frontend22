@@ -2,7 +2,6 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./Login.css";
 
 const Login = (props) => {
