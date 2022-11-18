@@ -72,7 +72,7 @@ export class ApiClient {
     return this.authenticatedCall("delete", `${url}${id}`);
   }
 
-  updateBooking(booking) {
+  updateBooking(booking, id) {
     return this.authenticatedCall("put", `${url}${id}`, { ...booking });
   }
 }
