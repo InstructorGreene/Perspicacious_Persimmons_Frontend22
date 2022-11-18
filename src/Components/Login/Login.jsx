@@ -1,16 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./Login.css";
-const Login = () => {
+
+const Login = (props) => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ shouldUseNativeValidation: true });
 
-  const onSubmit = (item) => {
+  const onSubmit = async (item) => {
     console.log(item);
+    const res = await props.client.login(item.email, item.password);
+    props.loggedIn(res.data.token);
+    navigate("/booking");
   };
 
   return (
@@ -21,7 +28,7 @@ const Login = () => {
             <input
               type="email"
               name="email"
-              {...register("email")}
+              {...register("email", { required: "Please enter valid email." })}
               placeholder="Email"
             />
           </div>
@@ -29,7 +36,9 @@ const Login = () => {
             <input
               type="password"
               name="password"
-              {...register("password")}
+              {...register("password", {
+                required: "an error occured, Please try again",
+              })}
               placeholder="Password"
             />
           </div>
