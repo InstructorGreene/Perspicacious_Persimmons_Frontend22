@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./Components/Homepage/HomePage";
 import NavbarMenu from "./Components/Navbar/Navbar";
 import Login from "./Components/Login/Login";
+import Dashboard from "./Components/Dashboard/Dashboard";
 import "./App.css";
 import Register from "./Components/Register/Register";
 import StallBookingForm from "./Components/StallBookingForm/StallBookingForm";
@@ -37,6 +38,7 @@ const App = () => {
             }
           />
           <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard client={client} />} />
           <Route
             path="/booking"
             element={<StallBookingForm client={client} />}
