@@ -5,7 +5,7 @@ import Button from "react-bootstrap/Button";
 import logo from "../../img/logo.jpg";
 import "./Navbar.css";
 
-const NavbarMenu = () => {
+const NavbarMenu = (props) => {
   return (
     <>
       <Navbar>
@@ -26,6 +26,11 @@ const NavbarMenu = () => {
             <Button variant="custom">
               <a className="button" href="/register">
                 Register
+              </a>
+            </Button>
+            <Button variant="custom" onClick={props.logout}>
+              <a className="button" href="/">
+                Logout
               </a>
             </Button>
           </div>
