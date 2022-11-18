@@ -71,22 +71,7 @@ export class ApiClient {
     return this.authenticatedCall("delete", `${url}${id}`);
   }
 
-  updateBooking(
-    id,
-    businessName,
-    mobileNumber,
-    stallType,
-    comments,
-    status,
-    date
-  ) {
-    return this.authenticatedCall("put", `${url}${id}`, {
-      businessName,
-      mobileNumber,
-      stallType,
-      comments,
-      status,
-      date,
-    });
+  updateBooking(booking) {
+    return this.authenticatedCall("put", `${url}${id}`, { ...booking });
   }
 }
