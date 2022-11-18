@@ -16,7 +16,7 @@ const Login = (props) => {
     console.log(item);
     const res = await props.client.login(item.email, item.password);
     props.loggedIn(res.data.token);
-    navigate("/booking");
+    navigate("/dashboard");
   };
 
   return (
