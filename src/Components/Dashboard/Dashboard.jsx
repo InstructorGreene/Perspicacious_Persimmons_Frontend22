@@ -34,7 +34,9 @@ const Dashboard = (props) => {
 
   return (
     <>
+
       <div>{buildRows()}</div>
+
     </>
   );
 };
