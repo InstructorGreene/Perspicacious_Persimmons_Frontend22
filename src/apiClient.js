@@ -18,25 +18,28 @@ export class ApiClient {
       data,
     }).catch((error) => {
       if (error.response.status === 403) {
+        console.log(error);
         return Promise.reject();
       } else {
-        throw error;
+        return Promise.resolve();
       }
     });
   }
 
-  addUser(firstName, lastName, userEmail, password, role) {
-    return this.authenticatedCall("post", `${url}/user`, {
+  addUser(firstName, lastName, email, mobileNumber, password, role, token) {
+    return this.authenticatedCall("post", `${url}user`, {
       firstName,
       lastName,
-      userEmail,
+      email,
+      mobileNumber,
       password,
       role,
+      token,
     });
   }
 
   getUserById(id) {
-    return this.authenticatedCall("get", `${url}/user/${id}`);
+    return this.authenticatedCall("get", `${url}user/${id}`);
   }
 
   async login(email, password) {
