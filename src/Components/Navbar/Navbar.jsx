@@ -31,6 +31,9 @@ const NavbarMenu = (props) => {
             <Link to="/register" className="btn btn-custom btn-change">
               Register
             </Link>
+            <Link to="/booking" className="btn btn-custom btn-change">
+              Add Booking
+            </Link>
             <Button
               variant="custom"
               className="btn-change"
