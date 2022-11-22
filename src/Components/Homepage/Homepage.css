@@ -1,3 +1,5 @@
+.title {
+}
 .item {
   width: 95vw;
   height: 70vh;
@@ -14,4 +16,8 @@
 
 .about {
   padding: 5%;
+}
+.location-link:hover,
+.location-link:focus {
+  color: black;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
+import { FaMapMarkerAlt } from "react-icons/fa";
 import "./Homepage.css";
 
 const HomePage = () => {
@@ -46,14 +47,16 @@ const HomePage = () => {
       </Carousel>
 
       <div className="about">
-        <h3>ABOUT THE CARNIVAL</h3>
+        <h1 className="title">About the carnival</h1>
         <p>
-          Stannington Carnival is a great day out for all the family. Visitors
-          can enjoy performances by dance acts and musical groups in the main
-          arena, wander around the many stalls offering gifts and goodies, swoon
-          at the dog show or have a go at archery or circus skills. We also have
-          fairground rides, bouncy castles and a Helter-skelter to keep the kids
-          entertained and a variety of food vendors offering tasty treats.
+          Stannington Carnival is a great day out for all the family. This is
+          the annual event, it takes place on the second Saturday in July.
+          Visitors can enjoy performances by dance acts and musical groups in
+          the main arena, wander around the many stalls offering gifts and
+          goodies, swoon at the dog show or have a go at archery or circus
+          skills. We also have fairground rides, bouncy castles and a
+          Helter-skelter to keep the kids entertained and a variety of food
+          vendors offering tasty treats.
         </p>
         <p>
           Started in the mid 90's, Stannington Carnival has raised nearly
@@ -63,9 +66,18 @@ const HomePage = () => {
           to create a fun day out to bring people together.
         </p>
         <p>
-          Thousands of visitors come each year. So, why not join them and see it
-          for yourself?
+          Thousands of visitors come each year. So, why not join us and book a
+          stall?
         </p>
+        <a
+          className="location-link"
+          rel="noopener noreferrer"
+          target="blank"
+          href="https://goo.gl/maps/UK6DSxXkBvtAJvKn8"
+        >
+          <FaMapMarkerAlt /> Location: Stannington Park, Stannington, Sheffield
+          S6 6BX
+        </a>
       </div>
     </>
   );
