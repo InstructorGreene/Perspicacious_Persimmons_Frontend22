@@ -8,6 +8,7 @@ import "./App.css";
 import Register from "./Components/Register/Register";
 import StallBookingForm from "./Components/StallBookingForm/StallBookingForm";
 import { ApiClient } from "./apiClient";
+import AddStall from "./Components/StallBookingForm/AddStall";
 
 const App = () => {
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
@@ -27,8 +28,8 @@ const App = () => {
   };
   return (
     <>
-      <NavbarMenu client={client} logout={logout} />
       <Router>
+        <NavbarMenu client={client} logout={logout} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route
@@ -37,12 +38,14 @@ const App = () => {
               <Login loggedIn={(token) => login(token)} client={client} />
             }
           />
-          <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard client={client} />} />
           <Route
-            path="/booking"
-            element={<StallBookingForm client={client} />}
+            path="/register"
+            element={
+              <Register loggedIn={(token) => login(token)} client={client} />
+            }
           />
+          <Route path="/dashboard" element={<Dashboard client={client} />} />
+          <Route path="/booking" element={<AddStall client={client} />} />
         </Routes>
       </Router>
     </>

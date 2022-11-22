@@ -34,11 +34,9 @@ const Dashboard = (props) => {
 
   return (
     <>
-      <div>
-        {buildRows()}
-        {/* Why is this here? */}
-        {/* {refreshList()} */}
-      </div>
+
+      <div>{buildRows()}</div>
+
     </>
   );
 };
