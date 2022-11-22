@@ -3,22 +3,25 @@ import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import "./StallBookingForm.css";
 
-function StallBookingForm() {
+function StallBookingForm(props) {
   const { register, handleSubmit } = useForm({
-    defaultValues: {
-      name: "",
-      businessName: "",
-      mobileNumber: "",
-      stallType: "",
-      comments: "",
-      status: "",
-      date: "",
-    },
+    shouldUseNativeValidation: true,
   });
+
+  const onSubmit = async (item) => {
+    props.client.addBooking(
+      item.businessName,
+      item.mobileNumber,
+      item.stallType,
+      item.comments,
+      item.date
+    );
+    console.log(item);
+  };
 
   return (
     <>
-      <form className="booking-container" onSubmit={handleSubmit(console.log)}>
+      <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="booking-form-box">
           <div>
             <input
@@ -42,11 +45,17 @@ function StallBookingForm() {
             />
           </div>
           <div>
-            <input
-              type="text"
-              {...register("stallType", { required: true })}
-              placeholder="Stall Type"
-            />
+            <select {...register("category", { required: true })}>
+              <option value="">Select...</option>
+
+              <option value="craft">Craft</option>
+
+              <option value="donation">Donation</option>
+
+              <option value="food">Food Stall</option>
+
+              <option value="commercial">Commercial Items</option>
+            </select>
           </div>
           <div>
             <input
@@ -62,7 +71,7 @@ function StallBookingForm() {
               placeholder="Date"
             />
           </div>
-          <Button className="add-button" variant="custom">
+          <Button className="add-button" variant="custom" type="submit">
             Add Booking
           </Button>
         </div>

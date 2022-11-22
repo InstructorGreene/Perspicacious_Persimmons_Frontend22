@@ -1,18 +1,36 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
-function Register() {
+
+function Register(props) {
+  const navigate = useNavigate(); 
   const { register, handleSubmit, formState: { errors } } = useForm({
+
     defaultValues: {
       firstName: "",
       lastName: "",
       email: "",
+      mobileNumber: "",
       password: "",
       confirmPassword: "",
     },
   });
+  const createUser = async (item) => {
+    await props.client.addUser(
+      item.firstName,
+      item.lastName,
+      item.email,
+      item.mobileNumber,
+      item.password
+    );
+    alert("Account created!");
+    const res = await props.client.login(item.email, item.password);
+    props.loggedIn(res.data.token);
+    navigate("/booking");
+  };
 
   const onSubmit = async (data) => {
     console.log(data)
@@ -21,7 +39,7 @@ function Register() {
 
   return (
     <>
-      <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+      <form className="form-container" onSubmit={handleSubmit(createUser)}>
         <div className="form-box">
           <div>
             <input
@@ -45,7 +63,13 @@ function Register() {
             />
             {errors.email && errors.email.type === "pattern" && (<p className ="errorMsg">Email is not valid</p>)}
           </div>
-
+          <div>
+            <input
+              type="number"
+              {...register("mobileNumber", { required: true })}
+              placeholder="Mobile number"
+            />
+          </div>
           <div>
             <input
               type="password"
