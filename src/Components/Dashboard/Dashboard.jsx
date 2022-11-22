@@ -35,7 +35,8 @@ const Dashboard = (props) => {
   return (
     <>
       <div>
-        {buildRows()} {refreshList()}
+        {buildRows()}
+        {/* {refreshList()} */}
       </div>
     </>
   );

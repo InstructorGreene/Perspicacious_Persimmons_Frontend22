@@ -40,7 +40,7 @@ export class ApiClient {
   }
 
   async login(email, password) {
-    console.log(email, password);
+    // console.log(email, password);
     return axios({
       method: "post",
       url: `${url}auth`,

@@ -3,11 +3,16 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import logo from "../../img/logo.jpg";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 const NavbarMenu = (props) => {
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    props.logout();
+    navigate("/");
+  };
   return (
     <>
       <Navbar>
@@ -20,16 +25,18 @@ const NavbarMenu = (props) => {
           </Navbar.Text>
 
           <div className="btn-space">
-            <Button variant="custom" onClick={() => navigate("/login")}>
+            <Link to="/login" className="btn btn-custom btn-change">
               Login
-            </Button>
-            <Button variant="custom" onClick={() => navigate("/register")}>
+            </Link>
+            <Link to="/register" className="btn btn-custom btn-change">
               Register
-            </Button>
-            <Button variant="custom" onClick={props.logout}>
-              <a className="button" href="/">
-                Logout
-              </a>
+            </Link>
+            <Button
+              variant="custom"
+              className="btn-change"
+              onClick={() => handleLogout()}
+            >
+              Logout
             </Button>
           </div>
         </Container>
