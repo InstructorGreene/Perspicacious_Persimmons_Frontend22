@@ -38,7 +38,12 @@ const App = () => {
               <Login loggedIn={(token) => login(token)} client={client} />
             }
           />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/register"
+            element={
+              <Register loggedIn={(token) => login(token)} client={client} />
+            }
+          />
           <Route path="/dashboard" element={<Dashboard client={client} />} />
           <Route path="/booking" element={<AddStall client={client} />} />
         </Routes>
