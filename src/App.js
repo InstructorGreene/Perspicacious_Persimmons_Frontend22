@@ -27,8 +27,8 @@ const App = () => {
   };
   return (
     <>
-      <NavbarMenu client={client} logout={logout} />
       <Router>
+        <NavbarMenu client={client} logout={logout} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route

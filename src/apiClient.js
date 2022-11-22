@@ -1,6 +1,6 @@
 import axios from "axios";
-// const url = "http://localhost:3001/";
-const url = "https://carnival-backend.onrender.com";
+const url = "http://localhost:3001/";
+// const url = "https://carnival-backend.onrender.com";
 
 export class ApiClient {
   constructor(tokenProvider, logoutHandler) {
@@ -40,7 +40,7 @@ export class ApiClient {
   }
 
   async login(email, password) {
-    console.log(email, password);
+    // console.log(email, password);
     return axios({
       method: "post",
       url: `${url}auth`,

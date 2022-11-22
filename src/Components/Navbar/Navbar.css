@@ -10,9 +10,11 @@
   align-items: center;
 }
 
-.button {
+.btn-change {
   height: 30px;
   width: 80px;
+  text-align: center;
+  align-items: center;
 }
 
 a {
@@ -20,7 +22,7 @@ a {
   color: black;
 }
 
-button:hover {
+.btn-change:hover {
   background-color: #003566;
   color: white;
 }
