@@ -162,7 +162,7 @@ function Register(props) {
               placeholder="Password"
             />
             {errors.password && (
-              <div className="error">{errors.password.message}</div>
+              <div className="error">{errors.password.message}a</div>
             )}
           </div>
           <div className="input-wrap">
