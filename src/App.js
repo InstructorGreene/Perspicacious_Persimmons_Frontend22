@@ -9,6 +9,11 @@ import Register from "./Components/Register/Register";
 import StallBookingForm from "./Components/StallBookingForm/StallBookingForm";
 import { ApiClient } from "./apiClient";
 
+import Footer from "./Components/Footer/Footer";
+
+import AddStall from "./Components/StallBookingForm/AddStall";
+
+
 const App = () => {
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
   const client = new ApiClient(
@@ -44,12 +49,10 @@ const App = () => {
             }
           />
           <Route path="/dashboard" element={<Dashboard client={client} />} />
-          <Route
-            path="/booking"
-            element={<StallBookingForm client={client} />}
-          />
+          <Route path="/booking" element={<AddStall client={client} />} />
         </Routes>
       </Router>
+      <Footer />
     </>
   );
 };

@@ -24,21 +24,29 @@ const NavbarMenu = (props) => {
             <h1>Stannington Carnival</h1>
           </Navbar.Text>
 
-          <div className="btn-space">
-            <Link to="/login" className="btn btn-custom btn-change">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-custom btn-change">
-              Register
-            </Link>
-            <Button
-              variant="custom"
-              className="btn-change"
-              onClick={() => handleLogout()}
-            >
-              Logout
-            </Button>
-          </div>
+          {window.localStorage.getItem("token") ? (
+            <>
+              <Link to="/booking" className="btn btn-custom btn-change">
+                Add Booking
+              </Link>
+              <Button
+                variant="custom"
+                className="btn-change"
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </Button>
+            </>
+          ) : (
+            <div className="btn-space">
+              <Link to="/login" className="btn btn-custom btn-change">
+                Login
+              </Link>
+              <Link to="/register" className="btn btn-custom btn-change">
+                Register
+              </Link>
+            </div>
+          )}
         </Container>
       </Navbar>
     </>
