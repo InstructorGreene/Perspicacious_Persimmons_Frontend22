@@ -40,6 +40,9 @@ export class ApiClient {
   getUserById(id) {
     return this.authenticatedCall("get", `${url}user/${id}`);
   }
+  getUserByEmail(email) {
+    return this.authenticatedCall("get", `${url}user/${email}`);
+  }
 
   async login(email, password) {
     // console.log(email, password);
