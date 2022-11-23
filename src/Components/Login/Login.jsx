@@ -10,7 +10,7 @@ const Login = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ shouldUseNativeValidation: true });
+  } = useForm({ mode: "onBlur" }, { shouldUseNativeValidation: true });
 
   const onSubmit = async (item) => {
     console.log(item);
@@ -23,23 +23,46 @@ const Login = (props) => {
     <>
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="login-form-box">
-          <div>
+          <div className="input-wrap">
             <input
               type="email"
               name="email"
-              {...register("email", { required: "Please enter valid email." })}
+              {...register("email", {
+                required: {
+                  value: true,
+                  message: "Email is required",
+                },
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Email is not valid",
+                },
+              })}
               placeholder="Email"
             />
+            {errors.email && (
+              <div className="error">{errors.email.message}</div>
+            )}
           </div>
-          <div>
+          <div className="input-wrap">
             <input
               type="password"
               name="password"
               {...register("password", {
-                required: "an error occured, Please try again",
+                required: {
+                  value: true,
+                  message: "Password is required",
+                },
+                minLength: {
+                  value: 2,
+                  message:
+                    "Password is too short, it shoud be at least 2 characters",
+                },
               })}
               placeholder="Password"
             />
+            {errors.password && (
+              <div className="error">{errors.password.message}</div>
+            )}
           </div>
           <div>
             <label></label>

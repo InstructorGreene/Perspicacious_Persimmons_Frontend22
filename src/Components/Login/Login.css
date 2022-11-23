@@ -37,3 +37,13 @@ input {
   height: 5vh;
   margin: 10px 0;
 }
+.input-wrap {
+  position: relative;
+}
+.error {
+  position: absolute;
+  text-align: left;
+  color: red;
+  left: 5%;
+  bottom: 80%;
+}
