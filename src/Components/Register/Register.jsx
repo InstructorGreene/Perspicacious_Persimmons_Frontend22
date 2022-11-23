@@ -4,11 +4,13 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 
-
 function Register(props) {
-  const navigate = useNavigate(); 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -33,9 +35,8 @@ function Register(props) {
   };
 
   const onSubmit = async (data) => {
-    console.log(data)
-  }
-  
+    console.log(data);
+  };
 
   return (
     <>
@@ -46,22 +47,31 @@ function Register(props) {
               {...register("firstName", { required: true })}
               placeholder="First name"
             />
-            {errors.firstName && errors.firstName.type === "required" && (<p className="errorMsg">First Name is required</p>)}
+            {errors.firstName && errors.firstName.type === "required" && (
+              <p className="errorMsg">First Name is required</p>
+            )}
           </div>
           <div>
             <input
               {...register("lastName", { required: true, minLength: 2 })}
               placeholder="Last name"
             />
-            {errors.lastName && errors.lastName.type === "required" && (<p className="errorMsg">Last Name is required</p>)}
+            {errors.lastName && errors.lastName.type === "required" && (
+              <p className="errorMsg">Last Name is required</p>
+            )}
           </div>
           <div>
             <input
               type="email"
-              {...register("email", { required: true, pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/ })}
+              {...register("email", {
+                required: true,
+                pattern: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+              })}
               placeholder="Email"
             />
-            {errors.email && errors.email.type === "pattern" && (<p className ="errorMsg">Email is not valid</p>)}
+            {errors.email && errors.email.type === "pattern" && (
+              <p className="errorMsg">Email is not valid</p>
+            )}
           </div>
           <div>
             <input
@@ -76,7 +86,11 @@ function Register(props) {
               {...register("password", { required: true, minLength: 2 })}
               placeholder="Password"
             />
-            {errors.password && errors.password.type === "required" && (<p className ="errorMsg">Create Password with at least 2 characters</p>)}
+            {errors.password && errors.password.type === "required" && (
+              <p className="errorMsg">
+                Create Password with at least 2 characters
+              </p>
+            )}
           </div>
           <div>
             <input
