@@ -41,9 +41,9 @@ input {
   position: relative;
 }
 .error {
+  color: red;
   position: absolute;
   text-align: left;
-  color: red;
   left: 5%;
   bottom: 80%;
 }
