@@ -1,6 +1,8 @@
 import React from "react";
 import Carousel from "react-bootstrap/Carousel";
 import { FaMapMarkerAlt } from "react-icons/fa";
+import { BsMailbox } from "react-icons/bs";
+
 import "./Homepage.css";
 
 const HomePage = () => {
@@ -10,44 +12,36 @@ const HomePage = () => {
         <Carousel.Item>
           <img
             className="item"
-            src="https://sheffnews.com/media/11522/christmas-2021-1-sml.jpg?anchor=center&mode=crop&width=1500&height=550&rnd=133119653410000000"
+            src="https://scontent.flhr6-1.fna.fbcdn.net/v/t31.18172-8/11336962_880084938714620_1833581849408480907_o.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=xzDKJ35Es2AAX9UISi5&_nc_ht=scontent.flhr6-1.fna&oh=00_AfCJTWNThMtTnV3wOwf45Bahii-Bmy0JS2OM1MJGy8mJpg&oe=63A58810"
             alt="First slide"
           />
           <Carousel.Caption>
-            <h3>APPLEBUM</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <img
             className="item"
-            src="https://sashaleephotography.com/wp-content/uploads/2018/04/SharrowLanternFestival-7.jpg"
+            src="https://scontent.flhr6-1.fna.fbcdn.net/v/t31.18172-8/11154861_880084915381289_3909534780009307590_o.jpg?_nc_cat=102&ccb=1-7&_nc_sid=730e14&_nc_ohc=D1BLAaKG8pwAX8VdVLd&_nc_ht=scontent.flhr6-1.fna&oh=00_AfBfY54UUj4iNXUfG2U7d1tZjnmhCZvB8IGVX_-pFU1fJA&oe=63A59511"
             alt="Second slide"
           />
 
           <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
           <img
             className="item"
-            src="https://cdn.hunthalloween.com/events8/banners/6405ec966a21a6769bdeda5a44f61f46b8fa552ea2d6fcecb4aadbcd922a17cb-rimg-w960-h626-gmir.jpg?v=1667583549"
+            src="https://scontent.flhr6-1.fna.fbcdn.net/v/t1.6435-9/45327702_1996132673776502_4266921717902868480_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=e3f864&_nc_ohc=V8ULU9oqYkUAX-e4_Qm&_nc_ht=scontent.flhr6-1.fna&oh=00_AfDzYPBkyKSUiaZCKgzywePxU9NRyUy2TEhuhm_9shfkbA&oe=63A591F0"
             alt="Third slide"
           />
 
           <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
 
       <div className="about">
-        <h1 className="title">About the carnival</h1>
+        <h1 className="title">About Us</h1>
         <p>
           Stannington Carnival is a great day out for all the family. This is
           the annual event, it takes place on the second Saturday in July.
@@ -75,9 +69,50 @@ const HomePage = () => {
           target="blank"
           href="https://goo.gl/maps/UK6DSxXkBvtAJvKn8"
         >
-          <FaMapMarkerAlt /> Location: Stannington Park, Stannington, Sheffield
-          S6 6BX
+          Location: Stannington Park, Stannington, Sheffield 
+          S6 6BX <FaMapMarkerAlt size="1.2em" />
         </a>
+        <div className="booking">
+        <h4 className="Booking-title">Booking a Stall</h4>
+        <p>
+        Thank you for considering to run your stall in STANNINGTON CARNIVAL. 
+        Below there is information regarding pricing and terms and conditions. To 
+        book a stall you need to register by pressing button on the top of the page 
+        and fill in the form. If you have any questions regarding stall hire, please 
+        contact us on <a href="mailto:stanningtoncarnival@gmail.com"> <BsMailbox size="1.6em" color="white"/></a>
+        </p>
+        </div>
+        <h4>Stall Prices</h4>
+        <p>
+          Prices to come
+        </p>
+        <h4>Terms and Conditions</h4>
+        <p>
+        Please read carefully as you are agreeing to abide by the terms and 
+        conditions when booking a stall / table / space at the Carnival
+        By completing the booking form you are agreeing to the following information:
+        Stalls will not be confirmed or booked until full payment has been made and 
+        public liability / food hygiene certificates have been received (when you book 
+        in we will send you details on how to send payment and provide the 
+        documents). 
+        All rubbish must be bagged up and taken away at the end of the festival
+        All food stall must have allergen information signs clearly displayed at all 
+        times
+        </p>
+        <div className="what-happens-next">
+        <h4>What happens next</h4>
+        <p>
+        Once you complete the form  you will receive  confirmation of booking by 
+        email when the Admin Officer check all the details of booking.
+        Our Finance Officer will send the payment request by email, the payment will 
+        confirm your stall booking. Payments are accepted via bank transfer. You will 
+        receive a receipt confirming we have received your payment and allocated 
+        pitch number.
+        You may see the status and the details of you booking in your account.
+        Closer to the event, you will be contacted again with details of the event.
+        </p>
+        </div>
+
       </div>
     </>
   );
