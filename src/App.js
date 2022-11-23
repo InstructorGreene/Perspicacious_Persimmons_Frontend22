@@ -11,9 +11,6 @@ import { ApiClient } from "./apiClient";
 
 import Footer from "./Components/Footer/Footer";
 
-import AddStall from "./Components/StallBookingForm/AddStall";
-
-
 const App = () => {
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
   const client = new ApiClient(
@@ -49,7 +46,15 @@ const App = () => {
             }
           />
           <Route path="/dashboard" element={<Dashboard client={client} />} />
-          <Route path="/booking" element={<AddStall client={client} />} />
+          <Route
+            path="/booking"
+            element={
+              <StallBookingForm
+                loggedIn={(userid, role) => login(userid, role)}
+                client={client}
+              />
+            }
+          />
         </Routes>
       </Router>
       <Footer />

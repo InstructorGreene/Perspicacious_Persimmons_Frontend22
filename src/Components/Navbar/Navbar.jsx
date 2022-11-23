@@ -26,6 +26,9 @@ const NavbarMenu = (props) => {
 
           {window.localStorage.getItem("token") ? (
             <>
+              <Link to="/dashboard" className="btn btn-custom btn-change">
+                View Bookings
+              </Link>
               <Link to="/booking" className="btn btn-custom btn-change">
                 Add Booking
               </Link>
