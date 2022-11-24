@@ -14,7 +14,7 @@ const Login = (props) => {
 
   const onSubmit = async (item) => {
     const res = await props.client.login(item.email, item.password);
-    console.log(res.data);
+    // console.log(res.data);
     props.loggedIn(res.data.token, res.data.role, res.data.userid);
     navigate("/dashboard");
   };

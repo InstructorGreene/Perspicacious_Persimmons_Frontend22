@@ -13,6 +13,12 @@ import Footer from "./Components/Footer/Footer";
 
 const App = () => {
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
+  const [role, changeRole] = useState(window.localStorage.getItem("role"));
+  const [userid, changeUserId] = useState(
+    window.localStorage.getItem("userid")
+  );
+  console.log(token, role, userid);
+
   const client = new ApiClient(
     () => token,
     () => logout()
@@ -20,11 +26,19 @@ const App = () => {
 
   const logout = () => {
     window.localStorage.removeItem("token");
+    window.localStorage.removeItem("role");
+    window.localStorage.removeItem("userid");
+    changeRole(undefined);
+    changeUserId(undefined);
     changeToken(undefined);
   };
 
-  const login = (authToken) => {
+  const login = (authToken, authRole, authId) => {
     window.localStorage.setItem("token", authToken);
+    window.localStorage.setItem("role", authRole);
+    window.localStorage.setItem("userid", authId);
+    changeRole(authRole);
+    changeUserId(authId);
     changeToken(authToken);
   };
   return (
@@ -36,19 +50,27 @@ const App = () => {
           <Route
             path="/login"
             element={
-              <Login loggedIn={(token) => login(token)} client={client} />
+              <Login
+                loggedIn={(token, role, userid) => login(token, role, userid)}
+                client={client}
+              />
             }
           />
           <Route
             path="/register"
             element={
-              <Register loggedIn={(token) => login(token)} client={client} />
+              <Register
+                loggedIn={(token, role, userid) => login(token, role, userid)}
+                client={client}
+              />
             }
           />
           <Route path="/dashboard" element={<Dashboard client={client} />} />
           <Route
             path="/booking"
-            element={<StallBookingForm client={client} />}
+            element={
+              <StallBookingForm role={role} userid={userid} client={client} />
+            }
           />
         </Routes>
       </Router>

@@ -26,7 +26,6 @@ function Register(props) {
 
   const createUser = async (item) => {
     const checkUser = await props.client.getUserByEmail(item.email);
-    console.log(checkUser.data.length);
     if (checkUser.data.length === 0) {
       if (item.password === item.confirmPassword) {
         await props.client.addUser(
@@ -38,7 +37,7 @@ function Register(props) {
         );
         alert("Account created, you may book the place for stall!");
         const res = await props.client.login(item.email, item.password);
-        props.loggedIn(res.data.token);
+        props.loggedIn(res.data.token, res.data.role, res.data.userid);
         navigate("/booking");
       } else {
         alert("Password Confirmation should match the Password");
