@@ -12,38 +12,31 @@ const Booking = (props) => {
           <div className="data-wrap">
             <div className="data-name-wrap">
               <p className="lable text-muted">
-                {" "}
                 First name: <span> {props.firstName}</span>
               </p>
               <p className="lable text-muted">
-                {" "}
                 Last name: <span> {props.lastName}</span>
               </p>
             </div>
             <div className="data-name-wrap">
               <p className="lable text-muted">
-                {" "}
                 Email: <span> {props.email}</span>
               </p>
               <p className="lable text-muted">
-                {" "}
                 Mobile: <span> {props.mobileNumber}</span>
               </p>
             </div>
           </div>
           <Card.Title className="booking-data">Booking Details</Card.Title>
           <p className="lable text-muted">
-            {" "}
-            Business/charity name:{" "}
+            Business/charity name:
             <span className="description"> {props.businessName}</span>
           </p>
           <p className="lable text-muted">
-            {" "}
             Type of stall:
             <span className="description"> {props.stallType}</span>
           </p>
           <p className="lable text-muted">
-            {" "}
             Additional comments:
             <span className="description"> {props.comments}</span>
           </p>
