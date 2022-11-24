@@ -5,6 +5,7 @@
   height: 70vh;
   align-items: center;
   text-align: center;
+  
 }
 
 .image-slides {
@@ -16,8 +17,25 @@
 
 .about {
   padding: 5%;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: larger;
+  
 }
 .location-link:hover,
 .location-link:focus {
   color: black;
+}
+
+.Booking-title {
+  padding-top: 10px
+}
+
+.booking {
+  background-color: #003566;
+  color: white;
+}
+
+.what-happens-next {
+  background-color: #003566;
+  color: white;
 }
