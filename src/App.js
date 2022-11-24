@@ -65,7 +65,10 @@ const App = () => {
               />
             }
           />
-          <Route path="/dashboard" element={<Dashboard client={client} />} />
+          <Route
+            path="/dashboard"
+            element={<Dashboard role={role} userid={userid} client={client} />}
+          />
           <Route
             path="/booking"
             element={
