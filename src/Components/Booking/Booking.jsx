@@ -1,19 +1,66 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
+import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
+import "./Booking.css";
 
 const Booking = (props) => {
   return (
     <div>
-      <Card className="card-wrapp" key={props._id}>
+      <Card className="card" key={props._id}>
         <Card.Body id={props._id}>
-          <Card.Title>{props.name}</Card.Title>
-          <Card.Subtitle className="mb-2 text-muted">
-            {props.businessName}
-          </Card.Subtitle>
-          <Card.Text className="description">{props.email}</Card.Text>
-          <Card.Text className="description">{props.comments}</Card.Text>
-          <Card.Text className="description">{props.mobileNumber}</Card.Text>
-          <Card.Text className="description">{props.stallType}</Card.Text>
+          <Card.Title className="creator-data">Stall Holder Details</Card.Title>
+          <div className="data-wrap">
+            <div className="data-name-wrap">
+              <p className="lable text-muted">
+                {" "}
+                First name: <span> {props.firstName}</span>
+              </p>
+              <p className="lable text-muted">
+                {" "}
+                Last name: <span> {props.lastName}</span>
+              </p>
+            </div>
+            <div className="data-name-wrap">
+              <p className="lable text-muted">
+                {" "}
+                Email: <span> {props.email}</span>
+              </p>
+              <p className="lable text-muted">
+                {" "}
+                Mobile: <span> {props.mobileNumber}</span>
+              </p>
+            </div>
+          </div>
+          <Card.Title className="booking-data">Booking Details</Card.Title>
+          <p className="lable text-muted">
+            {" "}
+            Business/charity name:{" "}
+            <span className="description"> {props.businessName}</span>
+          </p>
+          <p className="lable text-muted">
+            {" "}
+            Type of stall:
+            <span className="description"> {props.stallType}</span>
+          </p>
+          <p className="lable text-muted">
+            {" "}
+            Additional comments:
+            <span className="description"> {props.comments}</span>
+          </p>
+          <div className="action-bar">
+            <button className="action-button" type="button">
+              <FaUndo />
+            </button>
+            <button className="action-button" type="button">
+              <FaShareSquare />
+            </button>
+            <button className="action-button" type="button">
+              <FaEdit />
+            </button>
+            <button className="action-button" type="button">
+              <FaTrash />
+            </button>
+          </div>
         </Card.Body>
       </Card>
     </div>

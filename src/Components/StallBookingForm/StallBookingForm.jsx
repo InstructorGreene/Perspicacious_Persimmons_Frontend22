@@ -16,7 +16,7 @@ function StallBookingForm(props) {
       item.comments,
       item.date
     );
-    console.log(item);
+    console.log(props);
   };
 
   return (
@@ -37,13 +37,7 @@ function StallBookingForm(props) {
               placeholder="Business Name"
             />
           </div>
-          <div>
-            <input
-              type="number"
-              {...register("mobileNumber", { required: true })}
-              placeholder="Mobile Number"
-            />
-          </div>
+
           <div>
             <select {...register("category", { required: true })}>
               <option value="">Select...</option>
@@ -64,13 +58,7 @@ function StallBookingForm(props) {
               placeholder="Comments"
             />
           </div>
-          <div>
-            <input
-              type="Date"
-              {...register("date", { required: true })}
-              placeholder="Date"
-            />
-          </div>
+
           <Button className="add-button" variant="custom" type="submit">
             Add Booking
           </Button>

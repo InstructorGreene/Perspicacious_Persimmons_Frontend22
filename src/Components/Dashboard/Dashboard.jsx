@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Booking from "../Booking/Booking";
+import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
@@ -17,13 +18,10 @@ const Dashboard = (props) => {
   const buildRows = () => {
     return currentBooking.map((item) => {
       return (
-        <div className="event-wrapp" key={item._id}>
+        <div className="card-wrap" key={item._id}>
           <Booking
             key={item._id}
-            name={item.name}
             businessName={item.businessName}
-            email={item.email}
-            mobileNumber={item.mobileNumber}
             comments={item.comments}
             stallType={item.stallType}
           />
@@ -34,9 +32,7 @@ const Dashboard = (props) => {
 
   return (
     <>
-
-      <div>{buildRows()}</div>
-
+      <div className="cards">{buildRows()}</div>
     </>
   );
 };
