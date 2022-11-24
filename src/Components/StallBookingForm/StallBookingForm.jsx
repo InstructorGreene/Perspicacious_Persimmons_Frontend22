@@ -11,14 +11,18 @@ function StallBookingForm(props) {
   });
 
   const onSubmit = async (item) => {
+    console.log(item);
     props.client.addBooking(
       item.businessName,
       item.mobileNumber,
       item.stallType,
       item.comments,
-      item.date
+      item.status,
+      item.date,
+      props.userid
     );
-    console.log(props);
+
+    console.log(props.role, props.userid);
     navigate("/dashboard");
   };
 
