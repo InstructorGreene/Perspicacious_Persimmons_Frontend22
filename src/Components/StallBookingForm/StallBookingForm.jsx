@@ -1,9 +1,11 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import "./StallBookingForm.css";
 
 function StallBookingForm(props) {
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm({
     shouldUseNativeValidation: true,
   });
@@ -17,19 +19,13 @@ function StallBookingForm(props) {
       item.date
     );
     console.log(props);
+    navigate("/dashboard");
   };
 
   return (
     <>
       <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="booking-form-box">
-          <div>
-            <input
-              type="text"
-              {...register("name", { required: true })}
-              placeholder="Name"
-            />
-          </div>
           <div>
             <input
               type="text"
