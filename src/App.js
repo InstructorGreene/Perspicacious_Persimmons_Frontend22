@@ -48,12 +48,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard client={client} />} />
           <Route
             path="/booking"
-            element={
-              <StallBookingForm
-                loggedIn={(userid, role) => login(userid, role)}
-                client={client}
-              />
-            }
+            element={<StallBookingForm client={client} />}
           />
         </Routes>
       </Router>
