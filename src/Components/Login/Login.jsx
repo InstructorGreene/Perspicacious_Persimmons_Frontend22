@@ -13,6 +13,7 @@ const Login = (props) => {
   } = useForm({ mode: "onBlur" }, { shouldUseNativeValidation: true });
 
   const onSubmit = async (item) => {
+    const checkUser = await props.client.getUserByEmail(item.email);
     const res = await props.client.login(item.email, item.password);
     // console.log(res.data);
     props.loggedIn(res.data.token, res.data.role, res.data.userid);
