@@ -4,11 +4,19 @@ import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
+  console.log(currentBooking);
 
   const refreshList = () => {
-    props.client
-      .getBooking()
-      .then((response) => setCurrentBooking(response.data));
+    if (props.role === "StallHolder") {
+      console.log(props.userid);
+      props.client
+        .getBookingByUserId(props.userid)
+        .then((response) => setCurrentBooking(response.data));
+    } else {
+      props.client
+        .getBooking()
+        .then((response) => setCurrentBooking(response.data));
+    }
   };
 
   useEffect(() => {
@@ -24,6 +32,7 @@ const Dashboard = (props) => {
             businessName={item.businessName}
             comments={item.comments}
             stallType={item.stallType}
+            status={item.status}
           />
         </div>
       );

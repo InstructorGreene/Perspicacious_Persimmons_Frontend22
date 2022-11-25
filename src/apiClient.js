@@ -44,6 +44,9 @@ export class ApiClient {
   getUserByEmail(email) {
     return this.authenticatedCall("get", `${url}user/${email}`);
   }
+  getBookingByUserId(userid) {
+    return this.authenticatedCall("get", `${url}${userid}`);
+  }
 
   async login(email, password) {
     // console.log(email, password);
