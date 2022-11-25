@@ -1,6 +1,11 @@
 import React from "react";
 import "./Footer.css";
-import { BsFacebook, BsTwitter, BsMailbox } from "react-icons/bs";
+import {
+  BsFacebook,
+  BsTwitter,
+  BsEnvelopeFill,
+  BsFillTelephoneFill,
+} from "react-icons/bs";
 
 function Footer() {
   return (
@@ -18,25 +23,30 @@ function Footer() {
           </div> */}
           {/* Column2 */}
           <div className="col">
-            <h4>Follow Us</h4>
+            <h4>Follow us</h4>
             <ul className="list-unstyled">
-              <a href="https://twitter.com/stanncarnival">
-                <BsTwitter size="3em" color="white" />
+              <a className="social" href="https://twitter.com/stanncarnival">
+                <BsTwitter size="3em" />
               </a>
-              <a href="https://www.facebook.com/stanningtoncarnival">
-                <BsFacebook size="3em" color="white" />
+              <a
+                className="social"
+                href="https://www.facebook.com/stanningtoncarnival"
+              >
+                <BsFacebook size="3em" />
               </a>
             </ul>
           </div>
           {/* Column3 */}
           <div className="col">
             <h4>Contact us</h4>
-            <ul className="list-unstyled">
-              <a href="mailto:stanningtoncarnival@gmail.com">
-                <BsMailbox size="3em" color="white" />
-              </a>
-              <li>07547 224057</li>
-            </ul>
+            <a className="contacts" href="mailto:stanningtoncarnival@gmail.com">
+              <BsEnvelopeFill className="social" size="1.5em" />
+              <span className="email">stanningtoncarnival@gmail.com</span>
+            </a>
+            <a className="contacts" href="tel:07547224057">
+              <BsFillTelephoneFill className="social" size="1.5em" />
+              <span className="contact"> 07547 224057</span>
+            </a>
           </div>
         </div>
         <hr />

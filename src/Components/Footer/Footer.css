@@ -1,8 +1,19 @@
 .main-footer {
   color: white;
   background-color: #093250;
-  padding-top: 3em;
+  padding-top: 1em;
   position: relative;
   bottom: 0;
   width: 100%;
+}
+.social {
+  color: white;
+  margin-right: 20px;
+}
+.contacts {
+  display: block;
+  margin-bottom: 5px;
+}
+.contact {
+  color: white;
 }

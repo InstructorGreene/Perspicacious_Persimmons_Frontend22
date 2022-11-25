@@ -6,7 +6,11 @@ import "./StallBookingForm.css";
 
 function StallBookingForm(props) {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     shouldUseNativeValidation: true,
   });
 
@@ -33,13 +37,25 @@ function StallBookingForm(props) {
           <div>
             <input
               type="text"
-              {...register("businessName", { required: true })}
-              placeholder="Business Name"
+              {...register("businessName", {
+                required: {
+                  value: true,
+                  message: "Business name is required",
+                },
+              })}
+              placeholder="Business name"
             />
           </div>
 
           <div>
-            <select {...register("category", { required: true })}>
+            <select
+              {...register("category", {
+                required: {
+                  value: true,
+                  message: "Choose the category of the stall",
+                },
+              })}
+            >
               <option value="">Select...</option>
 
               <option value="craft">Craft</option>
@@ -52,9 +68,17 @@ function StallBookingForm(props) {
             </select>
           </div>
           <div>
-            <input
+            <textarea
               type="textarea"
-              {...register("comments", { required: true })}
+              className="booking-textarea"
+              rows="6"
+              {...register("comments", {
+                required: {
+                  value: true,
+                  message:
+                    "Tell us what you will be selling / promoting at the carnival ",
+                },
+              })}
               placeholder="Comments"
             />
           </div>

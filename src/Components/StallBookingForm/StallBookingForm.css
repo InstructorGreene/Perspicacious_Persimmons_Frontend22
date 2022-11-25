@@ -31,9 +31,14 @@ body {
   color: white;
 }
 
-input {
+input,
+select,
+textarea {
   align-items: center;
   width: 30vw;
   height: 5vh;
   margin: 10px 0;
+}
+textarea {
+  height: 20vh;
 }
