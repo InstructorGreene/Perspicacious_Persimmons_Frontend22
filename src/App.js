@@ -67,6 +67,7 @@ const App = () => {
           />
           <Route
             path="/dashboard"
+
             element={
               <Dashboard
                 client={client}
@@ -75,6 +76,7 @@ const App = () => {
                 userid={userid}
               />
             }
+
           />
           <Route
             path="/booking"

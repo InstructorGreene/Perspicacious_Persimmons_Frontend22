@@ -5,12 +5,21 @@ import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
+
   const [booking, setBooking] = useState(undefined);
 
+
   const refreshList = () => {
-    props.client
-      .getBooking()
-      .then((response) => setCurrentBooking(response.data));
+    if (props.role === "StallHolder") {
+      console.log(props.userid);
+      props.client
+        .getBookingByUserId(props.userid)
+        .then((response) => setCurrentBooking(response.data));
+    } else {
+      props.client
+        .getBooking()
+        .then((response) => setCurrentBooking(response.data));
+    }
   };
 
   //delete through admin
@@ -32,6 +41,7 @@ const Dashboard = (props) => {
   const buildRows = () => {
     return currentBooking.map((item) => {
       return (
+
         <>
           <Card className="card" key={item._id}>
             <Card.Body id={item._id}>
@@ -94,6 +104,15 @@ const Dashboard = (props) => {
             </Card.Body>
           </Card>
         </>
+        <div className="card-wrap" key={item._id}>
+          <Booking
+            key={item._id}
+            businessName={item.businessName}
+            comments={item.comments}
+            stallType={item.stallType}
+            status={item.status}
+          />
+        </div>
       );
     });
   };
