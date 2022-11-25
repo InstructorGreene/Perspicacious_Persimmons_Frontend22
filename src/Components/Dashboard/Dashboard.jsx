@@ -5,9 +5,7 @@ import "./Dashboard.css";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
-
   const [booking, setBooking] = useState(undefined);
-
 
   const refreshList = () => {
     if (props.role === "StallHolder") {
@@ -41,8 +39,7 @@ const Dashboard = (props) => {
   const buildRows = () => {
     return currentBooking.map((item) => {
       return (
-
-        <>
+        <div key={item._id}>
           <Card className="card" key={item._id}>
             <Card.Body id={item._id}>
               <Card.Title className="creator-data">
@@ -103,15 +100,6 @@ const Dashboard = (props) => {
               </div>
             </Card.Body>
           </Card>
-        </>
-        <div className="card-wrap" key={item._id}>
-          <Booking
-            key={item._id}
-            businessName={item.businessName}
-            comments={item.comments}
-            stallType={item.stallType}
-            status={item.status}
-          />
         </div>
       );
     });
