@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
 import "./Booking.css";
 
 const Booking = (props) => {
+  const [booking, setBooking] = useState(undefined);
+
+  const removeBooking = (id) => {
+    props.client.removeBooking(id).then(() => props.refreshList());
+  };
+
+  const editBooking = (item, id) => {
+    props.client.updateBooking(item, id).then(() => props.refreshList());
+    setBooking(item);
+  };
   return (
     <div>
       <Card className="card" key={props._id}>
@@ -50,7 +60,11 @@ const Booking = (props) => {
             <button className="action-button" type="button">
               <FaEdit />
             </button>
-            <button className="action-button" type="button">
+            <button
+              className="action-button"
+              type="button"
+              onClick={() => removeBooking}
+            >
               <FaTrash />
             </button>
           </div>
