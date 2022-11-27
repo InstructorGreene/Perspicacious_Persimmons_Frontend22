@@ -38,6 +38,10 @@ const Dashboard = (props) => {
 
   const buildRows = () => {
     return currentBooking.map((item) => {
+      let user = props.client
+        .getUserById(item.userid)
+        .then((response) => (user = response.data));
+      console.log(user);
       return (
         <div key={item._id}>
           <Card className="card" key={item._id}>
@@ -48,18 +52,20 @@ const Dashboard = (props) => {
               <div className="data-wrap">
                 <div className="data-name-wrap">
                   <p className="lable text-muted">
-                    First name: <span> {item.firstName}</span>
+                    First name: <span> {user.firstName}</span>
                   </p>
                   <p className="lable text-muted">
-                    Last name: <span> {item.lastName}</span>
+                    Last name:{" "}
+                    <span className="description"> {user.lastName}</span>
                   </p>
                 </div>
                 <div className="data-name-wrap">
                   <p className="lable text-muted">
-                    Email: <span> {item.email}</span>
+                    Email: <span className="description"> {user.email}</span>
                   </p>
                   <p className="lable text-muted">
-                    Mobile: <span> {item.mobileNumber}</span>
+                    Mobile:{" "}
+                    <span className="description"> {user.mobileNumber}</span>
                   </p>
                 </div>
               </div>
