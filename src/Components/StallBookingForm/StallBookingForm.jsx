@@ -49,7 +49,7 @@ function StallBookingForm(props) {
 
           <div>
             <select
-              {...register("category", {
+              {...register("stallType", {
                 required: {
                   value: true,
                   message: "Choose the category of the stall",

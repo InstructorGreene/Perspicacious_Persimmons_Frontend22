@@ -94,7 +94,7 @@ const Dashboard = (props) => {
               </p>
               <p className="lable text-muted">
                 Type of stall:
-                <span className="description"> {item.stallType}</span>
+                <span className="description">{item.stallType}</span>
               </p>
               <p className="lable text-muted">
                 Additional comments:
