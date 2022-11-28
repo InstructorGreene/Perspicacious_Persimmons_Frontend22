@@ -18,10 +18,10 @@ function StallBookingForm(props) {
     console.log(item);
     props.client.addBooking(
       item.businessName,
-      item.mobileNumber,
       item.stallType,
       item.comments,
-      item.status,
+      item.bstatus,
+      item.pitch,
       item.date,
       props.userid
     );
