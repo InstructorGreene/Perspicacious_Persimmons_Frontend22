@@ -15,7 +15,6 @@ function StallBookingForm(props) {
   });
 
   const onSubmit = async (item) => {
-    console.log(item);
     props.client.addBooking(
       item.businessName,
       item.stallType,

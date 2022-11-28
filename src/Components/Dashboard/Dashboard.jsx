@@ -10,7 +10,6 @@ const Dashboard = (props) => {
 
   const refreshList = () => {
     if (props.role === "StallHolder") {
-      console.log(props.userid);
       props.client
         .getBookingByUserId(props.userid)
         .then((response) => setCurrentBooking(response.data));
@@ -27,19 +26,32 @@ const Dashboard = (props) => {
       props.client.removeBooking(id).then(() => refreshList());
     }
   };
-  // constchangeStatus = (id, bstatus) => {
-  //   const statuses = [
-  //     "canceled",
-  //     "created",
-  //     "confirmed",
-  //     "unpaid",
-  //     "paid",
-  //     "allocated",
-  //   ];
-  //   newIndex = findIndex(bstatus) + 1;
-  //   let newBstatus = statuses[newIndex];
-  //   props.client.updateBooking(id, newBstatus);
-  // };
+  const changeStatus = (id, bstatus) => {
+    const statuses = [
+      "canceled",
+      "created",
+      "confirmed",
+      "unpaid",
+      "paid",
+      "allocated",
+    ];
+    let newIndex = statuses.indexOf(bstatus) + 1;
+    let newBstatus = statuses[newIndex];
+    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+  };
+  const undoStatus = (id, bstatus) => {
+    const statuses = [
+      "canceled",
+      "created",
+      "confirmed",
+      "unpaid",
+      "paid",
+      "allocated",
+    ];
+    let newIndex = statuses.indexOf(bstatus) - 1;
+    let newBstatus = statuses[newIndex];
+    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+  };
 
   const editBooking = (id, item) => {
     // props.client.updateBooking(id, item).then(() => refreshList());
@@ -94,7 +106,7 @@ const Dashboard = (props) => {
               </p>
               <p className="lable text-muted">
                 Type of stall:
-                <span className="description">{item.stallType}</span>
+                <span className="description"> {item.stallType}</span>
               </p>
               <p className="lable text-muted">
                 Additional comments:
@@ -102,13 +114,17 @@ const Dashboard = (props) => {
               </p>
 
               <div className="action-bar">
-                <button className="action-button" type="button">
+                <button
+                  className="action-button"
+                  type="button"
+                  onClick={() => undoStatus(item._id, item.bstatus)}
+                >
                   <FaUndo />
                 </button>
                 <button
                   className="action-button"
                   type="button"
-                  // onClick={() => changeStatus(item._id, item.bstatus)}
+                  onClick={() => changeStatus(item._id, item.bstatus)}
                 >
                   <FaShareSquare />
                 </button>
