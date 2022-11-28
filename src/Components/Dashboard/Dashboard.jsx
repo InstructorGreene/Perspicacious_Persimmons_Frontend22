@@ -52,7 +52,7 @@ const Dashboard = (props) => {
                     First name: <span> {item.firstName}</span>
                   </p>
                   <p className="lable text-muted">
-                    Last name:{" "}
+                    Last name:
                     <span className="description"> {item.lastName}</span>
                   </p>
                 </div>
@@ -61,7 +61,7 @@ const Dashboard = (props) => {
                     Email: <span className="description"> {item.email}</span>
                   </p>
                   <p className="lable text-muted">
-                    Mobile:{" "}
+                    Mobile:
                     <span className="description"> {item.mobileNumber}</span>
                   </p>
                 </div>
