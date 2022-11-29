@@ -8,6 +8,26 @@ const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [booking, setBooking] = useState(undefined);
 
+  const statusFilter = (resData) => {
+    let bookingArray = [];
+    resData.map((item) => {
+      if (props.role === "finance") {
+        if (
+          item.bstatus === "confirmed" ||
+          item.bstatus === "unpaid" ||
+          item.bstatus === "paid"
+        ) {
+          bookingArray.push(item);
+        }
+      } else if (props.role === "allocator") {
+        if (item.bstatus === "paid" || item.bstatus === "allocated") {
+          bookingArray.push(item);
+        }
+      } else bookingArray = resData;
+    });
+
+    return bookingArray;
+  };
   const refreshList = () => {
     if (props.role === "StallHolder") {
       props.client
@@ -16,7 +36,7 @@ const Dashboard = (props) => {
     } else {
       props.client
         .getBooking()
-        .then((response) => setCurrentBooking(response.data));
+        .then((response) => setCurrentBooking(statusFilter(response.data)));
     }
   };
 
