@@ -50,3 +50,6 @@ p {
   background-color: #093250;
   color: white;
 }
+#bstatus {
+  background-color: transparent;
+}

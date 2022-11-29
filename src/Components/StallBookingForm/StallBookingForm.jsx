@@ -15,7 +15,6 @@ function StallBookingForm(props) {
   });
 
   const onSubmit = async (item) => {
-    console.log(item);
     props.client.addBooking(
       item.businessName,
       item.stallType,
@@ -49,7 +48,7 @@ function StallBookingForm(props) {
 
           <div>
             <select
-              {...register("category", {
+              {...register("stallType", {
                 required: {
                   value: true,
                   message: "Choose the category of the stall",

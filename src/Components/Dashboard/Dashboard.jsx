@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
 import "./Dashboard.css";
+import "./status";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
@@ -9,7 +10,6 @@ const Dashboard = (props) => {
 
   const refreshList = () => {
     if (props.role === "StallHolder") {
-      console.log(props.userid);
       props.client
         .getBookingByUserId(props.userid)
         .then((response) => setCurrentBooking(response.data));
@@ -26,6 +26,32 @@ const Dashboard = (props) => {
     if (props.role === "admin") {
       props.client.removeBooking(id).then(() => refreshList());
     }
+  };
+  const changeStatus = (id, bstatus) => {
+    const statuses = [
+      "canceled",
+      "created",
+      "confirmed",
+      "unpaid",
+      "paid",
+      "allocated",
+    ];
+    let newIndex = statuses.indexOf(bstatus) + 1;
+    let newBstatus = statuses[newIndex];
+    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+  };
+  const undoStatus = (id, bstatus) => {
+    const statuses = [
+      "canceled",
+      "created",
+      "confirmed",
+      "unpaid",
+      "paid",
+      "allocated",
+    ];
+    let newIndex = statuses.indexOf(bstatus) - 1;
+    let newBstatus = statuses[newIndex];
+    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
   };
 
   const editBooking = (id, item) => {
@@ -68,6 +94,16 @@ const Dashboard = (props) => {
               </div>
               <Card.Title className="booking-data">Booking Details</Card.Title>
               <p className="lable text-muted">
+                Booking status:
+                <span id="bstatus" className="description">
+                  {item.bstatus}
+                </span>
+              </p>
+              <p className="lable text-muted">
+                Pitch number:
+                <span className="description"> {item.pitch}</span>
+              </p>
+              <p className="lable text-muted">
                 Business/charity name:
                 <span className="description"> {item.businessName}</span>
               </p>
@@ -79,11 +115,20 @@ const Dashboard = (props) => {
                 Additional comments:
                 <span className="description"> {item.comments}</span>
               </p>
+
               <div className="action-bar">
-                <button className="action-button" type="button">
+                <button
+                  className="action-button"
+                  type="button"
+                  onClick={() => undoStatus(item._id, item.bstatus)}
+                >
                   <FaUndo />
                 </button>
-                <button className="action-button" type="button">
+                <button
+                  className="action-button"
+                  type="button"
+                  onClick={() => changeStatus(item._id, item.bstatus)}
+                >
                   <FaShareSquare />
                 </button>
                 <button
