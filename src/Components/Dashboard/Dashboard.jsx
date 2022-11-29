@@ -4,12 +4,13 @@ import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
 import "./Dashboard.css";
 
 const Dashboard = (props) => {
+  const [stallholder, setStallholder] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [booking, setBooking] = useState(undefined);
 
   const refreshList = () => {
     if (props.role === "StallHolder") {
-      console.log(props.userid);
+      // console.log(props.userid);
       props.client
         .getBookingByUserId(props.userid)
         .then((response) => setCurrentBooking(response.data));

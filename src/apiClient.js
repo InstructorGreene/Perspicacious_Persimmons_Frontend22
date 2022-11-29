@@ -39,7 +39,7 @@ export class ApiClient {
   }
 
   getUserById(id) {
-    return this.authenticatedCall("get", `${url}user/${id}`);
+    return this.authenticatedCall("get", `${url}userId/${id}`);
   }
   getUserByEmail(email) {
     return this.authenticatedCall("get", `${url}user/${email}`);
