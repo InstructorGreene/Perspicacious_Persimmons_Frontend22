@@ -8,17 +8,32 @@ const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [booking, setBooking] = useState(undefined);
 
-  const refreshList = () => {
-    if (props.role === "StallHolder") {
-      props.client
-        .getBookingByUserId(props.userid)
-        .then((response) => setCurrentBooking(response.data));
-      console.log(currentBooking);
-    } else {
-      props.client
-        .getBooking()
-        .then((response) => setCurrentBooking(response.data));
+
+  const statusFilter = (resData) => {
+    switch (props.role) {
+      case "finance":
+        return resData.filter(
+          (item) =>
+            item.bstatus === "confirmed" ||
+            item.bstatus === "unpaid" ||
+            item.bstatus === "paid"
+        );
+      case "allocator":
+        return resData.filter(
+          (item) => item.bstatus === "paid" || item.bstatus === "allocated"
+        );
+      case "StallHolder":
+        return resData.filter((item) => item.userid === props.userid);
+      default:
+        return resData;
+
     }
+  };
+
+  const refreshList = () => {
+    props.client
+      .getBooking()
+      .then((response) => setCurrentBooking(statusFilter(response.data)));
   };
 
   //delete through admin
