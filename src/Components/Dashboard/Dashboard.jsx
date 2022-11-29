@@ -9,35 +9,29 @@ const Dashboard = (props) => {
   const [booking, setBooking] = useState(undefined);
 
   const statusFilter = (resData) => {
-    let bookingArray = [];
-    resData.map((item) => {
-      if (props.role === "finance") {
-        if (
-          item.bstatus === "confirmed" ||
-          item.bstatus === "unpaid" ||
-          item.bstatus === "paid"
-        ) {
-          bookingArray.push(item);
-        }
-      } else if (props.role === "allocator") {
-        if (item.bstatus === "paid" || item.bstatus === "allocated") {
-          bookingArray.push(item);
-        }
-      } else bookingArray = resData;
-    });
-
-    return bookingArray;
-  };
-  const refreshList = () => {
-    if (props.role === "StallHolder") {
-      props.client
-        .getBookingByUserId(props.userid)
-        .then((response) => setCurrentBooking(response.data));
-    } else {
-      props.client
-        .getBooking()
-        .then((response) => setCurrentBooking(statusFilter(response.data)));
+    switch (props.role) {
+      case "finance":
+        return resData.filter(
+          (item) =>
+            item.bstatus === "confirmed" ||
+            item.bstatus === "unpaid" ||
+            item.bstatus === "paid"
+        );
+      case "allocator":
+        return resData.filter(
+          (item) => item.bstatus === "paid" || item.bstatus === "allocated"
+        );
+      case "StallHolder":
+        return resData.filter((item) => item.userid === props.userid);
+      default:
+        return resData;
     }
+  };
+
+  const refreshList = () => {
+    props.client
+      .getBooking()
+      .then((response) => setCurrentBooking(statusFilter(response.data)));
   };
 
   //delete through admin
