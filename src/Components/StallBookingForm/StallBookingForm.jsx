@@ -7,6 +7,7 @@ import "./StallBookingForm.css";
 function StallBookingForm(props) {
   const navigate = useNavigate();
   const {
+    label,
     register,
     handleSubmit,
     formState: { errors },
@@ -46,8 +47,9 @@ function StallBookingForm(props) {
               placeholder="Business name"
             />
           </div>
-
+          <label className="labname">Business name</label>
           <div>
+            <label className="labcat">Category</label>
             <select
               {...register("category", {
                 required: {
@@ -56,20 +58,19 @@ function StallBookingForm(props) {
                 },
               })}
             >
+              {" "}
               <option value="">Select...</option>
-
               <option value="craft">Craft</option>
-
               <option value="donation">Donation</option>
-
               <option value="food">Food Stall</option>
-
               <option value="commercial">Commercial Items</option>
             </select>
           </div>
           <div>
+            <label className="labcom">Comments</label>
             <textarea
               type="textarea"
+              label="comment area"
               className="booking-textarea"
               rows="6"
               {...register("comments", {
@@ -79,10 +80,9 @@ function StallBookingForm(props) {
                     "Tell us what you will be selling / promoting at the carnival ",
                 },
               })}
-              placeholder="Comments"
+              // placeholder="Comments"
             />
-          </div>
-
+          </div>{" "}
           <Button className="add-button" variant="custom" type="submit">
             Add Booking
           </Button>
