@@ -3,11 +3,16 @@ import Card from "react-bootstrap/Card";
 import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
 import "./Dashboard.css";
 import "./status";
+import ChooseStatus from "./ChooseStatus";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
+  const [chosenStatus, setChosenStatus] = useState();
   const [booking, setBooking] = useState(undefined);
-
+  const chooseStatus = (chosenStatus) => {
+    setChosenStatus(chosenStatus);
+  };
+  console.log(chosenStatus);
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -129,6 +134,9 @@ const Dashboard = (props) => {
 
               <div className="action-bar">
                 <button
+                  style={{
+                    display: props.role === "StallHolder" ? "none" : "inline",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => undoStatus(item._id, item.bstatus)}
@@ -136,6 +144,9 @@ const Dashboard = (props) => {
                   <FaUndo />
                 </button>
                 <button
+                  style={{
+                    display: props.role === "StallHolder" ? "none" : "inline",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => changeStatus(item._id, item.bstatus)}
@@ -143,6 +154,12 @@ const Dashboard = (props) => {
                   <FaShareSquare />
                 </button>
                 <button
+                  style={{
+                    display:
+                      props.role === "StallHolder" || props.role === "admin"
+                        ? "inline"
+                        : "none",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => editBooking(item._id, item)}
@@ -150,6 +167,9 @@ const Dashboard = (props) => {
                   <FaEdit />
                 </button>
                 <button
+                  style={{
+                    display: props.role === "admin" ? "inline" : "none",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => removeBookingStall(item._id)}
@@ -166,6 +186,7 @@ const Dashboard = (props) => {
 
   return (
     <>
+      <ChooseStatus chooseStatus={chooseStatus} />
       <div className="cards">{buildRows()}</div>
     </>
   );
