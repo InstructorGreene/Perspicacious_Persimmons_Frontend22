@@ -12,6 +12,7 @@ const StallBookingForm = (props) => {
 
   //react hook form
   const {
+    label,
     register,
     handleSubmit,
     formState: { errors },

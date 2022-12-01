@@ -3,32 +3,50 @@ import Card from "react-bootstrap/Card";
 import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
 import "./Dashboard.css";
 import "./status";
+import ChooseStatus from "./ChooseStatus";
 
 const Dashboard = (props) => {
   const [stallholder, setStallholder] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
+  const [chosenStatus, setChosenStatus] = useState("");
   const [booking, setBooking] = useState(undefined);
 
-  
+  const chooseStatus = (chosenStatus) => {
+    setChosenStatus(chosenStatus);
+  };
 
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
-        return resData.filter(
-          (item) =>
-            item.bstatus === "confirmed" ||
-            item.bstatus === "unpaid" ||
-            item.bstatus === "paid"
-        );
+        return resData
+          .filter(
+            (item) =>
+              item.bstatus === "confirmed" ||
+              item.bstatus === "unpaid" ||
+              item.bstatus === "paid"
+          )
+          .filter((item) =>
+            chosenStatus === "" ? true : item.bstatus === chosenStatus
+          );
       case "allocator":
-        return resData.filter(
-          (item) => item.bstatus === "paid" || item.bstatus === "allocated"
-        );
+        return resData
+          .filter(
+            (item) => item.bstatus === "paid" || item.bstatus === "allocated"
+          )
+          .filter((item) =>
+            chosenStatus === "" ? true : item.bstatus === chosenStatus
+          );
       case "StallHolder":
-        return resData.filter((item) => item.userid === props.userid);
+        return resData
+          .filter((item) => item.userid === props.userid)
+          .filter((item) =>
+            chosenStatus === "" ? true : item.bstatus === chosenStatus
+          );
       default:
-        return resData;
 
+        return resData.filter((item) =>
+          chosenStatus === "" ? true : item.bstatus === chosenStatus
+        );
 
     }
   };
@@ -54,30 +72,43 @@ const Dashboard = (props) => {
     }
   };
   const changeStatus = (id, bstatus) => {
-    const statuses = [
-      "canceled",
-      "created",
-      "confirmed",
-      "unpaid",
-      "paid",
-      "allocated",
-    ];
-    let newIndex = statuses.indexOf(bstatus) + 1;
-    let newBstatus = statuses[newIndex];
-    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+    if (window.confirm("Confirm changing status")) {
+      const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
+      let newIndex = statuses.indexOf(bstatus) + 1;
+      switch (props.role) {
+        case "finance":
+          newIndex === 4 ? (newIndex = 3) : (newIndex = newIndex);
+        case "allocator":
+          newIndex === 5
+            ? window.alert("You can't change status")((newIndex = 4))
+            : (newIndex = newIndex);
+        case "admin":
+          newIndex === 2
+            ? window.alert("You can't change status")((newIndex = 1))
+            : (newIndex = newIndex);
+      }
+      let newBstatus = statuses[newIndex];
+      props.client
+        .updateBookingStatus(id, newBstatus)
+        .then(() => refreshList());
+    } else return;
   };
   const undoStatus = (id, bstatus) => {
-    const statuses = [
-      "canceled",
-      "created",
-      "confirmed",
-      "unpaid",
-      "paid",
-      "allocated",
-    ];
-    let newIndex = statuses.indexOf(bstatus) - 1;
-    let newBstatus = statuses[newIndex];
-    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+    if (window.confirm("Confirm changing status")) {
+      const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
+      let newIndex = statuses.indexOf(bstatus) - 1;
+      newIndex === -1 ? (newIndex = 0) : (newIndex = newIndex);
+      switch (newIndex) {
+        case 5:
+          newIndex = 4;
+        default:
+          newIndex = newIndex;
+      }
+      let newBstatus = statuses[newIndex];
+      props.client
+        .updateBookingStatus(id, newBstatus)
+        .then(() => refreshList());
+    } else return;
   };
 
   const editBooking = (id, item) => {
@@ -85,6 +116,10 @@ const Dashboard = (props) => {
     // setBooking(item);
   };
 
+  useEffect(() => {
+    refreshList();
+  }, [chosenStatus]);
+  
   useEffect(() => {
     refreshList();
   }, []);
@@ -104,17 +139,15 @@ const Dashboard = (props) => {
                     First name: <span> {item.firstName}</span>
                   </p>
                   <p className="lable text-muted">
-                    Last name:
-                    <span className="description"> {item.lastName}</span>
+                    Last name: <span> {item.lastName}</span>
                   </p>
                 </div>
                 <div className="data-name-wrap">
                   <p className="lable text-muted">
-                    Email: <span className="description"> {item.email}</span>
+                    Email: <span> {item.email}</span>
                   </p>
                   <p className="lable text-muted">
-                    Mobile:
-                    <span className="description"> {item.mobileNumber}</span>
+                    Mobile: <span> {item.mobileNumber}</span>
                   </p>
                 </div>
               </div>
@@ -144,6 +177,12 @@ const Dashboard = (props) => {
 
               <div className="action-bar">
                 <button
+                  style={{
+                    display:
+                      props.role === "StallHolder" || props.role === "committee"
+                        ? "none"
+                        : "inline",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => undoStatus(item._id, item.bstatus)}
@@ -151,6 +190,12 @@ const Dashboard = (props) => {
                   <FaUndo />
                 </button>
                 <button
+                  style={{
+                    display:
+                      props.role === "StallHolder" || props.role === "committee"
+                        ? "none"
+                        : "inline",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => changeStatus(item._id, item.bstatus)}
@@ -158,6 +203,12 @@ const Dashboard = (props) => {
                   <FaShareSquare />
                 </button>
                 <button
+                  style={{
+                    display:
+                      props.role === "StallHolder" || props.role === "admin"
+                        ? "inline"
+                        : "none",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => editBooking(item._id, item)}
@@ -165,6 +216,9 @@ const Dashboard = (props) => {
                   <FaEdit />
                 </button>
                 <button
+                  style={{
+                    display: props.role === "admin" ? "inline" : "none",
+                  }}
                   className="action-button"
                   type="button"
                   onClick={() => removeBookingStall(item._id)}
@@ -181,6 +235,7 @@ const Dashboard = (props) => {
 
   return (
     <>
+      <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
       <div className="cards">{buildRows()}</div>
     </>
   );

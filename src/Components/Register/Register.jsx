@@ -75,6 +75,7 @@ function Register(props) {
               })}
               placeholder="First name"
             />
+            <label className="label1">First name</label>
             {errors.firstName && (
               <div className="error">{errors.firstName.message}</div>
             )}
@@ -101,6 +102,7 @@ function Register(props) {
               })}
               placeholder="Last name"
             />
+            <label className="label1">Last name</label>
             {errors.lastName && (
               <div className="error">{errors.lastName.message}</div>
             )}
@@ -120,6 +122,7 @@ function Register(props) {
               })}
               placeholder="Email"
             />
+            <label className="label1">Email</label>
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
@@ -140,6 +143,7 @@ function Register(props) {
               })}
               placeholder="Mobile number"
             />
+            <label className="label1">Mobile num</label>
             {errors.mobileNumber && (
               <div className="error">{errors.mobileNumber.message}</div>
             )}
@@ -160,6 +164,7 @@ function Register(props) {
               })}
               placeholder="Password"
             />
+            <label className="label1">Password</label>
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
@@ -175,6 +180,7 @@ function Register(props) {
               })}
               placeholder="Confirm Password"
             />
+            <label className="label1">Confirm Pwd</label>
             {errors.confirmPassword && (
               <div className="error">{errors.confirmPassword.message}</div>
             )}
