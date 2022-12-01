@@ -38,17 +38,37 @@ input {
   height: 5vh;
   margin: 10px 0;
 }
+
 .input-wrap {
   display: flex;
   justify-content: right;
   align-items: center;
   position: relative;
+  flex-direction: column;
+  height: 50px;
 }
+
+.input-wrap label {
+  position: relative;
+  pointer-events: none;
+  transform: translate(0, 23px) scale(1);
+  transform-origin: top right;
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  color: #6f81a5;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  line-height: 12vh;
+  left: -80px;
+  bottom: 80px;
+}
+
 .error {
   position: absolute;
   text-align: right;
   color: red;
-  left: 5%;
+  left: 8%;
+  font-size: 11px;
   bottom: 80%;
 }
 
