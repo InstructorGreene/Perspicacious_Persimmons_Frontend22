@@ -12,7 +12,6 @@ const Dashboard = (props) => {
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
-  console.log(chosenStatus);
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -63,15 +62,11 @@ const Dashboard = (props) => {
   };
   const changeStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
-      const statuses = [
-        "canceled",
-        "created",
-        "confirmed",
-        "unpaid",
-        "paid",
-        "allocated",
-      ];
+      const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) + 1;
+      newIndex === 5
+        ? alert("You can't change status")((newIndex = 4))
+        : (newIndex = newIndex);
       let newBstatus = statuses[newIndex];
       props.client
         .updateBookingStatus(id, newBstatus)
@@ -79,17 +74,21 @@ const Dashboard = (props) => {
     } else return;
   };
   const undoStatus = (id, bstatus) => {
-    const statuses = [
-      "canceled",
-      "created",
-      "confirmed",
-      "unpaid",
-      "paid",
-      "allocated",
-    ];
-    let newIndex = statuses.indexOf(bstatus) - 1;
-    let newBstatus = statuses[newIndex];
-    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+    if (window.confirm("Confirm changing status")) {
+      const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
+      let newIndex = statuses.indexOf(bstatus) - 1;
+      newIndex === -1 ? (newIndex = 0) : (newIndex = newIndex);
+      switch (newIndex) {
+        case 5:
+          newIndex = 4;
+        default:
+          newIndex = newIndex;
+      }
+      let newBstatus = statuses[newIndex];
+      props.client
+        .updateBookingStatus(id, newBstatus)
+        .then(() => refreshList());
+    } else return;
   };
 
   const editBooking = (id, item) => {
