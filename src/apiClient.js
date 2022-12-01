@@ -63,6 +63,7 @@ export class ApiClient {
   }
 
   getBooking() {
+    console.log("apiClient");
     return this.authenticatedCall("get", url);
   }
 

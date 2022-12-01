@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const ChooseStatus = (props) => {
   const handleSelectChange = (e) => {
     props.chooseStatus(e.target.value);
-    props.refreshList();
   };
   return (
     <div className="booking-container">

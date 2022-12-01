@@ -16,25 +16,36 @@ const Dashboard = (props) => {
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
-        return resData.filter(
-          (item) =>
-            item.bstatus === "confirmed" ||
-            item.bstatus === "unpaid" ||
-            item.bstatus === "paid"
-        );
-      // .filter((item) => item.bstatus === chosenStatus);
+        return resData
+          .filter(
+            (item) =>
+              item.bstatus === "confirmed" ||
+              item.bstatus === "unpaid" ||
+              item.bstatus === "paid"
+          )
+          .filter((item) =>
+            chosenStatus === "" ? true : item.bstatus === chosenStatus
+          );
       case "allocator":
-        return resData.filter(
-          (item) => item.bstatus === "paid" || item.bstatus === "allocated"
-        );
-      // .filter((item) => item.bstatus === chosenStatus);
+        return resData
+          .filter(
+            (item) => item.bstatus === "paid" || item.bstatus === "allocated"
+          )
+          .filter((item) =>
+            chosenStatus === "" ? true : item.bstatus === chosenStatus
+          );
       case "StallHolder":
-        return resData.filter((item) => item.userid === props.userid);
-      // .filter((item) => item.bstatus === chosenStatus);
+        return resData
+          .filter((item) => item.userid === props.userid)
+          .filter((item) =>
+            chosenStatus === "" ? true : item.bstatus === chosenStatus
+          );
       default:
-        return resData;
+        // return resData;
 
-      // return resData.filter((item) => item.bstatus === chosenStatus);
+        return resData.filter((item) =>
+          chosenStatus === "" ? true : item.bstatus === chosenStatus
+        );
     }
   };
 
@@ -51,20 +62,21 @@ const Dashboard = (props) => {
     }
   };
   const changeStatus = (id, bstatus) => {
-    // if (confirm("Confirm changing status")) {
-    const statuses = [
-      "canceled",
-      "created",
-      "confirmed",
-      "unpaid",
-      "paid",
-      "allocated",
-    ];
-
-    let newIndex = statuses.indexOf(bstatus) + 1;
-    let newBstatus = statuses[newIndex];
-    props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
-    // } else return;
+    if (window.confirm("Confirm changing status")) {
+      const statuses = [
+        "canceled",
+        "created",
+        "confirmed",
+        "unpaid",
+        "paid",
+        "allocated",
+      ];
+      let newIndex = statuses.indexOf(bstatus) + 1;
+      let newBstatus = statuses[newIndex];
+      props.client
+        .updateBookingStatus(id, newBstatus)
+        .then(() => refreshList());
+    } else return;
   };
   const undoStatus = (id, bstatus) => {
     const statuses = [
@@ -85,6 +97,9 @@ const Dashboard = (props) => {
     // setBooking(item);
   };
 
+  useEffect(() => {
+    refreshList();
+  }, [chosenStatus]);
   useEffect(() => {
     refreshList();
   }, []);
