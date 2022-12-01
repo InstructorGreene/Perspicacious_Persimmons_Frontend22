@@ -84,9 +84,9 @@ const Dashboard = (props) => {
       case "unpaid":
         return "orange";
       case "paid":
-        return "green";
+        return "lightgreen";
       case "allocated":
-        return "blue";
+        return "skyblue";
       default:
         return "white";
     }
@@ -130,7 +130,7 @@ const Dashboard = (props) => {
                 className="lable"
                 style={{ backgroundColor: statusColor(item.bstatus) }}
               >
-                Booking status:
+                <span className="bookingText">Booking status:</span>
                 <span id="bstatus" className="description">
                   {" "}
                   {item.bstatus}
