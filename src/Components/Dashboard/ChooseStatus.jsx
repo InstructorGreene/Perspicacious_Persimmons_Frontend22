@@ -5,8 +5,12 @@ const ChooseStatus = (props) => {
     props.chooseStatus(e.target.value);
   };
   return (
-    <div className="booking-container">
+    <div className="select-container">
+      <label className="select-label" htmlFor="select-status">
+        Select status of booking to show
+      </label>
       <select
+        className="select-status"
         name="select-status"
         id="select-status"
         onChange={handleSelectChange}

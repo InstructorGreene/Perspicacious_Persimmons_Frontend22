@@ -50,6 +50,15 @@ p {
   background-color: #093250;
   color: white;
 }
-#bstatus {
-  background-color: transparent;
+.select-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.select-label {
+  position: inherit;
+  margin-right: 10px;
+}
+.select-status {
+  position: inherit;
 }
