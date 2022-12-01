@@ -7,7 +7,7 @@ import ChooseStatus from "./ChooseStatus";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
-  const [chosenStatus, setChosenStatus] = useState();
+  const [chosenStatus, setChosenStatus] = useState("");
   const [booking, setBooking] = useState(undefined);
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
@@ -22,14 +22,19 @@ const Dashboard = (props) => {
             item.bstatus === "unpaid" ||
             item.bstatus === "paid"
         );
+      // .filter((item) => item.bstatus === chosenStatus);
       case "allocator":
         return resData.filter(
           (item) => item.bstatus === "paid" || item.bstatus === "allocated"
         );
+      // .filter((item) => item.bstatus === chosenStatus);
       case "StallHolder":
         return resData.filter((item) => item.userid === props.userid);
+      // .filter((item) => item.bstatus === chosenStatus);
       default:
         return resData;
+
+      // return resData.filter((item) => item.bstatus === chosenStatus);
     }
   };
 
@@ -46,6 +51,7 @@ const Dashboard = (props) => {
     }
   };
   const changeStatus = (id, bstatus) => {
+    // if (confirm("Confirm changing status")) {
     const statuses = [
       "canceled",
       "created",
@@ -54,9 +60,11 @@ const Dashboard = (props) => {
       "paid",
       "allocated",
     ];
+
     let newIndex = statuses.indexOf(bstatus) + 1;
     let newBstatus = statuses[newIndex];
     props.client.updateBookingStatus(id, newBstatus).then(() => refreshList());
+    // } else return;
   };
   const undoStatus = (id, bstatus) => {
     const statuses = [
@@ -186,7 +194,7 @@ const Dashboard = (props) => {
 
   return (
     <>
-      <ChooseStatus chooseStatus={chooseStatus} />
+      <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
       <div className="cards">{buildRows()}</div>
     </>
   );

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-const ChooseStatus = ({ chooseStatus }) => {
+const ChooseStatus = (props) => {
   const handleSelectChange = (e) => {
-    chooseStatus(e.target.value);
+    props.chooseStatus(e.target.value);
+    props.refreshList();
   };
   return (
     <div className="booking-container">
