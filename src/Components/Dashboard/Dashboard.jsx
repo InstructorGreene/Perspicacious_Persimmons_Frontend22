@@ -9,10 +9,12 @@ const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState();
   const [booking, setBooking] = useState(undefined);
+
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
   console.log(chosenStatus);
+
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -30,6 +32,7 @@ const Dashboard = (props) => {
         return resData.filter((item) => item.userid === props.userid);
       default:
         return resData;
+
     }
   };
 
@@ -96,15 +99,17 @@ const Dashboard = (props) => {
                     First name: <span> {item.firstName}</span>
                   </p>
                   <p className="lable text-muted">
-                    Last name: <span> {item.lastName}</span>
+                    Last name:
+                    <span className="description"> {item.lastName}</span>
                   </p>
                 </div>
                 <div className="data-name-wrap">
                   <p className="lable text-muted">
-                    Email: <span> {item.email}</span>
+                    Email: <span className="description"> {item.email}</span>
                   </p>
                   <p className="lable text-muted">
-                    Mobile: <span> {item.mobileNumber}</span>
+                    Mobile:
+                    <span className="description"> {item.mobileNumber}</span>
                   </p>
                 </div>
               </div>
