@@ -25,6 +25,7 @@ const Login = (props) => {
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="login-form-box">
           <div className="input-wrap">
+            <label>Email </label>
             <input
               type="email"
               name="email"
@@ -38,13 +39,13 @@ const Login = (props) => {
                   message: "Email is not valid",
                 },
               })}
-              placeholder="Email"
             />
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
           </div>
           <div className="input-wrap">
+            <label>Password </label>
             <input
               type="password"
               name="password"
@@ -59,7 +60,6 @@ const Login = (props) => {
                     "Password is too short, it shoud be at least 2 characters",
                 },
               })}
-              placeholder="Password"
             />
             {errors.password && (
               <div className="error">{errors.password.message}</div>

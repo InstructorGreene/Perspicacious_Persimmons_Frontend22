@@ -33,7 +33,8 @@ function StallBookingForm(props) {
     <>
       <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="booking-form-box">
-          <div>
+          <div className="labels">
+            <label>Business name</label>
             <input
               type="text"
               {...register("businessName", {
@@ -42,11 +43,11 @@ function StallBookingForm(props) {
                   message: "Business name is required",
                 },
               })}
-              placeholder="Business name"
             />
           </div>
 
-          <div>
+          <div className="labels">
+            <label>Stall type</label>
             <select
               {...register("stallType", {
                 required: {
@@ -66,7 +67,8 @@ function StallBookingForm(props) {
               <option value="commercial">Commercial Items</option>
             </select>
           </div>
-          <div>
+          <div className="labels">
+            <label>Comments</label>
             <textarea
               type="textarea"
               className="booking-textarea"
@@ -78,7 +80,6 @@ function StallBookingForm(props) {
                     "Tell us what you will be selling / promoting at the carnival ",
                 },
               })}
-              placeholder="Comments"
             />
           </div>
 

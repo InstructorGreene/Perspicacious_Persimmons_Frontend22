@@ -12,8 +12,8 @@ body {
 }
 
 .booking-form-box {
-  width: 40vw;
-  height: 75vh;
+  width: 100vh;
+  height: 60vh;
   padding: 5%;
   border: 1px solid black;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
@@ -39,6 +39,12 @@ textarea {
   height: 5vh;
   margin: 10px 0;
 }
+
 textarea {
   height: 20vh;
+}
+.labels {
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }

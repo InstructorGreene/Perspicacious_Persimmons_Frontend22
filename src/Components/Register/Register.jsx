@@ -54,6 +54,7 @@ function Register(props) {
       <form className="form-container" onSubmit={handleSubmit(createUser)}>
         <div className="form-box">
           <div className="input-wrap">
+            <label>First name</label>
             <input
               {...register("firstName", {
                 required: {
@@ -73,13 +74,13 @@ function Register(props) {
                   message: "Your name must contain only letters",
                 },
               })}
-              placeholder="First name"
             />
             {errors.firstName && (
               <div className="error">{errors.firstName.message}</div>
             )}
           </div>
           <div className="input-wrap">
+            <label>Last name</label>
             <input
               {...register("lastName", {
                 required: {
@@ -99,13 +100,13 @@ function Register(props) {
                   message: "Your last name must contain only letters",
                 },
               })}
-              placeholder="Last name"
             />
             {errors.lastName && (
               <div className="error">{errors.lastName.message}</div>
             )}
           </div>
           <div className="input-wrap">
+            <label>Email</label>
             <input
               type="email"
               {...register("email", {
@@ -118,13 +119,13 @@ function Register(props) {
                   message: "Email is not valid",
                 },
               })}
-              placeholder="Email"
             />
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
           </div>
           <div className="input-wrap">
+            <label>Mobile number</label>
             <input
               type="number"
               {...register("mobileNumber", {
@@ -138,13 +139,13 @@ function Register(props) {
                     "Mobile number is too short, it shoud be at least 10 characters",
                 },
               })}
-              placeholder="Mobile number"
             />
             {errors.mobileNumber && (
               <div className="error">{errors.mobileNumber.message}</div>
             )}
           </div>
           <div className="input-wrap">
+            <label>Password</label>
             <input
               type="password"
               {...register("password", {
@@ -158,13 +159,13 @@ function Register(props) {
                     "Password is too short, it shoud be at least 2 characters",
                 },
               })}
-              placeholder="Password"
             />
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
           </div>
           <div className="input-wrap">
+            <label>Confirm Password</label>
             <input
               type="password"
               {...register("confirmPassword", {
@@ -173,7 +174,6 @@ function Register(props) {
                   message: "Password comfirmation is required",
                 },
               })}
-              placeholder="Confirm Password"
             />
             {errors.confirmPassword && (
               <div className="error">{errors.confirmPassword.message}</div>

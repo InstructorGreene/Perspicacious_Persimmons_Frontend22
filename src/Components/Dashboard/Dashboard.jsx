@@ -8,7 +8,6 @@ const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [booking, setBooking] = useState(undefined);
 
-
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -26,7 +25,6 @@ const Dashboard = (props) => {
         return resData.filter((item) => item.userid === props.userid);
       default:
         return resData;
-
     }
   };
 
@@ -74,6 +72,26 @@ const Dashboard = (props) => {
     // setBooking(item);
   };
 
+  const statusColor = (status) => {
+    // switch case depending on status
+    switch (status) {
+      case "canceled":
+        return "red";
+      case "created":
+        return "white";
+      case "confirmed":
+        return "yellow";
+      case "unpaid":
+        return "orange";
+      case "paid":
+        return "green";
+      case "allocated":
+        return "blue";
+      default:
+        return "white";
+    }
+  };
+
   useEffect(() => {
     refreshList();
   }, []);
@@ -108,9 +126,13 @@ const Dashboard = (props) => {
                 </div>
               </div>
               <Card.Title className="booking-data">Booking Details</Card.Title>
-              <p className="lable text-muted">
+              <p
+                className="lable"
+                style={{ backgroundColor: statusColor(item.bstatus) }}
+              >
                 Booking status:
                 <span id="bstatus" className="description">
+                  {" "}
                   {item.bstatus}
                 </span>
               </p>
