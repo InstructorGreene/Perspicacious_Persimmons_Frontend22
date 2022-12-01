@@ -40,6 +40,7 @@ const Login = (props) => {
               })}
               placeholder="Email"
             />
+            <label>Email</label>
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
@@ -61,6 +62,7 @@ const Login = (props) => {
               })}
               placeholder="Password"
             />
+            <label>Password</label>
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
