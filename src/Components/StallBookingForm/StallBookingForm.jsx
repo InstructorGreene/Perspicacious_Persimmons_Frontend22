@@ -21,6 +21,7 @@ const StallBookingForm = (props) => {
 
   //handle submit when the role is admin and stall holder
   const onSubmit = async (item) => {
+
     console.log(item);
     if (props.role === "admin") {
       props.client.addBooking(
@@ -44,6 +45,7 @@ const StallBookingForm = (props) => {
       );
     }
 
+
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
@@ -52,9 +54,11 @@ const StallBookingForm = (props) => {
   const checkUserDetails = async (item) => {
     const checkEmail = await props.client.getUserByEmail(item.email);
 
+
     console.log(checkEmail.data);
     setCheckUserID(checkEmail.data._id);
     setCheckUserEmail(checkEmail.data.email);
+
 
     if (checkEmail.data.length === 0) {
       alert("No Email found");

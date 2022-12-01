@@ -81,6 +81,9 @@ export class ApiClient {
   removeBooking(id) {
     return this.authenticatedCall("delete", `${url}${id}`);
   }
+  updateBookingStatus(id, bstatus) {
+    return this.authenticatedCall("post", `${url}s/${id}`, { bstatus });
+  }
 
   updateBooking(booking, id) {
     return this.authenticatedCall("put", `${url}${id}`, { ...booking });
