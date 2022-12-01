@@ -10,6 +10,8 @@ import StallBookingForm from "./Components/StallBookingForm/StallBookingForm";
 import { ApiClient } from "./apiClient";
 
 import Footer from "./Components/Footer/Footer";
+import AddStall from "./Components/StallBookingForm/AddStall";
+import AddByAdmin from "./Components/StallBookingForm/AddByAdmin";
 
 const App = () => {
   const [token, changeToken] = useState(window.localStorage.getItem("token"));
@@ -67,7 +69,6 @@ const App = () => {
           />
           <Route
             path="/dashboard"
-
             element={
               <Dashboard
                 client={client}
@@ -76,12 +77,22 @@ const App = () => {
                 userid={userid}
               />
             }
-
           />
           <Route
             path="/booking"
             element={
               <StallBookingForm role={role} userid={userid} client={client} />
+            }
+          />
+          <Route
+            path="/addUser"
+            element={
+              <AddByAdmin
+                token={token}
+                role={role}
+                userid={userid}
+                client={client}
+              />
             }
           />
         </Routes>

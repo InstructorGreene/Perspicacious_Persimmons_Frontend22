@@ -66,21 +66,13 @@ export class ApiClient {
     return this.authenticatedCall("get", url);
   }
 
-  addBooking(
-    businessName,
-    mobileNumber,
-    stallType,
-    comments,
-    status,
-    date,
-    userid
-  ) {
+  addBooking(businessName, stallType, comments, bstatus, pitch, date, userid) {
     return this.authenticatedCall("post", url, {
       businessName,
-      mobileNumber,
       stallType,
       comments,
-      status,
+      bstatus,
+      pitch,
       date,
       userid,
     });
