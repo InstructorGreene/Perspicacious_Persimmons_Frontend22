@@ -40,8 +40,6 @@ const Dashboard = (props) => {
             chosenStatus === "" ? true : item.bstatus === chosenStatus
           );
       default:
-        // return resData;
-
         return resData.filter((item) =>
           chosenStatus === "" ? true : item.bstatus === chosenStatus
         );
@@ -64,9 +62,18 @@ const Dashboard = (props) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) + 1;
-      newIndex === 5
-        ? alert("You can't change status")((newIndex = 4))
-        : (newIndex = newIndex);
+      switch (props.role) {
+        case "finance":
+          newIndex === 4 ? (newIndex = 3) : (newIndex = newIndex);
+        case "allocator":
+          newIndex === 5
+            ? window.alert("You can't change status")((newIndex = 4))
+            : (newIndex = newIndex);
+        case "admin":
+          newIndex === 2
+            ? window.alert("You can't change status")((newIndex = 1))
+            : (newIndex = newIndex);
+      }
       let newBstatus = statuses[newIndex];
       props.client
         .updateBookingStatus(id, newBstatus)
@@ -157,7 +164,10 @@ const Dashboard = (props) => {
               <div className="action-bar">
                 <button
                   style={{
-                    display: props.role === "StallHolder" ? "none" : "inline",
+                    display:
+                      props.role === "StallHolder" || props.role === "committee"
+                        ? "none"
+                        : "inline",
                   }}
                   className="action-button"
                   type="button"
@@ -167,7 +177,10 @@ const Dashboard = (props) => {
                 </button>
                 <button
                   style={{
-                    display: props.role === "StallHolder" ? "none" : "inline",
+                    display:
+                      props.role === "StallHolder" || props.role === "committee"
+                        ? "none"
+                        : "inline",
                   }}
                   className="action-button"
                   type="button"
