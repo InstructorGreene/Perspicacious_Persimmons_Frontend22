@@ -6,6 +6,7 @@ import "./status";
 import ChooseStatus from "./ChooseStatus";
 
 const Dashboard = (props) => {
+  const [stallholder, setStallholder] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [booking, setBooking] = useState(undefined);
@@ -13,6 +14,7 @@ const Dashboard = (props) => {
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
+
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -45,14 +47,23 @@ const Dashboard = (props) => {
         return resData.filter((item) =>
           chosenStatus === "" ? true : item.bstatus === chosenStatus
         );
+
+    }
+  };
+  
+  const refreshList = () => {
+    if (props.role === "StallHolder") {
+      // console.log(props.userid);
+      props.client
+        .getBookingByUserId(props.userid)
+        .then((response) => setCurrentBooking(response.data));
+    } else {
+      props.client
+        .getBooking()
+        .then((response) => setCurrentBooking(response.data));
     }
   };
 
-  const refreshList = () => {
-    props.client
-      .getBooking()
-      .then((response) => setCurrentBooking(statusFilter(response.data)));
-  };
 
   //delete through admin
   const removeBookingStall = (id) => {
@@ -128,6 +139,7 @@ const Dashboard = (props) => {
   useEffect(() => {
     refreshList();
   }, [chosenStatus]);
+  
   useEffect(() => {
     refreshList();
   }, []);
