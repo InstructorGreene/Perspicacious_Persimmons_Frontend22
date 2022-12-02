@@ -12,8 +12,8 @@ body {
 }
 
 .booking-form-box {
-  width: 50vw;
-  height: 75vh;
+  width: 100vh;
+  height: 60vh;
   padding: 5%;
   border: 1px solid black;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
@@ -25,87 +25,26 @@ body {
   text-align: center;
   justify-content: center;
   background-color: cadetblue;
-  position: relative;
-  left: -5px;
-  bottom: 90px;
 }
 
 .add-button:hover {
   color: white;
 }
 
-input {
-  align-items: center;
-  width: 30vw;
-  height: 5vh;
-  margin: 10px 0;
-  position: relative;
-  left: -3px;
-}
-
-select {
-  align-items: center;
-  width: 30vw;
-  height: 5vh;
-  margin: 10px 0;
-  position: relative;
-  left: -30px;
-  bottom: 70px;
-}
-
+input,
+select,
 textarea {
   align-items: center;
   width: 30vw;
   height: 5vh;
   margin: 10px 0;
-  position: relative;
-  left: -35px;
-  bottom: 60px;
 }
+
 textarea {
   height: 20vh;
 }
-/* 
-.lab {
-  position: relative;
-  color: #6f81a5;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: left;
-  line-height: 12vh;
-  left: 130px;
-  bottom: 155px;
-} */
-
-.labcat {
-  position: relative;
-  color: #6f81a5;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: left;
-  line-height: 12vh;
-  left: -38px;
-  bottom: 80px;
-}
-
-.labname {
-  position: relative;
-  color: #6f81a5;
-  font-size: 13px;
-  font-weight: 500;
-  text-align: left;
-  line-height: 12vh;
-  left: -238px;
-  bottom: 68px;
-}
-
-.labcom {
-  position: relative;
-  color: #6f81a5;
-  font-size: 13px;
-  font-weight: 500;
-  /* text-align: left; */
-  line-height: 12vh;
-  left: -43px;
-  bottom: 180px;
+.labels {
+  display: flex;
+  justify-content: right;
+  align-items: center;
 }

@@ -51,6 +51,7 @@ const StallBookingForm = (props) => {
     navigate("/dashboard");
   };
 
+
   //check handleSubmit user details if the user exist
   const checkUserDetails = async (item) => {
     const checkEmail = await props.client.getUserByEmail(item.email);
@@ -204,6 +205,7 @@ const StallBookingForm = (props) => {
               </Button>
             </div>
           </form>
+
         </div>
       );
     }

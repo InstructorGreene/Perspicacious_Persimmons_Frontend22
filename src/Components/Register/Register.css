@@ -12,10 +12,11 @@ body {
 }
 
 .form-box {
-  width: 50vw;
-  height: 83vh;
-  padding: 5%;
-  border: 4px solid black;
+  width: 48vw;
+  height: 70vh;
+  padding-right: 6%;
+  padding-top: 4%;
+  border: 1px solid black;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-radius: 4px;
 }
@@ -37,11 +38,12 @@ input {
   height: 5vh;
   margin: 10px 0;
 }
+
 .input-wrap {
-  margin-left: 20px;
-  padding-left: 40px;
-  position: relative;
   display: flex;
+  justify-content: right;
+  align-items: center;
+  position: relative;
   flex-direction: column;
   height: 50px;
 }
@@ -63,9 +65,13 @@ input {
 
 .error {
   position: absolute;
-  text-align: left;
+  text-align: right;
   color: red;
   left: 8%;
   font-size: 11px;
   bottom: 80%;
+}
+
+label {
+  margin-right: 4px;
 }

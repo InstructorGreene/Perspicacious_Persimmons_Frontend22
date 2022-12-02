@@ -116,6 +116,26 @@ const Dashboard = (props) => {
     // setBooking(item);
   };
 
+  const statusColor = (status) => {
+    // switch case depending on status
+    switch (status) {
+      case "canceled":
+        return "red";
+      case "created":
+        return "white";
+      case "confirmed":
+        return "yellow";
+      case "unpaid":
+        return "orange";
+      case "paid":
+        return "lightgreen";
+      case "allocated":
+        return "skyblue";
+      default:
+        return "white";
+    }
+  };
+
   useEffect(() => {
     refreshList();
   }, [chosenStatus]);
@@ -152,9 +172,13 @@ const Dashboard = (props) => {
                 </div>
               </div>
               <Card.Title className="booking-data">Booking Details</Card.Title>
-              <p className="lable text-muted">
-                Booking status:
+              <p
+                className="lable"
+                style={{ backgroundColor: statusColor(item.bstatus) }}
+              >
+                <span className="bookingText">Booking status:</span>
                 <span id="bstatus" className="description">
+                  {" "}
                   {item.bstatus}
                 </span>
               </p>
