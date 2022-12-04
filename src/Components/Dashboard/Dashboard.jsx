@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
-import { FaUndo, FaShareSquare, FaEdit, FaTrash } from "react-icons/fa";
+import {
+  FaUndo,
+  FaShareSquare,
+  FaEdit,
+  FaTrash,
+  FaRegWindowClose,
+} from "react-icons/fa";
 import "./Dashboard.css";
 import "./status";
 import ChooseStatus from "./ChooseStatus";
@@ -68,24 +74,39 @@ const Dashboard = (props) => {
   //delete through admin
   const removeBookingStall = (id) => {
     if (props.role === "admin") {
-      props.client.removeBooking(id).then(() => refreshList());
-    }
+      if (window.confirm("Confirm delete booking")) {
+        props.client.removeBooking(id).then(() => refreshList());
+      }
+    } else return;
   };
+  const cancelStatus = (id) => {
+    if (window.confirm("Confirm booking cancellation ")) {
+      props.client
+        .updateBookingStatus(id, "canceled")
+        .then(() => refreshList());
+    } else return;
+  };
+
   const changeStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) + 1;
       switch (props.role) {
         case "finance":
-          newIndex === 4 ? (newIndex = 3) : (newIndex = newIndex);
+          newIndex === 4
+            ? window.alert("You can't change status")((newIndex = 3))
+            : (newIndex = newIndex);
+          break;
         case "allocator":
           newIndex === 5
             ? window.alert("You can't change status")((newIndex = 4))
             : (newIndex = newIndex);
+          break;
         case "admin":
           newIndex === 2
             ? window.alert("You can't change status")((newIndex = 1))
             : (newIndex = newIndex);
+          break;
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -97,12 +118,18 @@ const Dashboard = (props) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) - 1;
-      newIndex === -1 ? (newIndex = 0) : (newIndex = newIndex);
-      switch (newIndex) {
-        case 5:
-          newIndex = 4;
-        default:
-          newIndex = newIndex;
+      newIndex <= -1 ? (newIndex = 0) : (newIndex = newIndex);
+      switch (props.role) {
+        case "finance":
+          newIndex === 0
+            ? window.alert("You can't change status")((newIndex = 1))
+            : (newIndex = newIndex);
+          break;
+        case "allocator":
+          newIndex === 2
+            ? window.alert("You can't change status")((newIndex = 3))
+            : (newIndex = newIndex);
+          break;
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -203,6 +230,19 @@ const Dashboard = (props) => {
                 <button
                   style={{
                     display:
+                      props.role === "StallHolder" || props.role === "admin"
+                        ? "inline"
+                        : "none",
+                  }}
+                  className="action-button"
+                  type="button"
+                  onClick={() => cancelStatus(item._id)}
+                >
+                  <FaRegWindowClose />
+                </button>
+                <button
+                  style={{
+                    display:
                       props.role === "StallHolder" || props.role === "committee"
                         ? "none"
                         : "inline",
@@ -224,7 +264,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => changeStatus(item._id, item.bstatus)}
                 >
-                  <FaShareSquare />
+                  <FaShareSquare className="icon-btn" />
                 </button>
                 <button
                   style={{
@@ -259,7 +299,11 @@ const Dashboard = (props) => {
 
   return (
     <>
-      <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
+      {props.role === "StallHolder" ? (
+        <></>
+      ) : (
+        <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
+      )}
       <div className="cards">{buildRows()}</div>
     </>
   );
