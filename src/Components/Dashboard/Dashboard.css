@@ -62,6 +62,12 @@ p {
 .select-status {
   position: inherit;
 }
+.subtitle.dashboard {
+  color: #093250;
+}
+.stall-holder-details {
+  margin: 10px 50px;
+}
 
 /* .bookingText {
   background-color: white;

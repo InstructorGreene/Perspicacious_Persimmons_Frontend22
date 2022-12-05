@@ -1,26 +1,28 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import {
-  FaUndo,
-  FaShareSquare,
+  FaUndoAlt,
+  FaRedoAlt,
   FaEdit,
-  FaTrash,
+  FaTrashAlt,
   FaRegWindowClose,
 } from "react-icons/fa";
 import "./Dashboard.css";
-import "./status";
+import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
 
 const Dashboard = (props) => {
-  const [stallholder, setStallholder] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
-  const [booking, setBooking] = useState(undefined);
-
+  const [stallholder, setStallholder] = useState();
+  const findStallholder = async () => {
+    const foundStallHolder = await props.client.getUserById(props.userid);
+    setStallholder(foundStallHolder.data);
+  };
+  // console.log(stallholder);
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
-
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -49,28 +51,16 @@ const Dashboard = (props) => {
             chosenStatus === "" ? true : item.bstatus === chosenStatus
           );
       default:
-
         return resData.filter((item) =>
           chosenStatus === "" ? true : item.bstatus === chosenStatus
         );
-
     }
   };
-  
   const refreshList = () => {
-    if (props.role === "StallHolder") {
-      // console.log(props.userid);
-      props.client
-        .getBookingByUserId(props.userid)
-        .then((response) => setCurrentBooking(response.data));
-    } else {
-      props.client
-        .getBooking()
-        .then((response) => setCurrentBooking(response.data));
-    }
+    props.client
+      .getBooking()
+      .then((response) => setCurrentBooking(statusFilter(response.data)));
   };
-
-
   //delete through admin
   const removeBookingStall = (id) => {
     if (props.role === "admin") {
@@ -79,6 +69,8 @@ const Dashboard = (props) => {
       }
     } else return;
   };
+
+  //cancelation
   const cancelStatus = (id) => {
     if (window.confirm("Confirm booking cancellation ")) {
       props.client
@@ -93,9 +85,7 @@ const Dashboard = (props) => {
       let newIndex = statuses.indexOf(bstatus) + 1;
       switch (props.role) {
         case "finance":
-          newIndex === 4
-            ? window.alert("You can't change status")((newIndex = 3))
-            : (newIndex = newIndex);
+          newIndex === 4 ? (newIndex = 3) : (newIndex = newIndex);
           break;
         case "allocator":
           newIndex === 5
@@ -107,6 +97,7 @@ const Dashboard = (props) => {
             ? window.alert("You can't change status")((newIndex = 1))
             : (newIndex = newIndex);
           break;
+        default:
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -142,7 +133,6 @@ const Dashboard = (props) => {
     // props.client.updateBooking(id, item).then(() => refreshList());
     // setBooking(item);
   };
-
   const statusColor = (status) => {
     // switch case depending on status
     switch (status) {
@@ -162,12 +152,11 @@ const Dashboard = (props) => {
         return "white";
     }
   };
-
   useEffect(() => {
     refreshList();
   }, [chosenStatus]);
-  
   useEffect(() => {
+    findStallholder();
     refreshList();
   }, []);
 
@@ -177,25 +166,32 @@ const Dashboard = (props) => {
         <div key={item._id}>
           <Card className="card" key={item._id}>
             <Card.Body id={item._id}>
-              <Card.Title className="creator-data">
-                Stall Holder Details
-              </Card.Title>
-              <div className="data-wrap">
-                <div className="data-name-wrap">
-                  <p className="lable text-muted">
-                    First name: <span> {item.firstName}</span>
-                  </p>
-                  <p className="lable text-muted">
-                    Last name: <span> {item.lastName}</span>
-                  </p>
-                </div>
-                <div className="data-name-wrap">
-                  <p className="lable text-muted">
-                    Email: <span> {item.email}</span>
-                  </p>
-                  <p className="lable text-muted">
-                    Mobile: <span> {item.mobileNumber}</span>
-                  </p>
+              <div
+                className="stall-holder-details"
+                style={{
+                  display: props.role === "StallHolder" ? "none" : "inline",
+                }}
+              >
+                <Card.Title className="creator-data">
+                  Stall Holder Details
+                </Card.Title>
+                <div className="data-wrap">
+                  <div className="data-name-wrap">
+                    <p className="lable text-muted">
+                      First name: <span> {item.firstName}</span>
+                    </p>
+                    <p className="lable text-muted">
+                      Last name: <span> {item.lastName}</span>
+                    </p>
+                  </div>
+                  <div className="data-name-wrap">
+                    <p className="lable text-muted">
+                      Email: <span> {item.email}</span>
+                    </p>
+                    <p className="lable text-muted">
+                      Mobile: <span> {item.mobileNumber}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
               <Card.Title className="booking-data">Booking Details</Card.Title>
@@ -225,7 +221,6 @@ const Dashboard = (props) => {
                 Additional comments:
                 <span className="description"> {item.comments}</span>
               </p>
-
               <div className="action-bar">
                 <button
                   style={{
@@ -251,7 +246,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => undoStatus(item._id, item.bstatus)}
                 >
-                  <FaUndo />
+                  <FaUndoAlt />
                 </button>
                 <button
                   style={{
@@ -264,7 +259,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => changeStatus(item._id, item.bstatus)}
                 >
-                  <FaShareSquare className="icon-btn" />
+                  <FaRedoAlt className="icon-btn" />
                 </button>
                 <button
                   style={{
@@ -287,7 +282,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => removeBookingStall(item._id)}
                 >
-                  <FaTrash />
+                  <FaTrashAlt />
                 </button>
               </div>
             </Card.Body>
@@ -296,17 +291,23 @@ const Dashboard = (props) => {
       );
     });
   };
-
   return (
     <>
       {props.role === "StallHolder" ? (
         <></>
       ) : (
-        <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
+        <ChooseStatus chooseStatus={chooseStatus} />
+      )}
+      {props.role === "StallHolder" ? (
+        <div className="stall-holder-details">
+          <StallHolderDetails stallholder={stallholder} />
+          <h2 className="subtitle dashboard">Your bookings</h2>
+        </div>
+      ) : (
+        <></>
       )}
       <div className="cards">{buildRows()}</div>
     </>
   );
 };
-
 export default Dashboard;
