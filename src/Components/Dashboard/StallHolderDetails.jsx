@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 
 const StallHolderDetails = (props) => {
-  console.log(props);
+  // console.log(props);
   return (
     <div>
       <Card.Title className="creator-data">Stall Holder Details</Card.Title>

@@ -6,23 +6,31 @@ import {
   FaEdit,
   FaTrashAlt,
   FaRegWindowClose,
+  FaMapMarkedAlt,
 } from "react-icons/fa";
 import "./Dashboard.css";
 import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
+import PitchMap from "./PitchMap";
 
 const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [stallholder, setStallholder] = useState();
+  const [pitchNumber, setPitchNumber] = useState();
+
   const findStallholder = async () => {
     const foundStallHolder = await props.client.getUserById(props.userid);
     setStallholder(foundStallHolder.data);
   };
-  // console.log(stallholder);
+
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
+  const choosePitchNumber = (chosenPitchNumber) => {
+    setPitchNumber(chosenPitchNumber);
+  };
+  console.log(pitchNumber);
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -79,25 +87,40 @@ const Dashboard = (props) => {
     } else return;
   };
 
+  //set pitch number
+  const changePitchNumber = (id, newIndex) => {
+    if (pitchNumber === undefined) {
+      window.alert("Choose pitch number on the map");
+      return (newIndex = 3);
+    } else {
+      props.client.updateBookingPitch(id, pitchNumber).then();
+      return newIndex;
+    }
+  };
+
+  // change status of booking
   const changeStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) + 1;
       switch (props.role) {
         case "finance":
-          newIndex === 4 ? (newIndex = 3) : (newIndex = newIndex);
-          break;
-        case "allocator":
-          newIndex === 5
-            ? window.alert("You can't change status")((newIndex = 4))
+          newIndex === 4
+            ? window.alert("You can't change status")((newIndex = 3))
             : (newIndex = newIndex);
           break;
+        case "allocator":
+          if (newIndex === 4) {
+            changePitchNumber(id, newIndex);
+          } else {
+            window.alert("You can't change status")((newIndex = 4));
+          }
+          break;
         case "admin":
-          newIndex === 2
+          newIndex >= 2
             ? window.alert("You can't change status")((newIndex = 1))
             : (newIndex = newIndex);
           break;
-        default:
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -105,6 +128,7 @@ const Dashboard = (props) => {
         .then(() => refreshList());
     } else return;
   };
+  // undo changing status of booking
   const undoStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
@@ -121,6 +145,11 @@ const Dashboard = (props) => {
             ? window.alert("You can't change status")((newIndex = 3))
             : (newIndex = newIndex);
           break;
+        case "admin":
+          newIndex >= 2
+            ? window.alert("You can't change status")
+            : (newIndex = newIndex);
+          break;
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -133,6 +162,7 @@ const Dashboard = (props) => {
     // props.client.updateBooking(id, item).then(() => refreshList());
     // setBooking(item);
   };
+
   const statusColor = (status) => {
     // switch case depending on status
     switch (status) {
@@ -152,14 +182,16 @@ const Dashboard = (props) => {
         return "white";
     }
   };
+
   useEffect(() => {
     refreshList();
   }, [chosenStatus]);
   useEffect(() => {
-    findStallholder();
     refreshList();
   }, []);
-
+  useEffect(() => {
+    findStallholder();
+  }, []);
   const buildRows = () => {
     return currentBooking.map((item) => {
       return (
@@ -298,6 +330,17 @@ const Dashboard = (props) => {
       ) : (
         <ChooseStatus chooseStatus={chooseStatus} />
       )}
+      {props.role === "allocator" ? (
+        <div className="pitch-map">
+          <PitchMap
+            choosePitchNumber={choosePitchNumber}
+            currentBooking={currentBooking}
+          />
+        </div>
+      ) : (
+        <></>
+      )}
+
       {props.role === "StallHolder" ? (
         <div className="stall-holder-details">
           <StallHolderDetails stallholder={stallholder} />
@@ -306,6 +349,7 @@ const Dashboard = (props) => {
       ) : (
         <></>
       )}
+
       <div className="cards">{buildRows()}</div>
     </>
   );

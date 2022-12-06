@@ -68,7 +68,25 @@ p {
 .stall-holder-details {
   margin: 10px 50px;
 }
-
+.pitch-map {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 70vw;
+  margin: 10px auto;
+  position: sticky;
+}
+.pitch-item {
+  background-color: transparent;
+  color: #093250;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 6px;
+  cursor: pointer;
+}
 /* .bookingText {
   background-color: white;
 } */

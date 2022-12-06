@@ -44,7 +44,6 @@ const StallBookingForm = (props) => {
         props.userid
       );
     }
-
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
