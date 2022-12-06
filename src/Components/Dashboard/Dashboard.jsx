@@ -14,6 +14,7 @@ import ChooseStatus from "./ChooseStatus";
 import PitchMap from "./PitchMap";
 
 const Dashboard = (props) => {
+  const [allBookings, setAllBookings] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [stallholder, setStallholder] = useState();
@@ -23,14 +24,16 @@ const Dashboard = (props) => {
     const foundStallHolder = await props.client.getUserById(props.userid);
     setStallholder(foundStallHolder.data);
   };
-
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
   const choosePitchNumber = (chosenPitchNumber) => {
     setPitchNumber(chosenPitchNumber);
   };
-  console.log(pitchNumber);
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
+  };
+
   const statusFilter = (resData) => {
     switch (props.role) {
       case "finance":
@@ -185,13 +188,13 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     refreshList();
+    getBookingList();
+    findStallholder();
   }, [chosenStatus]);
   useEffect(() => {
     refreshList();
   }, []);
-  useEffect(() => {
-    findStallholder();
-  }, []);
+
   const buildRows = () => {
     return currentBooking.map((item) => {
       return (
@@ -330,16 +333,6 @@ const Dashboard = (props) => {
       ) : (
         <ChooseStatus chooseStatus={chooseStatus} />
       )}
-      {props.role === "allocator" ? (
-        <div className="pitch-map">
-          <PitchMap
-            choosePitchNumber={choosePitchNumber}
-            currentBooking={currentBooking}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
 
       {props.role === "StallHolder" ? (
         <div className="stall-holder-details">
@@ -349,8 +342,21 @@ const Dashboard = (props) => {
       ) : (
         <></>
       )}
-
-      <div className="cards">{buildRows()}</div>
+      <div className="sticky-container">
+        {props.role === "allocator" ? (
+          <div className="pitch-map-wrap">
+            <div className="pitch-map">
+              <PitchMap
+                choosePitchNumber={choosePitchNumber}
+                allBookings={allBookings}
+              />
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+        <div className="cards">{buildRows()}</div>
+      </div>
     </>
   );
 };

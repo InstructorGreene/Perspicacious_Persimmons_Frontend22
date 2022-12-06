@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 const PitchMap = (props) => {
+  const [isActive, setIsActive] = useState(false);
   let pitchMapArray = [];
   for (let i = 1; i <= 50; i++) {
     pitchMapArray.push(i);
   }
   const changeBackground = (item) => {
-    let occupiedBookings = props.currentBooking.filter((i) => i.pitch > 0);
+    let occupiedBookings = props.allBookings.filter((i) => i.pitch > 0);
     let occupiedNumbers = [];
     occupiedNumbers.push(
       occupiedBookings.map((item) => {
@@ -22,7 +23,7 @@ const PitchMap = (props) => {
   };
 
   const changeColor = (item) => {
-    let occupiedBookings = props.currentBooking.filter((i) => i.pitch > 0);
+    let occupiedBookings = props.allBookings.filter((i) => i.pitch > 0);
     let occupiedNumbers = [];
     occupiedNumbers.push(
       occupiedBookings.map((item) => {
@@ -33,12 +34,13 @@ const PitchMap = (props) => {
     if (isOccupied == true) {
       return "white";
     } else {
-      return "black";
+      return "#093250";
     }
   };
 
   const handleClick = (event) => {
     props.choosePitchNumber(event);
+    setIsActive((current) => !current);
   };
 
   return pitchMapArray.map((item) => {
@@ -47,7 +49,7 @@ const PitchMap = (props) => {
         key={item}
         className="pitch-item"
         style={{
-          backgroundColor: changeBackground(item),
+          backgroundColor: isActive ? "cadetblue" : changeBackground(item),
           color: changeColor(item),
         }}
         onClick={() => handleClick(item)}

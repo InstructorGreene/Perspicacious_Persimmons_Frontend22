@@ -68,24 +68,40 @@ p {
 .stall-holder-details {
   margin: 10px 50px;
 }
+.sticky-container {
+  position: relative;
+}
+.pitch-map-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100vw;
+  background-color: white;
+}
 .pitch-map {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 70vw;
+  width: 74vw;
   margin: 10px auto;
-  position: sticky;
+  gap: 1px;
+
+  padding: 5px;
 }
 .pitch-item {
-  background-color: transparent;
-  color: #093250;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 35px;
   height: 35px;
-  text-align: center;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 6px;
   cursor: pointer;
+}
+.pitch-item:hover,
+.pitch-item:focus {
+  background-color: cadetblue;
 }
 /* .bookingText {
   background-color: white;
