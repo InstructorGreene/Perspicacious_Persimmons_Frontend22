@@ -10,12 +10,17 @@ import {
 import "./Dashboard.css";
 import "./status";
 import ChooseStatus from "./ChooseStatus";
+import Piechart from "../Piechart/Piechart";
 
 const Dashboard = (props) => {
   const [stallholder, setStallholder] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [booking, setBooking] = useState(undefined);
+  const [allBookings, setAllBookings] = useState([]);
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
+  };
 
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
@@ -165,6 +170,7 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     refreshList();
+    getBookingList();
   }, [chosenStatus]);
   
   useEffect(() => {
@@ -304,7 +310,14 @@ const Dashboard = (props) => {
       ) : (
         <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
       )}
+      <>
+      {props.role === "committee" ? (
+       <Piechart allBookings={allBookings}/>
+      ) : (
+        <></>
+      )}
       <div className="cards">{buildRows()}</div>
+      </>
     </>
   );
 };

@@ -35,7 +35,7 @@ input {
   align-items: center;
   width: 30vw;
   height: 5vh;
-//  margin: 30px;
+  margin: 30px;
 }
 .input-wrap {
   display: flex;
