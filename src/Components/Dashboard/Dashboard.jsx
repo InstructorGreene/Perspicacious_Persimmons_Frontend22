@@ -18,7 +18,7 @@ const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [stallholder, setStallholder] = useState();
-  const [pitchNumber, setPitchNumber] = useState();
+  const [pitchNumber, setPitchNumber] = useState(undefined);
 
   const findStallholder = async () => {
     const foundStallHolder = await props.client.getUserById(props.userid);
@@ -29,9 +29,6 @@ const Dashboard = (props) => {
   };
   const choosePitchNumber = (chosenPitchNumber) => {
     setPitchNumber(chosenPitchNumber);
-  };
-  const getBookingList = () => {
-    props.client.getBooking().then((response) => setAllBookings(response.data));
   };
 
   const statusFilter = (resData) => {
@@ -72,6 +69,10 @@ const Dashboard = (props) => {
       .getBooking()
       .then((response) => setCurrentBooking(statusFilter(response.data)));
   };
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
+  };
+
   //delete through admin
   const removeBookingStall = (id) => {
     if (props.role === "admin") {
@@ -95,19 +96,17 @@ const Dashboard = (props) => {
     switch (newIndex) {
       case 4:
         props.client.updateBookingPitch(id, pitchNumber).then();
+        setPitchNumber(undefined);
         return newIndex;
       case 3:
         props.client.updateBookingPitch(id, "0").then();
+        setPitchNumber(false);
         return newIndex;
     }
   };
 
   // change status of booking
   const changeStatus = (id, bstatus) => {
-    if (!pitchNumber) {
-      window.alert("Choose pitch number on the map");
-      return;
-    }
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) + 1;
@@ -118,12 +117,17 @@ const Dashboard = (props) => {
             : (newIndex = newIndex);
           break;
         case "allocator":
-          if (newIndex === 4) {
-            changePitchNumber(id, newIndex);
+          if (!pitchNumber) {
+            window.alert("Choose pitch number on the map");
+            return;
           } else {
-            window.alert("You can't change status")((newIndex = 4));
+            if (newIndex === 4) {
+              changePitchNumber(id, newIndex);
+            } else {
+              window.alert("You can't change status")((newIndex = 4));
+            }
+            break;
           }
-          break;
         case "admin":
           newIndex >= 2
             ? window.alert("You can't change status")((newIndex = 1))
@@ -195,7 +199,7 @@ const Dashboard = (props) => {
     refreshList();
     getBookingList();
     findStallholder();
-  }, [chosenStatus]);
+  }, [chosenStatus, pitchNumber]);
   useEffect(() => {
     refreshList();
   }, []);
@@ -352,6 +356,7 @@ const Dashboard = (props) => {
           <div className="pitch-map-wrap">
             <div className="pitch-map">
               <PitchMap
+                pitchNumber={pitchNumber}
                 choosePitchNumber={choosePitchNumber}
                 allBookings={allBookings}
               />
