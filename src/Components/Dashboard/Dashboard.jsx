@@ -92,17 +92,22 @@ const Dashboard = (props) => {
 
   //set pitch number
   const changePitchNumber = (id, newIndex) => {
-    if (pitchNumber === undefined) {
-      window.alert("Choose pitch number on the map");
-      return (newIndex = 3);
-    } else {
-      props.client.updateBookingPitch(id, pitchNumber).then();
-      return newIndex;
+    switch (newIndex) {
+      case 4:
+        props.client.updateBookingPitch(id, pitchNumber).then();
+        return newIndex;
+      case 3:
+        props.client.updateBookingPitch(id, "0").then();
+        return newIndex;
     }
   };
 
   // change status of booking
   const changeStatus = (id, bstatus) => {
+    if (!pitchNumber) {
+      window.alert("Choose pitch number on the map");
+      return;
+    }
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
       let newIndex = statuses.indexOf(bstatus) + 1;
@@ -146,7 +151,7 @@ const Dashboard = (props) => {
         case "allocator":
           newIndex === 2
             ? window.alert("You can't change status")((newIndex = 3))
-            : (newIndex = newIndex);
+            : changePitchNumber(id, newIndex);
           break;
         case "admin":
           newIndex >= 2

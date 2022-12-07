@@ -2,28 +2,27 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 
 const StallHolderDetails = (props) => {
-  console.log(props);
   return (
     <div>
       <Card.Title className="creator-data">Stall Holder Details</Card.Title>
-      {/* <div className="data-wrap">
+      <div className="data-wrap">
         <div className="data-name-wrap">
           <p className="lable text-muted">
-            First name: <span> {props.stallholder.firstName}</span>
+            First name: <span> {props.stallholder?.firstName}</span>
           </p>
           <p className="lable text-muted">
-            Last name: <span> {props.stallholder.lastName}</span>
+            Last name: <span> {props.stallholder?.lastName}</span>
           </p>
         </div>
         <div className="data-name-wrap">
           <p className="lable text-muted">
-            Email: <span> {props.stallholder.email}</span>
+            Email: <span> {props.stallholder?.email}</span>
           </p>
           <p className="lable text-muted">
-            Mobile: <span> {props.stallholder.mobileNumber}</span>
+            Mobile: <span> {props.stallholder?.mobileNumber}</span>
           </p>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

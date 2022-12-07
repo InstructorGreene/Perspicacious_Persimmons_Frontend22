@@ -40,7 +40,7 @@ const PitchMap = (props) => {
 
   const handleClick = (event) => {
     props.choosePitchNumber(event);
-    setIsActive((current) => !current);
+    setIsActive(event);
   };
 
   return pitchMapArray.map((item) => {
@@ -49,7 +49,8 @@ const PitchMap = (props) => {
         key={item}
         className="pitch-item"
         style={{
-          backgroundColor: isActive ? "cadetblue" : changeBackground(item),
+          backgroundColor:
+            isActive === item ? "cadetblue" : changeBackground(item),
           color: changeColor(item),
         }}
         onClick={() => handleClick(item)}
