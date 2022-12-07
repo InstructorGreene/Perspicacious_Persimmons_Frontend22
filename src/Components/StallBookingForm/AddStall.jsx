@@ -20,7 +20,7 @@ const AddStall = (props) => {
                 message: "Email is not valid",
               },
             })}
-            placeholder="Check user by Email"
+            placeholder="Check user by email"
           />
           <Button className="add-button" variant="custom" type="submit">
             Check

@@ -12,6 +12,8 @@ body {
 }
 
 .login-form-box {
+  display: flex;
+  flex-direction: column;
   width: 45vw;
   height: 40vh;
   padding: 5%;
@@ -35,16 +37,17 @@ input {
   align-items: center;
   width: 30vw;
   height: 5vh;
-//  margin: 30px;
+  margin: 30px;
 }
 .input-wrap {
   display: flex;
   align-items: center;
-  justify-content: right;
+  justify-content: center;
+  position: relative;
 }
 .error {
   color: blue;
-  position: relative;
+  position: absolute;
   text-align: right;
   right: 30px;
   bottom: 80%;
