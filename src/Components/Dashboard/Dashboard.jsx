@@ -85,6 +85,7 @@ const Dashboard = (props) => {
   //cancelation
   const cancelStatus = (id) => {
     if (window.confirm("Confirm booking cancellation ")) {
+      props.client.updateBookingPitch(id, "0").then();
       props.client
         .updateBookingStatus(id, "canceled")
         .then(() => refreshList());
@@ -175,8 +176,8 @@ const Dashboard = (props) => {
     // setBooking(item);
   };
 
+  // Change colour depending on status
   const statusColor = (status) => {
-    // switch case depending on status
     switch (status) {
       case "canceled":
         return "red";
