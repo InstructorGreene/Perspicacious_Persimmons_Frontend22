@@ -12,6 +12,7 @@ import "./Dashboard.css";
 import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
 import PitchMap from "./PitchMap";
+import SortByDate from "./SortByDate";
 
 const Dashboard = (props) => {
   const [allBookings, setAllBookings] = useState([]);
@@ -19,6 +20,7 @@ const Dashboard = (props) => {
   const [chosenStatus, setChosenStatus] = useState("");
   const [stallholder, setStallholder] = useState();
   const [pitchNumber, setPitchNumber] = useState(undefined);
+  const [sortByDate, setSortByDate] = useState("newest");
 
   const findStallholder = async () => {
     const foundStallHolder = await props.client.getUserById(props.userid);
@@ -30,8 +32,14 @@ const Dashboard = (props) => {
   const choosePitchNumber = (chosenPitchNumber) => {
     setPitchNumber(chosenPitchNumber);
   };
+  const chooseSortDate = (chosenSortDate) => {
+    setSortByDate(chosenSortDate);
+  };
 
   const statusFilter = (resData) => {
+    sortByDate === "newest"
+      ? (resData = resData.sort((a, b) => (b.date > a.date ? 1 : -1)))
+      : (resData = resData.sort((a, b) => (a.date > b.date ? 1 : -1)));
     switch (props.role) {
       case "finance":
         return resData
@@ -200,7 +208,7 @@ const Dashboard = (props) => {
     refreshList();
     getBookingList();
     findStallholder();
-  }, [chosenStatus, pitchNumber]);
+  }, [chosenStatus, pitchNumber, sortByDate]);
   useEffect(() => {
     refreshList();
   }, []);
@@ -341,7 +349,10 @@ const Dashboard = (props) => {
       {props.role === "StallHolder" ? (
         <></>
       ) : (
-        <ChooseStatus chooseStatus={chooseStatus} />
+        <div className="filters">
+          <ChooseStatus chooseStatus={chooseStatus} />
+          <SortByDate chooseSortDate={chooseSortDate} />
+        </div>
       )}
 
       {props.role === "StallHolder" ? (

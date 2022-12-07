@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SortByDate = (props) => {
   const handleSelectChange = (e) => {
-    props.chooseStatus(e.target.value);
+    props.chooseSortDate(e.target.value);
   };
   return (
     <div className="select-container">
-      <label className="select-label" htmlFor="select-status">
-        Select status of booking to show
+      <label className="select-label" htmlFor="sort-by-date">
+        Sort by date
       </label>
       <select
-        className="select-status"
-        name="select-status"
-        id="select-status"
+        className="sort-by-date"
+        name="sort-by-date"
+        id="sort-by-date"
         onChange={handleSelectChange}
       >
-        <option value="allocated">Oldest to Newest</option>
-        <option value="canceled">Newest to Oldest</option>
+        <option value="newest">Newest to Oldest</option>
+        <option value="oldest">Oldest to Newest</option>
       </select>
     </div>
   );
