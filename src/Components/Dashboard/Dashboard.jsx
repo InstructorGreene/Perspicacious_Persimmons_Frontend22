@@ -30,6 +30,7 @@ const Dashboard = (props) => {
   });
   const navigate = useNavigate();
   const client = props.client;
+  const role = props.role;
 
   const findStallholder = async () => {
     const foundStallHolder = await props.client.getUserById(props.userid);
@@ -316,6 +317,7 @@ const Dashboard = (props) => {
   const DisplayCard = (props) => {
     const item = props.post;
     const index = props.index;
+    console.log(props);
     return (
       <div key={index}>
         <Card className="card" key={item._id}>
@@ -379,9 +381,9 @@ const Dashboard = (props) => {
               <button
                 style={{
                   display:
-                    props.role === "StallHolder" || props.role === "admin"
-                      ? "none"
-                      : "inline",
+                    role === "StallHolder" || role === "admin"
+                      ? "inline"
+                      : "none",
                 }}
                 className="action-button"
                 type="button"
@@ -392,7 +394,7 @@ const Dashboard = (props) => {
               <button
                 style={{
                   display:
-                    props.role === "StallHolder" || props.role === "committee"
+                    role === "StallHolder" || role === "committee"
                       ? "none"
                       : "inline",
                 }}
@@ -405,7 +407,7 @@ const Dashboard = (props) => {
               <button
                 style={{
                   display:
-                    props.role === "StallHolder" || props.role === "committee"
+                    role === "StallHolder" || role === "committee"
                       ? "none"
                       : "inline",
                 }}
@@ -418,9 +420,9 @@ const Dashboard = (props) => {
               <button
                 style={{
                   display:
-                    props.role === "StallHolder" || props.role === "admin"
-                      ? "none"
-                      : "inline",
+                    role === "StallHolder" || role === "admin"
+                      ? "inline"
+                      : "none",
                 }}
                 className="action-button"
                 type="button"
@@ -432,7 +434,7 @@ const Dashboard = (props) => {
               </button>
               <button
                 style={{
-                  display: props.role === "admin" ? "none" : "inline",
+                  display: role === "admin" ? "inline" : "none",
                 }}
                 className="action-button"
                 type="button"
