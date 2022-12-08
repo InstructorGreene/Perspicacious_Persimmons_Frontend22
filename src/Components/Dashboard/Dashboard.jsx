@@ -16,13 +16,13 @@ import ChooseStatus from "./ChooseStatus";
 import PitchMap from "./PitchMap";
 import SortByDate from "./SortByDate";
 
-
 const Dashboard = (props) => {
   const [allBookings, setAllBookings] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [stallholder, setStallholder] = useState();
   const [pitchNumber, setPitchNumber] = useState();
+  const [sortByDate, setSortByDate] = useState("newest");
   const { resetField, register, handleSubmit } = useForm({
     defaultValues: {
       businessName: "",
@@ -38,15 +38,6 @@ const Dashboard = (props) => {
     const foundStallHolder = await props.client.getUserById(props.userid);
     setStallholder(foundStallHolder.data);
   };
-
-  const [pitchNumber, setPitchNumber] = useState(undefined);
-  const [sortByDate, setSortByDate] = useState("newest");
-
-
-  const findStallholder = async () => {
-    const foundStallHolder = await props.client.getUserById(props.userid);
-    setStallholder(foundStallHolder.data);
-  };
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
@@ -55,10 +46,6 @@ const Dashboard = (props) => {
   };
   const chooseSortDate = (chosenSortDate) => {
     setSortByDate(chosenSortDate);
-  };
-
-  const choosePitchNumber = (chosenPitchNumber) => {
-    setPitchNumber(chosenPitchNumber);
   };
 
   const getBookingList = () => {
@@ -102,16 +89,10 @@ const Dashboard = (props) => {
     }
   };
 
-
-
   const refreshList = () => {
     props.client
       .getBooking()
       .then((response) => setCurrentBooking(statusFilter(response.data)));
-  };
-  
-  const getBookingList = () => {
-    props.client.getBooking().then((response) => setAllBookings(response.data));
   };
 
   //delete through admin
@@ -144,6 +125,7 @@ const Dashboard = (props) => {
         props.client.updateBookingPitch(id, "0").then();
         setPitchNumber(false);
         return newIndex;
+      default:
     }
   };
 
@@ -206,11 +188,6 @@ const Dashboard = (props) => {
             ? window.alert("You can't change status")
             : (newIndex = newIndex);
           break;
-        case "admin":
-          newIndex >= 2
-            ? window.alert("You can't change status")
-            : (newIndex = newIndex);
-          break;
         default:
       }
       let newBstatus = statuses[newIndex];
@@ -239,7 +216,6 @@ const Dashboard = (props) => {
     resetField("stallType");
     resetField("comments");
   };
-
 
   // It changes the color when the status changes
   const statusColor = (status) => {
@@ -517,7 +493,6 @@ const Dashboard = (props) => {
       ) : (
         <ChooseStatus chooseStatus={chooseStatus} />
       )}
-
       {props.role === "StallHolder" ? (
         <div className="stall-holder-details">
           <StallHolderDetails stallholder={stallholder} />
@@ -528,20 +503,17 @@ const Dashboard = (props) => {
           <h2 className="subtitle dashboard">All bookings</h2>
         </>
       )}
-        <div className="filters">
-          <ChooseStatus chooseStatus={chooseStatus} />
-          <SortByDate chooseSortDate={chooseSortDate} />
-        </div>
+      <div className="filters">
+        <ChooseStatus chooseStatus={chooseStatus} />
+        <SortByDate chooseSortDate={chooseSortDate} />
+      </div>
       )}
-
       <div className="sticky-container">
         {props.role === "allocator" ? (
           <div className="pitch-map-wrap">
             <div className="pitch-map">
               <PitchMap
-
                 pitchNumber={pitchNumber}
-
                 choosePitchNumber={choosePitchNumber}
                 allBookings={allBookings}
               />
@@ -554,7 +526,6 @@ const Dashboard = (props) => {
         <div className="cards">
           <BuildRows posts={currentBooking} />
         </div>
-
       </div>
     </>
   );
