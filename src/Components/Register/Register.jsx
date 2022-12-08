@@ -43,7 +43,6 @@ function Register(props) {
         alert("Password Confirmation should match the Password");
       }
     } else {
-      console.log(item.email);
       alert("The user with this email already exists, log in please");
       navigate("/login");
     }

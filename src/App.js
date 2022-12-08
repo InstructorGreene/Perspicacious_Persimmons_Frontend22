@@ -8,9 +8,7 @@ import "./App.css";
 import Register from "./Components/Register/Register";
 import StallBookingForm from "./Components/StallBookingForm/StallBookingForm";
 import { ApiClient } from "./apiClient";
-
 import Footer from "./Components/Footer/Footer";
-import AddStall from "./Components/StallBookingForm/AddStall";
 import AddByAdmin from "./Components/StallBookingForm/AddByAdmin";
 
 const App = () => {
@@ -19,7 +17,6 @@ const App = () => {
   const [userid, changeUserId] = useState(
     window.localStorage.getItem("userid")
   );
-  console.log(token, role, userid);
 
   const client = new ApiClient(
     () => token,
@@ -78,6 +75,7 @@ const App = () => {
               />
             }
           />
+
           <Route
             path="/booking"
             element={

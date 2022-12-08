@@ -16,6 +16,7 @@ const AddByAdmin = (props) => {
   });
 
   const onSubmit = async (item) => {
+    console.log(item);
     const checkUser = await props.client.getUserByEmail(item.email);
     if (checkUser.data.length === 0) {
       await props.client.addUser(

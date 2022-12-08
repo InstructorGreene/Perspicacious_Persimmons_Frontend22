@@ -52,17 +52,104 @@ p {
 }
 .select-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: right;
+  align-items: right;
+  margin-right: 5rem;
 }
 .select-label {
-  position: inherit;
-  margin-right: 10px;
+  display: flex;
+  justify-content: right;
+  align-items: right;
+
+  margin-top: -1rem;
+  margin-right: -3rem;
 }
 .select-status {
-  position: inherit;
+  align-items: right;
+}
+.subtitle.dashboard {
+  color: #093250;
+  padding-left: 5rem;
+  text-align: left;
+}
+.stall-holder-details {
+  margin: 10px 50px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.sticky-container {
+  position: relative;
+}
+.pitch-map-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100vw;
+  background-color: white;
+}
+.pitch-map {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 74vw;
+  margin: 10px auto;
+  gap: 1px;
+
+  padding: 5px;
+}
+.pitch-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pitch-item:hover,
+.pitch-item:focus {
+  background-color: cadetblue;
 }
 
-/* .bookingText {
-  background-color: white;
-} */
+.update-button {
+  padding: 5px;
+  min-width: 100px;
+  margin-right: 10px;
+  text-align: center;
+  align-items: center;
+  background-color: cadetblue;
+  border-radius: 5px;
+  border: none;
+}
+.update-button:hover {
+  color: white;
+}
+
+.edit-form-box {
+  width: 35vw;
+  height: 80vh;
+  padding: 2rem;
+  border: 1px solid black;
+  box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+}
+
+.update-label {
+  /* display: inline-block; */
+  /* width: 150px; */
+  display: flex;
+  align-items: left;
+  text-align: left;
+  justify-content: left;
+}
+
+.update-label-textarea {
+  width: 10rem;
+  padding-right: 2rem;
+}

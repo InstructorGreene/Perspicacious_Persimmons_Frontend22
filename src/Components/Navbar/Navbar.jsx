@@ -2,7 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import logo from "../../img/logo.jpg";
+import logo from "../../img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
@@ -27,10 +27,10 @@ const NavbarMenu = (props) => {
           {window.localStorage.getItem("token") ? (
             <>
               <Link to="/dashboard" className="btn btn-custom btn-change">
-                View Bookings
+                View
               </Link>
               <Link to="/booking" className="btn btn-custom btn-change">
-                Add Booking
+                Add
               </Link>
               <Button
                 variant="custom"

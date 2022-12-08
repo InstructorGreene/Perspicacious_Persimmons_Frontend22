@@ -22,7 +22,6 @@ const StallBookingForm = (props) => {
 
   //handle submit when the role is admin and stall holder
   const onSubmit = async (item) => {
-
     console.log(item);
     if (props.role === "admin") {
       props.client.addBooking(
@@ -46,21 +45,17 @@ const StallBookingForm = (props) => {
       );
     }
 
-
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
-
 
   //check handleSubmit user details if the user exist
   const checkUserDetails = async (item) => {
     const checkEmail = await props.client.getUserByEmail(item.email);
 
-
     console.log(checkEmail.data);
     setCheckUserID(checkEmail.data._id);
     setCheckUserEmail(checkEmail.data.email);
-
 
     if (checkEmail.data.length === 0) {
       alert("No Email found");
@@ -135,6 +130,13 @@ const StallBookingForm = (props) => {
     } else {
       return (
         <div>
+          <div className="checkUser-email">
+            <AddStall checkUserDetails={checkUserDetails} />
+          </div>
+
+          <Link to="/addUser" className="btn btn-custom btn-change">
+            Add User
+          </Link>
           <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
             <div className="booking-form-box">
               <div>
@@ -205,21 +207,12 @@ const StallBookingForm = (props) => {
               </Button>
             </div>
           </form>
-
         </div>
       );
     }
   };
 
-  return (
-    <>
-      <AddStall checkUserDetails={checkUserDetails} />
-      <Link to="/addUser" className="btn btn-custom btn-change">
-        Add User
-      </Link>
-      {adminBooking()}
-    </>
-  );
+  return <>{adminBooking()}</>;
 };
 
 export default StallBookingForm;

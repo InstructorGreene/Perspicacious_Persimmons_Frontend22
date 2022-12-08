@@ -1,24 +1,51 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
-  FaUndo,
-  FaShareSquare,
+  FaUndoAlt,
+  FaRedoAlt,
   FaEdit,
-  FaTrash,
+  FaTrashAlt,
   FaRegWindowClose,
+  FaMapMarkedAlt,
 } from "react-icons/fa";
 import "./Dashboard.css";
-import "./status";
+import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
+import PitchMap from "./PitchMap";
 
 const Dashboard = (props) => {
-  const [stallholder, setStallholder] = useState([]);
+  const [allBookings, setAllBookings] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
-  const [booking, setBooking] = useState(undefined);
+  const [stallholder, setStallholder] = useState();
+  const [pitchNumber, setPitchNumber] = useState();
+  const { resetField, register, handleSubmit } = useForm({
+    defaultValues: {
+      businessName: "",
+      stallType: "",
+      comments: "",
+    },
+  });
+  const navigate = useNavigate();
+  const client = props.client;
+
+  const findStallholder = async () => {
+    const foundStallHolder = await props.client.getUserById(props.userid);
+    setStallholder(foundStallHolder.data);
+  };
 
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
+  };
+
+  const choosePitchNumber = (chosenPitchNumber) => {
+    setPitchNumber(chosenPitchNumber);
+  };
+
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
   };
 
   const statusFilter = (resData) => {
@@ -49,27 +76,17 @@ const Dashboard = (props) => {
             chosenStatus === "" ? true : item.bstatus === chosenStatus
           );
       default:
-
         return resData.filter((item) =>
           chosenStatus === "" ? true : item.bstatus === chosenStatus
         );
-
     }
   };
-  
+
   const refreshList = () => {
-    if (props.role === "StallHolder") {
-      // console.log(props.userid);
-      props.client
-        .getBookingByUserId(props.userid)
-        .then((response) => setCurrentBooking(response.data));
-    } else {
-      props.client
-        .getBooking()
-        .then((response) => setCurrentBooking(response.data));
-    }
+    props.client
+      .getBooking()
+      .then((response) => setCurrentBooking(statusFilter(response.data)));
   };
-
 
   //delete through admin
   const removeBookingStall = (id) => {
@@ -79,6 +96,8 @@ const Dashboard = (props) => {
       }
     } else return;
   };
+
+  //cancelation
   const cancelStatus = (id) => {
     if (window.confirm("Confirm booking cancellation ")) {
       props.client
@@ -87,6 +106,18 @@ const Dashboard = (props) => {
     } else return;
   };
 
+  //set pitch number
+  const changePitchNumber = (id, newIndex) => {
+    if (pitchNumber === undefined) {
+      window.alert("Choose pitch number on the map");
+      return (newIndex = 3);
+    } else {
+      props.client.updateBookingPitch(id, pitchNumber).then();
+      return newIndex;
+    }
+  };
+
+  // change status of booking
   const changeStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
@@ -98,15 +129,18 @@ const Dashboard = (props) => {
             : (newIndex = newIndex);
           break;
         case "allocator":
-          newIndex === 5
-            ? window.alert("You can't change status")((newIndex = 4))
-            : (newIndex = newIndex);
+          if (newIndex === 4) {
+            changePitchNumber(id, newIndex);
+          } else {
+            window.alert("You can't change status")((newIndex = 4));
+          }
           break;
         case "admin":
-          newIndex === 2
+          newIndex >= 2
             ? window.alert("You can't change status")((newIndex = 1))
             : (newIndex = newIndex);
           break;
+        default:
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -114,6 +148,8 @@ const Dashboard = (props) => {
         .then(() => refreshList());
     } else return;
   };
+
+  // undo changing status of booking
   const undoStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
@@ -130,6 +166,12 @@ const Dashboard = (props) => {
             ? window.alert("You can't change status")((newIndex = 3))
             : (newIndex = newIndex);
           break;
+        case "admin":
+          newIndex >= 2
+            ? window.alert("You can't change status")
+            : (newIndex = newIndex);
+          break;
+        default:
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -138,11 +180,27 @@ const Dashboard = (props) => {
     } else return;
   };
 
-  const editBooking = (id, item) => {
-    // props.client.updateBooking(id, item).then(() => refreshList());
-    // setBooking(item);
+  // Edit the booking form
+  const editBooking = (e, props) => {
+    e.preventDefault();
+    console.log(e.target);
+
+    client
+      .updateBooking(
+        props._id,
+        e.target[0].value === "" ? props.businessName : e.target[0].value,
+        e.target[1].value === "" ? props.stallType : e.target[1].value,
+        e.target[2].value === "" ? props.comments : e.target[2].value
+      )
+      .then(() => refreshList());
+    alert("Booking Updated");
+
+    resetField("businessName");
+    resetField("stallType");
+    resetField("comments");
   };
 
+  // It changes the color when the status changes
   const statusColor = (status) => {
     // switch case depending on status
     switch (status) {
@@ -165,18 +223,109 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     refreshList();
+    getBookingList();
+    findStallholder();
   }, [chosenStatus]);
-  
+
   useEffect(() => {
     refreshList();
   }, []);
 
-  const buildRows = () => {
-    return currentBooking.map((item) => {
-      return (
-        <div key={item._id}>
-          <Card className="card" key={item._id}>
-            <Card.Body id={item._id}>
+  // Form component to update
+  const UpdateForm = (props) => {
+    return (
+      <form
+        className="booking-container"
+        onSubmit={(e) => editBooking(e, props.item)}
+      >
+        <div className="edit-form-box">
+          <Card.Title className="booking-edit-data">Edit Booking</Card.Title>
+          <div>
+            <label className="update-label">Business Name:</label>
+
+            <input
+              className="update-label-input"
+              type="text"
+              {...register("businessName", {
+                required: {
+                  value: true,
+                  message: "Business name is required",
+                },
+              })}
+              placeholder={props.item.businessName}
+            ></input>
+          </div>
+          <div>
+            <label className="update-label">Type of stall:</label>
+            <select
+              className="update-label-input"
+              {...register("stallType", {
+                required: {
+                  value: true,
+                  message: "Choose the category of the stall",
+                },
+              })}
+              placeholder={props.item.stallType}
+            >
+              <option value="">Select...</option>
+
+              <option value="craft">Craft</option>
+
+              <option value="donation">Donation</option>
+
+              <option value="food">Food Stall</option>
+
+              <option value="commercial">Commercial Items</option>
+            </select>
+          </div>
+          <div>
+            <label className="update-label">Additional comments:</label>
+            <textarea
+              type="textarea"
+              className="update-label-input"
+              rows="6"
+              {...register("comments", {
+                required: {
+                  value: true,
+                  message:
+                    "Tell us what you will be selling / promoting at the carnival ",
+                },
+              })}
+              placeholder={props.item.comments}
+            ></textarea>
+          </div>
+          <div>
+            <button className="update-button" type="submit">
+              Update
+            </button>
+            <button
+              className="update-button"
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    );
+  };
+
+  // Display Card Component
+  const DisplayCard = (props) => {
+    const item = props.post;
+    const index = props.index;
+    return (
+      <div key={index}>
+        <Card className="card" key={item._id}>
+          <Card.Body id={item._id}>
+            <div
+              className="stall-holder-details"
+              style={{
+                display: props.role === "StallHolder" ? "none" : "inline",
+              }}
+            >
               <Card.Title className="creator-data">
                 Stall Holder Details
               </Card.Title>
@@ -198,100 +347,124 @@ const Dashboard = (props) => {
                   </p>
                 </div>
               </div>
-              <Card.Title className="booking-data">Booking Details</Card.Title>
-              <p
-                className="lable"
-                style={{ backgroundColor: statusColor(item.bstatus) }}
+            </div>
+            <Card.Title className="booking-data">Booking Details</Card.Title>
+            <p
+              className="lable"
+              style={{ backgroundColor: statusColor(item.bstatus) }}
+            >
+              <span className="bookingText">Booking status:</span>
+              <span id="bstatus" className="description">
+                {" "}
+                {item.bstatus}
+              </span>
+            </p>
+            <p className="lable text-muted">
+              Pitch number:
+              <span className="description"> {item.pitch}</span>
+            </p>
+            <p className="lable text-muted">
+              Business/charity name:
+              <span className="description"> {item.businessName}</span>
+            </p>
+            <p className="lable text-muted">
+              Type of stall:
+              <span className="description"> {item.stallType}</span>
+            </p>
+            <p className="lable text-muted">
+              Additional comments:
+              <span className="description"> {item.comments}</span>
+            </p>
+            <div className="action-bar">
+              <button
+                style={{
+                  display:
+                    props.role === "StallHolder" || props.role === "admin"
+                      ? "none"
+                      : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => cancelStatus(item._id)}
               >
-                <span className="bookingText">Booking status:</span>
-                <span id="bstatus" className="description">
-                  {" "}
-                  {item.bstatus}
-                </span>
-              </p>
-              <p className="lable text-muted">
-                Pitch number:
-                <span className="description"> {item.pitch}</span>
-              </p>
-              <p className="lable text-muted">
-                Business/charity name:
-                <span className="description"> {item.businessName}</span>
-              </p>
-              <p className="lable text-muted">
-                Type of stall:
-                <span className="description"> {item.stallType}</span>
-              </p>
-              <p className="lable text-muted">
-                Additional comments:
-                <span className="description"> {item.comments}</span>
-              </p>
+                <FaRegWindowClose />
+              </button>
+              <button
+                style={{
+                  display:
+                    props.role === "StallHolder" || props.role === "committee"
+                      ? "none"
+                      : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => undoStatus(item._id, item.bstatus)}
+              >
+                <FaUndoAlt />
+              </button>
+              <button
+                style={{
+                  display:
+                    props.role === "StallHolder" || props.role === "committee"
+                      ? "none"
+                      : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => changeStatus(item._id, item.bstatus)}
+              >
+                <FaRedoAlt className="icon-btn" />
+              </button>
+              <button
+                style={{
+                  display:
+                    props.role === "StallHolder" || props.role === "admin"
+                      ? "none"
+                      : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => {
+                  props.changeEditing(props.index);
+                }}
+              >
+                <FaEdit />
+              </button>
+              <button
+                style={{
+                  display: props.role === "admin" ? "none" : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => removeBookingStall(item._id)}
+              >
+                <FaTrashAlt />
+              </button>
+            </div>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  };
 
-              <div className="action-bar">
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "admin"
-                        ? "inline"
-                        : "none",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => cancelStatus(item._id)}
-                >
-                  <FaRegWindowClose />
-                </button>
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "committee"
-                        ? "none"
-                        : "inline",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => undoStatus(item._id, item.bstatus)}
-                >
-                  <FaUndo />
-                </button>
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "committee"
-                        ? "none"
-                        : "inline",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => changeStatus(item._id, item.bstatus)}
-                >
-                  <FaShareSquare className="icon-btn" />
-                </button>
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "admin"
-                        ? "inline"
-                        : "none",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => editBooking(item._id, item)}
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  style={{
-                    display: props.role === "admin" ? "inline" : "none",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => removeBookingStall(item._id)}
-                >
-                  <FaTrash />
-                </button>
-              </div>
-            </Card.Body>
-          </Card>
+  const BuildRows = (props) => {
+    const [editing, changeEditing] = useState(undefined);
+    return props.posts.map((item, index) => {
+      return (
+        <div key={index}>
+          {editing === index ? (
+            <UpdateForm
+              client={client}
+              item={item}
+              changeEditing={() => changeEditing()}
+            />
+          ) : (
+            <DisplayCard
+              changeEditing={(index) => changeEditing(index)}
+              index={index}
+              post={item}
+            />
+          )}
         </div>
       );
     });
@@ -302,11 +475,37 @@ const Dashboard = (props) => {
       {props.role === "StallHolder" ? (
         <></>
       ) : (
-        <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
+        <ChooseStatus chooseStatus={chooseStatus} />
       )}
-      <div className="cards">{buildRows()}</div>
+
+      {props.role === "StallHolder" ? (
+        <div className="stall-holder-details">
+          <StallHolderDetails stallholder={stallholder} />
+          <h2 className="subtitle dashboard">Your bookings</h2>
+        </div>
+      ) : (
+        <>
+          <h2 className="subtitle dashboard">All bookings</h2>
+        </>
+      )}
+      <div className="sticky-container">
+        {props.role === "allocator" ? (
+          <div className="pitch-map-wrap">
+            <div className="pitch-map">
+              <PitchMap
+                choosePitchNumber={choosePitchNumber}
+                allBookings={allBookings}
+              />
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+        <div className="cards">
+          <BuildRows posts={currentBooking} />
+        </div>
+      </div>
     </>
   );
 };
-
 export default Dashboard;
