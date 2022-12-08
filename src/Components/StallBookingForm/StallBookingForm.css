@@ -12,12 +12,19 @@ body {
 }
 
 .booking-form-box {
-  width: 100vh;
-  height: 60vh;
+  width: 94vh;
+  height: 75vh;
   padding: 5%;
   border: 1px solid black;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-radius: 4px;
+}
+
+.input-wrap {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  /* position: relative; */
 }
 
 .add-button {
@@ -34,8 +41,8 @@ body {
 input,
 select,
 textarea {
-  align-items: center;
-  width: 30vw;
+  align-items: right;
+  width: 28vw;
   height: 5vh;
   margin: 10px 0;
 }
@@ -43,8 +50,52 @@ textarea {
 textarea {
   height: 20vh;
 }
-.labels {
+label {
   display: flex;
   justify-content: right;
   align-items: center;
+  font-size: 13px;
+}
+
+.checkUser {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  justify-content: center;
+  background-color: cadetblue;
+}
+.button-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-custom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20vh;
+}
+
+.add-button {
+  display: block;
+  margin: 5px auto;
+  background-color: cadetblue;
+}
+
+.add-button:hover {
+  color: white;
+}
+.btn-adduser {
+  display: block;
+  margin: 5px auto;
+}
+.check-button {
+  background-color: cadetblue;
+  margin-left: 5px;
 }

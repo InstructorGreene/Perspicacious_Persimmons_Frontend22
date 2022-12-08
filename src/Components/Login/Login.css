@@ -8,11 +8,11 @@ body {
   display: flex;
   align-items: center;
   text-align: center;
-  justify-content: center;
+  justify-content: rightr;
 }
 
 .login-form-box {
-  width: 45vw;
+  width: 40vw;
   height: 40vh;
   padding: 5%;
   border: 1px solid black;
@@ -27,20 +27,25 @@ body {
   background-color: cadetblue;
 }
 
+.login-button1 {
+  display: block;
+  margin: 5px auto;
+  background-color: cadetblue;
+}
+
 .login-button:hover {
   color: white;
 }
 
 input {
   align-items: center;
-  width: 30vw;
-  height: 5vh;
-//  margin: 30px;
+  width: 28vw;
+  height: 10vh;
 }
 .input-wrap {
   display: flex;
-  align-items: center;
   justify-content: right;
+  align-items: flex-start;
 }
 .error {
   color: blue;
@@ -48,4 +53,8 @@ input {
   text-align: right;
   right: 30px;
   bottom: 80%;
+}
+
+label {
+  margin-right: 1%;
 }

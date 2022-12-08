@@ -22,7 +22,6 @@ const StallBookingForm = (props) => {
 
   //handle submit when the role is admin and stall holder
   const onSubmit = async (item) => {
-
     console.log(item);
     if (props.role === "admin") {
       props.client.addBooking(
@@ -46,21 +45,17 @@ const StallBookingForm = (props) => {
       );
     }
 
-
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
-
 
   //check handleSubmit user details if the user exist
   const checkUserDetails = async (item) => {
     const checkEmail = await props.client.getUserByEmail(item.email);
 
-
     console.log(checkEmail.data);
     setCheckUserID(checkEmail.data._id);
     setCheckUserEmail(checkEmail.data.email);
-
 
     if (checkEmail.data.length === 0) {
       alert("No Email found");
@@ -77,20 +72,23 @@ const StallBookingForm = (props) => {
       return (
         <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="booking-form-box">
-            <div>
-              <input
-                type="text"
-                {...register("businessName", {
-                  required: {
-                    value: true,
-                    message: "Business name is required",
-                  },
-                })}
-                placeholder="Business name"
-              />
+            <div className="input-wrap">
+              <label>Business name</label>
+              <div>
+                <input
+                  type="text"
+                  {...register("businessName", {
+                    required: {
+                      value: true,
+                      message: "Business name is required",
+                    },
+                  })}
+                />
+              </div>
             </div>
 
-            <div>
+            <div className="input-wrap">
+              <label>Select</label>
               <select
                 {...register("stallType", {
                   required: {
@@ -110,7 +108,9 @@ const StallBookingForm = (props) => {
                 <option value="commercial">Commercial Items</option>
               </select>
             </div>
-            <div>
+
+            <div className="input-wrap">
+              <label>Comments</label>
               <textarea
                 type="textarea"
                 className="booking-textarea"
@@ -122,7 +122,6 @@ const StallBookingForm = (props) => {
                       "Tell us what you will be selling / promoting at the carnival ",
                   },
                 })}
-                placeholder="Comments"
               />
             </div>
 
@@ -137,7 +136,8 @@ const StallBookingForm = (props) => {
         <div>
           <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
             <div className="booking-form-box">
-              <div>
+              <div className="input-wrap">
+                <label>User id</label>
                 <input
                   type="text"
                   value={checkUserID}
@@ -146,12 +146,15 @@ const StallBookingForm = (props) => {
                       value: true,
                     },
                   })}
-                  placeholder="UserId"
+                  // placeholder="User Id"
                 />
               </div>
-              <input type="text" value={checkUserEmail} />
-
-              <div>
+              <div className="input-wrap">
+                <label>Email</label>
+                <input type="text" value={checkUserEmail} />
+              </div>
+              <div className="input-wrap">
+                <label>Business name</label>
                 <input
                   type="text"
                   {...register("businessName", {
@@ -160,11 +163,12 @@ const StallBookingForm = (props) => {
                       message: "Business name is required",
                     },
                   })}
-                  placeholder="Business name"
+                  // placeholder="Bus"
                 />
               </div>
 
-              <div>
+              <div className="input-wrap">
+                <label>Select</label>
                 <select
                   {...register("stallType", {
                     required: {
@@ -184,7 +188,8 @@ const StallBookingForm = (props) => {
                   <option value="commercial">Commercial Items</option>
                 </select>
               </div>
-              <div>
+              <div className="input-wrap">
+                <label>Comments</label>
                 <textarea
                   type="textarea"
                   className="booking-textarea"
@@ -196,7 +201,7 @@ const StallBookingForm = (props) => {
                         "Tell us what you will be selling / promoting at the carnival ",
                     },
                   })}
-                  placeholder="Comments"
+                  // placeholder="Comments"
                 />
               </div>
 
@@ -205,7 +210,6 @@ const StallBookingForm = (props) => {
               </Button>
             </div>
           </form>
-
         </div>
       );
     }
@@ -214,7 +218,7 @@ const StallBookingForm = (props) => {
   return (
     <>
       <AddStall checkUserDetails={checkUserDetails} />
-      <Link to="/addUser" className="btn btn-custom btn-change">
+      <Link to="/addUser" className="btn btn-custom btn-change btn-adduser">
         Add User
       </Link>
       {adminBooking()}
