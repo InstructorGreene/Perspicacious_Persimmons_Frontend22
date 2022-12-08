@@ -61,12 +61,20 @@ const Login = (props) => {
                 },
               })}
             />
+<<<<<<< 82-create-pagination-for-the-bookings
+=======
+
+>>>>>>> main
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
           </div>
           <div>
+<<<<<<< 82-create-pagination-for-the-bookings
             <Button variant="custom" className="login-button1" type="submit">
+=======
+            <Button variant="custom" className="login-button" type="submit">
+>>>>>>> main
               Login
             </Button>
           </div>

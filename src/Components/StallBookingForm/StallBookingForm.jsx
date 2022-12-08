@@ -44,7 +44,10 @@ const StallBookingForm = (props) => {
         props.userid
       );
     }
+<<<<<<< 82-create-pagination-for-the-bookings
 
+=======
+>>>>>>> main
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
@@ -72,6 +75,7 @@ const StallBookingForm = (props) => {
       return (
         <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="booking-form-box">
+<<<<<<< 82-create-pagination-for-the-bookings
             <div className="input-wrap">
               <label>Business name</label>
               <div>
@@ -89,6 +93,23 @@ const StallBookingForm = (props) => {
 
             <div className="input-wrap">
               <label>Select</label>
+=======
+            <div className="labels">
+              <label>Business name</label>
+              <input
+                type="text"
+                {...register("businessName", {
+                  required: {
+                    value: true,
+                    message: "Business name is required",
+                  },
+                })}
+              />
+            </div>
+
+            <div className="labels">
+              <label>Stall type</label>
+>>>>>>> main
               <select
                 {...register("stallType", {
                   required: {
@@ -108,6 +129,7 @@ const StallBookingForm = (props) => {
                 <option value="commercial">Commercial Items</option>
               </select>
             </div>
+<<<<<<< 82-create-pagination-for-the-bookings
 
             <div className="input-wrap">
               <label>Comments</label>
@@ -124,16 +146,42 @@ const StallBookingForm = (props) => {
                 })}
               />
             </div>
+=======
+            <div>
+              <div className="labels">
+                <label>Comments</label>
+                <textarea
+                  type="textarea"
+                  className="booking-textarea"
+                  rows="6"
+                  {...register("comments", {
+                    required: {
+                      value: true,
+                      message:
+                        "Tell us what you will be selling / promoting at the carnival ",
+                    },
+                  })}
+                  placeholder="Comments"
+                />
+              </div>
+>>>>>>> main
 
-            <Button className="add-button" variant="custom" type="submit">
-              Add Booking
-            </Button>
+              <Button className="add-button" variant="custom" type="submit">
+                Add Booking
+              </Button>
+            </div>
           </div>
         </form>
       );
     } else {
       return (
         <div>
+          <div className="addNewStaff">
+            <AddStall checkUserDetails={checkUserDetails} />
+            <Link to="/addUser" className="btn btn-custom btn-change">
+              Add User
+            </Link>
+          </div>
           <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
             <div className="booking-form-box">
               <div className="input-wrap">
@@ -146,6 +194,7 @@ const StallBookingForm = (props) => {
                       value: true,
                     },
                   })}
+<<<<<<< 82-create-pagination-for-the-bookings
                   // placeholder="User Id"
                 />
               </div>
@@ -155,6 +204,19 @@ const StallBookingForm = (props) => {
               </div>
               <div className="input-wrap">
                 <label>Business name</label>
+=======
+                  placeholder="UserId"
+                  className="hidden"
+                />
+              </div>
+              <input
+                type="text"
+                value={checkUserEmail}
+                placeholder="User Email"
+              />
+
+              <div>
+>>>>>>> main
                 <input
                   type="text"
                   {...register("businessName", {
@@ -215,6 +277,7 @@ const StallBookingForm = (props) => {
     }
   };
 
+<<<<<<< 82-create-pagination-for-the-bookings
   return (
     <>
       <AddStall checkUserDetails={checkUserDetails} />
@@ -224,6 +287,9 @@ const StallBookingForm = (props) => {
       {adminBooking()}
     </>
   );
+=======
+  return <>{adminBooking()}</>;
+>>>>>>> main
 };
 
 export default StallBookingForm;
