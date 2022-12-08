@@ -40,7 +40,6 @@ const Login = (props) => {
                 },
               })}
             />
-            <label>Email</label>
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
@@ -62,13 +61,12 @@ const Login = (props) => {
                 },
               })}
             />
-            <label>Password</label>
+
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
           </div>
           <div>
-            <label></label>
             <Button variant="custom" className="login-button" type="submit">
               Login
             </Button>
