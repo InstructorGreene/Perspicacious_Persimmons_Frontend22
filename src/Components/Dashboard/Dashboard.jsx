@@ -1,32 +1,51 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 import {
-  FaUndo,
-  FaShareSquare,
+  FaUndoAlt,
+  FaRedoAlt,
   FaEdit,
-  FaTrash,
+  FaTrashAlt,
   FaRegWindowClose,
+  FaMapMarkedAlt,
 } from "react-icons/fa";
 import "./Dashboard.css";
-import "./status";
+import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
+
 import Piechart from "../Piechart/Piechart";
 
+import PitchMap from "./PitchMap";
+import SortByDate from "./SortByDate";
+
+
 const Dashboard = (props) => {
-  const [stallholder, setStallholder] = useState([]);
+  const [allBookings, setAllBookings] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
-  const [booking, setBooking] = useState(undefined);
-  const [allBookings, setAllBookings] = useState([]);
-  const getBookingList = () => {
-    props.client.getBooking().then((response) => setAllBookings(response.data));
-  };
 
+   const [stallholder, setStallholder] = useState();
+  const [pitchNumber, setPitchNumber] = useState(undefined);
+  const [sortByDate, setSortByDate] = useState("newest");
+
+
+  const findStallholder = async () => {
+    const foundStallHolder = await props.client.getUserById(props.userid);
+    setStallholder(foundStallHolder.data);
+  };
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
+  const choosePitchNumber = (chosenPitchNumber) => {
+    setPitchNumber(chosenPitchNumber);
+  };
+  const chooseSortDate = (chosenSortDate) => {
+    setSortByDate(chosenSortDate);
+  };
 
   const statusFilter = (resData) => {
+    sortByDate === "newest"
+      ? (resData = resData.sort((a, b) => (b.date > a.date ? 1 : -1)))
+      : (resData = resData.sort((a, b) => (a.date > b.date ? 1 : -1)));
     switch (props.role) {
       case "finance":
         return resData
@@ -54,27 +73,19 @@ const Dashboard = (props) => {
             chosenStatus === "" ? true : item.bstatus === chosenStatus
           );
       default:
-
         return resData.filter((item) =>
           chosenStatus === "" ? true : item.bstatus === chosenStatus
         );
-
     }
   };
-  
   const refreshList = () => {
-    if (props.role === "StallHolder") {
-      // console.log(props.userid);
-      props.client
-        .getBookingByUserId(props.userid)
-        .then((response) => setCurrentBooking(response.data));
-    } else {
-      props.client
-        .getBooking()
-        .then((response) => setCurrentBooking(response.data));
-    }
+    props.client
+      .getBooking()
+      .then((response) => setCurrentBooking(statusFilter(response.data)));
   };
-
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
+  };
 
   //delete through admin
   const removeBookingStall = (id) => {
@@ -84,14 +95,32 @@ const Dashboard = (props) => {
       }
     } else return;
   };
+
+  //cancelation
   const cancelStatus = (id) => {
     if (window.confirm("Confirm booking cancellation ")) {
+      props.client.updateBookingPitch(id, "0").then();
       props.client
         .updateBookingStatus(id, "canceled")
         .then(() => refreshList());
     } else return;
   };
 
+  //set pitch number
+  const changePitchNumber = (id, newIndex) => {
+    switch (newIndex) {
+      case 4:
+        props.client.updateBookingPitch(id, pitchNumber).then();
+        setPitchNumber(undefined);
+        return newIndex;
+      case 3:
+        props.client.updateBookingPitch(id, "0").then();
+        setPitchNumber(false);
+        return newIndex;
+    }
+  };
+
+  // change status of booking
   const changeStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
@@ -103,12 +132,19 @@ const Dashboard = (props) => {
             : (newIndex = newIndex);
           break;
         case "allocator":
-          newIndex === 5
-            ? window.alert("You can't change status")((newIndex = 4))
-            : (newIndex = newIndex);
-          break;
+          if (!pitchNumber) {
+            window.alert("Choose pitch number on the map");
+            return;
+          } else {
+            if (newIndex === 4) {
+              changePitchNumber(id, newIndex);
+            } else {
+              window.alert("You can't change status")((newIndex = 4));
+            }
+            break;
+          }
         case "admin":
-          newIndex === 2
+          newIndex >= 2
             ? window.alert("You can't change status")((newIndex = 1))
             : (newIndex = newIndex);
           break;
@@ -119,6 +155,7 @@ const Dashboard = (props) => {
         .then(() => refreshList());
     } else return;
   };
+  // undo changing status of booking
   const undoStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
       const statuses = ["created", "confirmed", "unpaid", "paid", "allocated"];
@@ -133,6 +170,11 @@ const Dashboard = (props) => {
         case "allocator":
           newIndex === 2
             ? window.alert("You can't change status")((newIndex = 3))
+            : changePitchNumber(id, newIndex);
+          break;
+        case "admin":
+          newIndex >= 2
+            ? window.alert("You can't change status")
             : (newIndex = newIndex);
           break;
       }
@@ -148,8 +190,8 @@ const Dashboard = (props) => {
     // setBooking(item);
   };
 
+  // Change colour depending on status
   const statusColor = (status) => {
-    // switch case depending on status
     switch (status) {
       case "canceled":
         return "red";
@@ -171,8 +213,9 @@ const Dashboard = (props) => {
   useEffect(() => {
     refreshList();
     getBookingList();
-  }, [chosenStatus]);
-  
+    findStallholder();
+  }, [chosenStatus, pitchNumber, sortByDate]);
+
   useEffect(() => {
     refreshList();
   }, []);
@@ -183,25 +226,32 @@ const Dashboard = (props) => {
         <div key={item._id}>
           <Card className="card" key={item._id}>
             <Card.Body id={item._id}>
-              <Card.Title className="creator-data">
-                Stall Holder Details
-              </Card.Title>
-              <div className="data-wrap">
-                <div className="data-name-wrap">
-                  <p className="lable text-muted">
-                    First name: <span> {item.firstName}</span>
-                  </p>
-                  <p className="lable text-muted">
-                    Last name: <span> {item.lastName}</span>
-                  </p>
-                </div>
-                <div className="data-name-wrap">
-                  <p className="lable text-muted">
-                    Email: <span> {item.email}</span>
-                  </p>
-                  <p className="lable text-muted">
-                    Mobile: <span> {item.mobileNumber}</span>
-                  </p>
+              <div
+                className="stall-holder-details"
+                style={{
+                  display: props.role === "StallHolder" ? "none" : "inline",
+                }}
+              >
+                <Card.Title className="creator-data">
+                  Stall Holder Details
+                </Card.Title>
+                <div className="data-wrap">
+                  <div className="data-name-wrap">
+                    <p className="lable text-muted">
+                      First name: <span> {item.firstName}</span>
+                    </p>
+                    <p className="lable text-muted">
+                      Last name: <span> {item.lastName}</span>
+                    </p>
+                  </div>
+                  <div className="data-name-wrap">
+                    <p className="lable text-muted">
+                      Email: <span> {item.email}</span>
+                    </p>
+                    <p className="lable text-muted">
+                      Mobile: <span> {item.mobileNumber}</span>
+                    </p>
+                  </div>
                 </div>
               </div>
               <Card.Title className="booking-data">Booking Details</Card.Title>
@@ -231,7 +281,6 @@ const Dashboard = (props) => {
                 Additional comments:
                 <span className="description"> {item.comments}</span>
               </p>
-
               <div className="action-bar">
                 <button
                   style={{
@@ -257,7 +306,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => undoStatus(item._id, item.bstatus)}
                 >
-                  <FaUndo />
+                  <FaUndoAlt />
                 </button>
                 <button
                   style={{
@@ -270,7 +319,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => changeStatus(item._id, item.bstatus)}
                 >
-                  <FaShareSquare className="icon-btn" />
+                  <FaRedoAlt className="icon-btn" />
                 </button>
                 <button
                   style={{
@@ -293,7 +342,7 @@ const Dashboard = (props) => {
                   type="button"
                   onClick={() => removeBookingStall(item._id)}
                 >
-                  <FaTrash />
+                  <FaTrashAlt />
                 </button>
               </div>
             </Card.Body>
@@ -302,14 +351,17 @@ const Dashboard = (props) => {
       );
     });
   };
-
   return (
     <>
       {props.role === "StallHolder" ? (
         <></>
       ) : (
-        <ChooseStatus chooseStatus={chooseStatus} refreshList={refreshList} />
+        <div className="filters">
+          <ChooseStatus chooseStatus={chooseStatus} />
+          <SortByDate chooseSortDate={chooseSortDate} />
+        </div>
       )}
+
       <>
       {props.role === "committee" ? (
        <Piechart allBookings={allBookings}/>
@@ -318,8 +370,34 @@ const Dashboard = (props) => {
       )}
       <div className="cards">{buildRows()}</div>
       </>
+
+
+      {props.role === "StallHolder" ? (
+        <div className="stall-holder-details">
+          <StallHolderDetails stallholder={stallholder} />
+          <h2 className="subtitle dashboard">Your bookings</h2>
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className="sticky-container">
+        {props.role === "allocator" ? (
+          <div className="pitch-map-wrap">
+            <div className="pitch-map">
+              <PitchMap
+                pitchNumber={pitchNumber}
+                choosePitchNumber={choosePitchNumber}
+                allBookings={allBookings}
+              />
+            </div>
+          </div>
+        ) : (
+          <></>
+        )}
+        <div className="cards">{buildRows()}</div>
+      </div>
+
     </>
   );
 };
-
 export default Dashboard;
