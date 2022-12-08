@@ -52,6 +52,7 @@ p {
 }
 .select-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -67,6 +68,12 @@ p {
 }
 .stall-holder-details {
   margin: 10px 50px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
 }
 .sticky-container {
   position: relative;
