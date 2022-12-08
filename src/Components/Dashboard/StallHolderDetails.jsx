@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
 
 const StallHolderDetails = (props) => {
+
   console.log(props);
   return (
     <div>
@@ -17,13 +18,14 @@ const StallHolderDetails = (props) => {
         </div>
         <div className="data-name-wrap">
           <p className="lable text-muted">
-            Email: <span> {props.stallholder.email}</span>
+
+            Email: <span> {props.stallholder?.email}</span>
           </p>
           <p className="lable text-muted">
-            Mobile: <span> {props.stallholder.mobileNumber}</span>
+            Mobile: <span> {props.stallholder?.mobileNumber}</span>
           </p>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 };

@@ -72,7 +72,8 @@ const StallBookingForm = (props) => {
       return (
         <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="booking-form-box">
-            <div>
+            <div className="labels">
+              <label>Business name</label>
               <input
                 type="text"
                 {...register("businessName", {
@@ -81,11 +82,11 @@ const StallBookingForm = (props) => {
                     message: "Business name is required",
                   },
                 })}
-                placeholder="Business name"
               />
             </div>
 
-            <div>
+            <div className="labels">
+              <label>Stall type</label>
               <select
                 {...register("stallType", {
                   required: {
@@ -106,37 +107,42 @@ const StallBookingForm = (props) => {
               </select>
             </div>
             <div>
-              <textarea
-                type="textarea"
-                className="booking-textarea"
-                rows="6"
-                {...register("comments", {
-                  required: {
-                    value: true,
-                    message:
-                      "Tell us what you will be selling / promoting at the carnival ",
-                  },
-                })}
-                placeholder="Comments"
-              />
-            </div>
+              <div className="labels">
+                <label>Comments</label>
+                <textarea
+                  type="textarea"
+                  className="booking-textarea"
+                  rows="6"
+                  {...register("comments", {
+                    required: {
+                      value: true,
+                      message:
+                        "Tell us what you will be selling / promoting at the carnival ",
+                    },
+                  })}
+                  placeholder="Comments"
+                />
+              </div>
 
-            <Button className="add-button" variant="custom" type="submit">
-              Add Booking
-            </Button>
+              <Button className="add-button" variant="custom" type="submit">
+                Add Booking
+              </Button>
+            </div>
           </div>
         </form>
       );
     } else {
       return (
         <div>
-          <div className="checkUser-email">
+
+          <div className="addNewStaff">
             <AddStall checkUserDetails={checkUserDetails} />
+            
+            <Link to="/addUser" className="btn btn-custom btn-change">
+              Add User
+            </Link>
           </div>
 
-          <Link to="/addUser" className="btn btn-custom btn-change">
-            Add User
-          </Link>
           <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
             <div className="booking-form-box">
               <div>
@@ -149,9 +155,14 @@ const StallBookingForm = (props) => {
                     },
                   })}
                   placeholder="UserId"
+                  className="hidden"
                 />
               </div>
-              <input type="text" value={checkUserEmail} />
+              <input
+                type="text"
+                value={checkUserEmail}
+                placeholder="User Email"
+              />
 
               <div>
                 <input

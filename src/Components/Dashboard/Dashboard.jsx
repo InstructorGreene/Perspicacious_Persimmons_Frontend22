@@ -14,6 +14,8 @@ import "./Dashboard.css";
 import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
 import PitchMap from "./PitchMap";
+import SortByDate from "./SortByDate";
+
 
 const Dashboard = (props) => {
   const [allBookings, setAllBookings] = useState([]);
@@ -36,8 +38,22 @@ const Dashboard = (props) => {
     setStallholder(foundStallHolder.data);
   };
 
+  const [pitchNumber, setPitchNumber] = useState(undefined);
+  const [sortByDate, setSortByDate] = useState("newest");
+
+
+  const findStallholder = async () => {
+    const foundStallHolder = await props.client.getUserById(props.userid);
+    setStallholder(foundStallHolder.data);
+  };
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
+  };
+  const choosePitchNumber = (chosenPitchNumber) => {
+    setPitchNumber(chosenPitchNumber);
+  };
+  const chooseSortDate = (chosenSortDate) => {
+    setSortByDate(chosenSortDate);
   };
 
   const choosePitchNumber = (chosenPitchNumber) => {
@@ -49,6 +65,9 @@ const Dashboard = (props) => {
   };
 
   const statusFilter = (resData) => {
+    sortByDate === "newest"
+      ? (resData = resData.sort((a, b) => (b.date > a.date ? 1 : -1)))
+      : (resData = resData.sort((a, b) => (a.date > b.date ? 1 : -1)));
     switch (props.role) {
       case "finance":
         return resData
@@ -82,10 +101,16 @@ const Dashboard = (props) => {
     }
   };
 
+
+
   const refreshList = () => {
     props.client
       .getBooking()
       .then((response) => setCurrentBooking(statusFilter(response.data)));
+  };
+  
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
   };
 
   //delete through admin
@@ -100,6 +125,7 @@ const Dashboard = (props) => {
   //cancelation
   const cancelStatus = (id) => {
     if (window.confirm("Confirm booking cancellation ")) {
+      props.client.updateBookingPitch(id, "0").then();
       props.client
         .updateBookingStatus(id, "canceled")
         .then(() => refreshList());
@@ -108,12 +134,15 @@ const Dashboard = (props) => {
 
   //set pitch number
   const changePitchNumber = (id, newIndex) => {
-    if (pitchNumber === undefined) {
-      window.alert("Choose pitch number on the map");
-      return (newIndex = 3);
-    } else {
-      props.client.updateBookingPitch(id, pitchNumber).then();
-      return newIndex;
+    switch (newIndex) {
+      case 4:
+        props.client.updateBookingPitch(id, pitchNumber).then();
+        setPitchNumber(undefined);
+        return newIndex;
+      case 3:
+        props.client.updateBookingPitch(id, "0").then();
+        setPitchNumber(false);
+        return newIndex;
     }
   };
 
@@ -129,12 +158,17 @@ const Dashboard = (props) => {
             : (newIndex = newIndex);
           break;
         case "allocator":
-          if (newIndex === 4) {
-            changePitchNumber(id, newIndex);
+          if (!pitchNumber) {
+            window.alert("Choose pitch number on the map");
+            return;
           } else {
-            window.alert("You can't change status")((newIndex = 4));
+            if (newIndex === 4) {
+              changePitchNumber(id, newIndex);
+            } else {
+              window.alert("You can't change status")((newIndex = 4));
+            }
+            break;
           }
-          break;
         case "admin":
           newIndex >= 2
             ? window.alert("You can't change status")((newIndex = 1))
@@ -164,6 +198,11 @@ const Dashboard = (props) => {
         case "allocator":
           newIndex === 2
             ? window.alert("You can't change status")((newIndex = 3))
+            : changePitchNumber(id, newIndex);
+          break;
+        case "admin":
+          newIndex >= 2
+            ? window.alert("You can't change status")
             : (newIndex = newIndex);
           break;
         case "admin":
@@ -200,9 +239,9 @@ const Dashboard = (props) => {
     resetField("comments");
   };
 
+
   // It changes the color when the status changes
   const statusColor = (status) => {
-    // switch case depending on status
     switch (status) {
       case "canceled":
         return "red";
@@ -225,7 +264,7 @@ const Dashboard = (props) => {
     refreshList();
     getBookingList();
     findStallholder();
-  }, [chosenStatus]);
+  }, [chosenStatus, pitchNumber, sortByDate]);
 
   useEffect(() => {
     refreshList();
@@ -469,7 +508,6 @@ const Dashboard = (props) => {
       );
     });
   };
-
   return (
     <>
       {props.role === "StallHolder" ? (
@@ -488,11 +526,20 @@ const Dashboard = (props) => {
           <h2 className="subtitle dashboard">All bookings</h2>
         </>
       )}
+        <div className="filters">
+          <ChooseStatus chooseStatus={chooseStatus} />
+          <SortByDate chooseSortDate={chooseSortDate} />
+        </div>
+      )}
+
       <div className="sticky-container">
         {props.role === "allocator" ? (
           <div className="pitch-map-wrap">
             <div className="pitch-map">
               <PitchMap
+
+                pitchNumber={pitchNumber}
+
                 choosePitchNumber={choosePitchNumber}
                 allBookings={allBookings}
               />
@@ -501,9 +548,11 @@ const Dashboard = (props) => {
         ) : (
           <></>
         )}
+
         <div className="cards">
           <BuildRows posts={currentBooking} />
         </div>
+
       </div>
     </>
   );

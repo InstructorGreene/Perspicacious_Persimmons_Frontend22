@@ -130,6 +130,36 @@ p {
 .update-button:hover {
   color: white;
 }
+.subtitle.dashboard {
+  color: #093250;
+}
+.stall-holder-details {
+  margin: 10px 50px;
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.sticky-container {
+  position: relative;
+}
+.pitch-map-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100vw;
+  background-color: white;
+}
+.pitch-map {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 74vw;
+  margin: 10px auto;
+  gap: 1px;
 
 .edit-form-box {
   width: 35vw;
@@ -153,3 +183,24 @@ p {
   width: 10rem;
   padding-right: 2rem;
 }
+
+  padding: 5px;
+}
+.pitch-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pitch-item:hover,
+.pitch-item:focus {
+  background-color: cadetblue;
+}
+/* .bookingText {
+  background-color: white;
+} */
+

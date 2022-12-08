@@ -84,6 +84,9 @@ export class ApiClient {
   updateBookingStatus(id, bstatus) {
     return this.authenticatedCall("post", `${url}s/${id}`, { bstatus });
   }
+  updateBookingPitch(id, pitch) {
+    return this.authenticatedCall("post", `${url}p/${id}`, { pitch });
+  }
 
   updateBooking(id, businessName, stallType, comments) {
     return this.authenticatedCall("post", `${url}updatePost/${id}`, {
