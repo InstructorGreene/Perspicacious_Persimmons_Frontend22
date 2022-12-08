@@ -43,7 +43,7 @@ a:hover {
 
 .btn-space {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   column-gap: 10px;
 }
 

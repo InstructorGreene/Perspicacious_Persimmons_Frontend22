@@ -44,11 +44,11 @@ input {
   justify-content: right;
   align-items: center;
   position: relative;
-  flex-direction: column;
+
   height: 50px;
 }
 
-.input-wrap label {
+/* .input-wrap label {
   position: relative;
   pointer-events: none;
   transform: translate(0, 23px) scale(1);
@@ -61,7 +61,7 @@ input {
   line-height: 12vh;
   left: -80px;
   bottom: 80px;
-}
+} */
 
 .error {
   position: absolute;

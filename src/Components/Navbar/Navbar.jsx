@@ -25,11 +25,21 @@ const NavbarMenu = (props) => {
           </Navbar.Text>
 
           {window.localStorage.getItem("token") ? (
-            <>
+            <div className="btn-space">
               <Link to="/dashboard" className="btn btn-custom btn-change">
                 View Bookings
               </Link>
-              <Link to="/booking" className="btn btn-custom btn-change">
+
+              <Link
+                to="/booking"
+                className="btn btn-custom btn-change"
+                style={{
+                  display:
+                    props.role === "StallHolder" || props.role === "admin"
+                      ? "inline"
+                      : "none",
+                }}
+              >
                 Add Booking
               </Link>
               <Button
@@ -39,7 +49,7 @@ const NavbarMenu = (props) => {
               >
                 Logout
               </Button>
-            </>
+            </div>
           ) : (
             <div className="btn-space">
               <Link to="/login" className="btn btn-custom btn-change">
