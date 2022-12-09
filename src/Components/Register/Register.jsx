@@ -54,7 +54,7 @@ function Register(props) {
       <form className="form-container" onSubmit={handleSubmit(createUser)}>
         <div className="form-box">
           <div className="input-wrap">
-            <label>First name</label>
+            <label className="label1">First name</label>
             <input
               {...register("firstName", {
                 required: {
@@ -81,7 +81,7 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label>Last name</label>
+            <label className="label1">Last name</label>
             <input
               {...register("lastName", {
                 required: {
@@ -108,7 +108,7 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label>Email</label>
+            <label className="label1">Email</label>
             <input
               type="email"
               {...register("email", {
@@ -128,7 +128,7 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label>Mobile number</label>
+            <label className="label1">Mobile number</label>
             <input
               type="number"
               {...register("mobileNumber", {
@@ -149,7 +149,7 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label>Password</label>
+            <label className="label1">Password </label>
             <input
               type="password"
               {...register("password", {
@@ -170,7 +170,7 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label>Confirm Password</label>
+            <label className="label1">Confirm password</label>
             <input
               type="password"
               {...register("confirmPassword", {

@@ -44,3 +44,9 @@ p {
   background-color: #093250;
   color: white;
 }
+
+.add-button {
+  display: block;
+  margin: 5px auto;
+  background-color: blue;
+}

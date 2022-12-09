@@ -5,15 +5,22 @@ import { Button } from "react-bootstrap";
 
 const AddByAdmin = (props) => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      mobileNumber: "",
-      password: "",
-    },
-  });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm(
+    { mode: "onBlur" },
+    {
+      defaultValues: {
+        firstName: "",
+        lastName: "",
+        email: "",
+        mobileNumber: "",
+        password: "",
+      },
+    }
+  );
 
   const onSubmit = async (item) => {
     const checkUser = await props.client.getUserByEmail(item.email);
@@ -37,6 +44,7 @@ const AddByAdmin = (props) => {
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="form-box">
           <div className="input-wrap">
+            <label>First name</label>
             <input
               {...register("firstName", {
                 required: {
@@ -56,10 +64,14 @@ const AddByAdmin = (props) => {
                   message: "Your name must contain only letters",
                 },
               })}
-              placeholder="First name"
+              // placeholder="First name"
             />
+            {errors.firstName && (
+              <div className="error">{errors.firstName.message}</div>
+            )}
           </div>
           <div className="input-wrap">
+            <label>Last name</label>
             <input
               {...register("lastName", {
                 required: {
@@ -79,10 +91,15 @@ const AddByAdmin = (props) => {
                   message: "Your last name must contain only letters",
                 },
               })}
-              placeholder="Last name"
+              // placeholder="Last name"
             />
+
+            {errors.lastName && (
+              <div className="error">{errors.lastName.message}</div>
+            )}
           </div>
           <div className="input-wrap">
+            <label>Email</label>
             <input
               type="email"
               {...register("email", {
@@ -95,10 +112,15 @@ const AddByAdmin = (props) => {
                   message: "Email is not valid",
                 },
               })}
-              placeholder="Email"
+              // placeholder="Email"
             />
+
+            {errors.email && (
+              <div className="error">{errors.email.message}</div>
+            )}
           </div>
           <div className="input-wrap">
+            <label>Mobile number</label>
             <input
               type="number"
               {...register("mobileNumber", {
@@ -112,10 +134,15 @@ const AddByAdmin = (props) => {
                     "Mobile number is too short, it shoud be at least 10 characters",
                 },
               })}
-              placeholder="Mobile number"
+              // placeholder="Mobile number"
             />
+
+            {errors.mobileNumber && (
+              <div className="error">{errors.mobileNumber.message}</div>
+            )}
           </div>
           <div className="input-wrap">
+            <label>Password</label>
             <input
               type="password"
               {...register("password", {
@@ -129,10 +156,14 @@ const AddByAdmin = (props) => {
                     "Password is too short, it shoud be at least 2 characters",
                 },
               })}
-              placeholder="Password"
+              // placeholder="Password"
             />
+
+            {errors.password && (
+              <div className="error">{errors.password.message}</div>
+            )}
           </div>
-          <div>
+          <div className="button-wrap">
             <Button variant="custom" className="login-button" type="submit">
               Add User
             </Button>
