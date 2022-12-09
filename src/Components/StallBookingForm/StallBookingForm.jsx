@@ -75,6 +75,7 @@ const StallBookingForm = (props) => {
               <label>Business name</label>
               <div>
                 <input
+                  className="booking-input"
                   type="text"
                   {...register("businessName", {
                     required: {
@@ -90,6 +91,7 @@ const StallBookingForm = (props) => {
               <label>Select</label>
 
               <select
+                className="booking-input"
                 {...register("stallType", {
                   required: {
                     value: true,
@@ -230,15 +232,7 @@ const StallBookingForm = (props) => {
     }
   };
 
-  return (
-    <>
-      {/* <AddStall checkUserDetails={checkUserDetails} />
-      <Link to="/addUser" className="btn btn-custom btn-change btn-adduser">
-        Add User
-      </Link> */}
-      {adminBooking()}
-    </>
-  );
+  return <>{adminBooking()}</>;
 };
 
 export default StallBookingForm;

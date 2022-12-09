@@ -5,7 +5,6 @@ const PitchMap = (props) => {
   for (let i = 1; i <= 50; i++) {
     pitchMapArray.push(i);
   }
-  
   let occupiedNumbers = [];
   let occupiedBookings = props.allBookings.filter((i) => i.pitch > 0);
   occupiedNumbers.push(
@@ -16,7 +15,6 @@ const PitchMap = (props) => {
   const changeBackground = (item) => {
     let isOccupied = occupiedNumbers[0].includes(item);
     if (isOccupied === true) {
-
       return "#093250";
     } else {
       return "transparent";
@@ -24,10 +22,8 @@ const PitchMap = (props) => {
   };
 
   const changeColor = (item) => {
-
     let isOccupied = occupiedNumbers[0].includes(item);
     if (isOccupied === true) {
-
       return "white";
     } else {
       return "#093250";
@@ -35,7 +31,6 @@ const PitchMap = (props) => {
   };
 
   const handleClick = (event) => {
-
     let isOccupied = occupiedNumbers[0].includes(event);
     if (isOccupied) {
       window.alert("This pitch number is booked, choose another");
@@ -46,7 +41,6 @@ const PitchMap = (props) => {
   };
   useEffect(() => {}, []);
 
-
   return pitchMapArray.map((item) => {
     return (
       <div
@@ -55,7 +49,6 @@ const PitchMap = (props) => {
         style={{
           backgroundColor:
             props.pitchNumber === item ? "cadetblue" : changeBackground(item),
-
           color: changeColor(item),
         }}
         onClick={() => handleClick(item)}

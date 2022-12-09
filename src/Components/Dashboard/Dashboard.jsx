@@ -489,11 +489,6 @@ const Dashboard = (props) => {
   return (
     <>
       {props.role === "StallHolder" ? (
-        <></>
-      ) : (
-        <ChooseStatus chooseStatus={chooseStatus} />
-      )}
-      {props.role === "StallHolder" ? (
         <div className="stall-holder-details">
           <StallHolderDetails stallholder={stallholder} />
           <h2 className="subtitle dashboard">Your bookings</h2>
@@ -503,15 +498,14 @@ const Dashboard = (props) => {
           <h2 className="subtitle dashboard">All bookings</h2>
         </>
       )}
-      <div className="filters">
-        <ChooseStatus chooseStatus={chooseStatus} />
-        <SortByDate chooseSortDate={chooseSortDate} />
-      </div>
+      {props.role === "StallHolder" ? (
+        <></>
+      ) : (
+        <div className="filters">
+          <ChooseStatus chooseStatus={chooseStatus} />
+          <SortByDate chooseSortDate={chooseSortDate} />
+        </div>
       )}
-      <div className="filters">
-        <ChooseStatus chooseStatus={chooseStatus} />
-        <SortByDate chooseSortDate={chooseSortDate} />
-      </div>
       )
       <div className="sticky-container">
         {props.role === "allocator" ? (
