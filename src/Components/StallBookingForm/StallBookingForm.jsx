@@ -44,6 +44,10 @@ const StallBookingForm = (props) => {
         props.userid
       );
     }
+<<<<<<< 82-create-pagination-for-the-bookings
+
+=======
+>>>>>>> main
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
@@ -71,6 +75,25 @@ const StallBookingForm = (props) => {
       return (
         <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="booking-form-box">
+<<<<<<< 82-create-pagination-for-the-bookings
+            <div className="input-wrap">
+              <label>Business name</label>
+              <div>
+                <input
+                  type="text"
+                  {...register("businessName", {
+                    required: {
+                      value: true,
+                      message: "Business name is required",
+                    },
+                  })}
+                />
+              </div>
+            </div>
+
+            <div className="input-wrap">
+              <label>Select</label>
+=======
             <div className="labels">
               <label>Business name</label>
               <input
@@ -86,6 +109,7 @@ const StallBookingForm = (props) => {
 
             <div className="labels">
               <label>Stall type</label>
+>>>>>>> main
               <select
                 {...register("stallType", {
                   required: {
@@ -105,6 +129,24 @@ const StallBookingForm = (props) => {
                 <option value="commercial">Commercial Items</option>
               </select>
             </div>
+<<<<<<< 82-create-pagination-for-the-bookings
+
+            <div className="input-wrap">
+              <label>Comments</label>
+              <textarea
+                type="textarea"
+                className="booking-textarea"
+                rows="6"
+                {...register("comments", {
+                  required: {
+                    value: true,
+                    message:
+                      "Tell us what you will be selling / promoting at the carnival ",
+                  },
+                })}
+              />
+            </div>
+=======
             <div>
               <div className="labels">
                 <label>Comments</label>
@@ -122,6 +164,7 @@ const StallBookingForm = (props) => {
                   placeholder="Comments"
                 />
               </div>
+>>>>>>> main
 
               <Button className="add-button" variant="custom" type="submit">
                 Add Booking
@@ -141,7 +184,8 @@ const StallBookingForm = (props) => {
           </div>
           <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
             <div className="booking-form-box">
-              <div>
+              <div className="input-wrap">
+                <label>User id</label>
                 <input
                   type="text"
                   value={checkUserID}
@@ -150,6 +194,17 @@ const StallBookingForm = (props) => {
                       value: true,
                     },
                   })}
+<<<<<<< 82-create-pagination-for-the-bookings
+                  // placeholder="User Id"
+                />
+              </div>
+              <div className="input-wrap">
+                <label>Email</label>
+                <input type="text" value={checkUserEmail} />
+              </div>
+              <div className="input-wrap">
+                <label>Business name</label>
+=======
                   placeholder="UserId"
                   className="hidden"
                 />
@@ -161,6 +216,7 @@ const StallBookingForm = (props) => {
               />
 
               <div>
+>>>>>>> main
                 <input
                   type="text"
                   {...register("businessName", {
@@ -169,11 +225,12 @@ const StallBookingForm = (props) => {
                       message: "Business name is required",
                     },
                   })}
-                  placeholder="Business name"
+                  // placeholder="Bus"
                 />
               </div>
 
-              <div>
+              <div className="input-wrap">
+                <label>Select</label>
                 <select
                   {...register("stallType", {
                     required: {
@@ -193,7 +250,8 @@ const StallBookingForm = (props) => {
                   <option value="commercial">Commercial Items</option>
                 </select>
               </div>
-              <div>
+              <div className="input-wrap">
+                <label>Comments</label>
                 <textarea
                   type="textarea"
                   className="booking-textarea"
@@ -205,7 +263,7 @@ const StallBookingForm = (props) => {
                         "Tell us what you will be selling / promoting at the carnival ",
                     },
                   })}
-                  placeholder="Comments"
+                  // placeholder="Comments"
                 />
               </div>
 
@@ -219,7 +277,19 @@ const StallBookingForm = (props) => {
     }
   };
 
+<<<<<<< 82-create-pagination-for-the-bookings
+  return (
+    <>
+      <AddStall checkUserDetails={checkUserDetails} />
+      <Link to="/addUser" className="btn btn-custom btn-change btn-adduser">
+        Add User
+      </Link>
+      {adminBooking()}
+    </>
+  );
+=======
   return <>{adminBooking()}</>;
+>>>>>>> main
 };
 
 export default StallBookingForm;

@@ -9,6 +9,26 @@ const AddStall = (props) => {
     return (
       <div>
         <form onSubmit={handleSubmit(props.checkUserDetails)}>
+<<<<<<< 82-create-pagination-for-the-bookings
+          <div className="checkUser">
+            <input
+              type="email"
+              {...register("email", {
+                required: {
+                  value: true,
+                },
+                pattern: {
+                  value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                  message: "Email is not valid",
+                },
+              })}
+              placeholder="Check user by Email"
+            />
+            <Button className="check-button" variant="custom" type="submit">
+              Check
+            </Button>
+          </div>
+=======
           <input
             type="email"
             {...register("email", {
@@ -25,6 +45,7 @@ const AddStall = (props) => {
           <Button className="add-button" variant="custom" type="submit">
             Check
           </Button>
+>>>>>>> main
         </form>
       </div>
     );
