@@ -508,6 +508,11 @@ const Dashboard = (props) => {
         <SortByDate chooseSortDate={chooseSortDate} />
       </div>
       )}
+      <div className="filters">
+        <ChooseStatus chooseStatus={chooseStatus} />
+        <SortByDate chooseSortDate={chooseSortDate} />
+      </div>
+      )
       <div className="sticky-container">
         {props.role === "allocator" ? (
           <div className="pitch-map-wrap">

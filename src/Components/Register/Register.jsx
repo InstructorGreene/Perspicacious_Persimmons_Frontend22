@@ -53,8 +53,9 @@ function Register(props) {
       <form className="form-container" onSubmit={handleSubmit(createUser)}>
         <div className="form-box">
           <div className="input-wrap">
-            <label>First name</label>
+            <label className="label">First name</label>
             <input
+              className="register-input"
               {...register("firstName", {
                 required: {
                   value: true,
@@ -74,14 +75,15 @@ function Register(props) {
                 },
               })}
             />
-            <label className="label1">First name</label>
+
             {errors.firstName && (
               <div className="error">{errors.firstName.message}</div>
             )}
           </div>
           <div className="input-wrap">
-            <label>Last name</label>
+            <label className="label">Last name</label>
             <input
+              className="register-input"
               {...register("lastName", {
                 required: {
                   value: true,
@@ -101,14 +103,15 @@ function Register(props) {
                 },
               })}
             />
-            <label className="label1">Last name</label>
+
             {errors.lastName && (
               <div className="error">{errors.lastName.message}</div>
             )}
           </div>
           <div className="input-wrap">
-            <label>Email</label>
+            <label className="label">Email</label>
             <input
+              className="register-input"
               type="email"
               {...register("email", {
                 required: {
@@ -121,14 +124,15 @@ function Register(props) {
                 },
               })}
             />
-            <label className="label1">Email</label>
+
             {errors.email && (
               <div className="error">{errors.email.message}</div>
             )}
           </div>
           <div className="input-wrap">
-            <label>Mobile number</label>
+            <label className="label">Mobile number</label>
             <input
+              className="register-input"
               type="number"
               {...register("mobileNumber", {
                 required: {
@@ -142,14 +146,15 @@ function Register(props) {
                 },
               })}
             />
-            <label className="label1">Mobile num</label>
+
             {errors.mobileNumber && (
               <div className="error">{errors.mobileNumber.message}</div>
             )}
           </div>
           <div className="input-wrap">
-            <label>Password</label>
+            <label className="label">Password </label>
             <input
+              className="register-input"
               type="password"
               {...register("password", {
                 required: {
@@ -163,14 +168,15 @@ function Register(props) {
                 },
               })}
             />
-            <label className="label1">Password</label>
+
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
           </div>
           <div className="input-wrap">
-            <label>Confirm Password</label>
+            <label className="label">Confirm password</label>
             <input
+              className="register-input"
               type="password"
               {...register("confirmPassword", {
                 required: {
@@ -179,13 +185,13 @@ function Register(props) {
                 },
               })}
             />
-            <label className="label1">Confirm Pwd</label>
+
             {errors.confirmPassword && (
               <div className="error">{errors.confirmPassword.message}</div>
             )}
           </div>
           <div>
-            <Button variant="custom" className="login-button" type="submit">
+            <Button variant="custom" className="register-button" type="submit">
               Register
             </Button>
           </div>

@@ -52,8 +52,10 @@ p {
 }
 .select-container {
   display: flex;
-  justify-content: right;
-  align-items: right;
+  flex-direction: column;
+  justify-content: left;
+  /* justify-content: right; */
+  align-items: flex-start;
   margin-right: 5rem;
 }
 .select-label {
@@ -61,8 +63,8 @@ p {
   justify-content: right;
   align-items: right;
 
-  margin-top: -1rem;
-  margin-right: -3rem;
+  /* margin-top: -1rem;
+  margin-right: -3rem; */
 }
 .select-status {
   align-items: right;
@@ -160,7 +162,7 @@ p {
   width: 74vw;
   margin: 10px auto;
   gap: 1px;
-
+}
 .edit-form-box {
   width: 35vw;
   height: 80vh;
@@ -184,8 +186,6 @@ p {
   padding-right: 2rem;
 }
 
-  padding: 5px;
-}
 .pitch-item {
   display: flex;
   justify-content: center;
@@ -203,4 +203,3 @@ p {
 /* .bookingText {
   background-color: white;
 } */
-

@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import "./Booking.css";
 
 function AdminBooking() {
   const { register, handleSubmit } = useForm();

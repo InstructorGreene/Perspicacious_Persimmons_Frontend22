@@ -7,7 +7,7 @@ const ChooseStatus = (props) => {
   return (
     <div className="select-container">
       <label className="select-label" htmlFor="select-status">
-        Sort by
+        Choose a status
       </label>
       <select
         className="select-status"

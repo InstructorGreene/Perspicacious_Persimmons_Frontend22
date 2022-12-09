@@ -1,8 +1,3 @@
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
 .booking-container {
   padding: 5%;
   display: flex;
@@ -13,17 +8,19 @@ body {
 
 .booking-form-box {
   width: 50vw;
-  height: 80vh;
   padding: 5%;
   border: 1px solid black;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
   border-radius: 4px;
 }
 
-.add-button {
+.input-wrap {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  text-align: center;
-  justify-content: center;
+}
+
+.add-button {
   background-color: cadetblue;
 }
 
@@ -31,22 +28,51 @@ body {
   color: white;
 }
 
-input,
-select,
-textarea {
-  align-items: center;
-  width: 30vw;
+.booking-input {
+  align-items: right;
+  width: 28vw;
   height: 5vh;
   margin: 10px 0;
 }
 
-textarea {
-  height: 20vh;
+.booking-textarea {
+  /* display: block; */
+  height: 10vh;
+  width: 28vw;
 }
-.labels {
+
+.checkUser {
   display: flex;
-  justify-content: right;
+  justify-content: center;
   align-items: center;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  justify-content: center;
+  background-color: cadetblue;
+}
+
+.add-button {
+  display: block;
+  margin: 5% auto;
+  background-color: cadetblue;
+}
+
+.add-button:hover {
+  color: white;
+}
+
+.btn-adduser {
+  display: block;
+  width: 100px;
+  margin: 5px auto;
+}
+
+.check-button {
+  background-color: cadetblue;
+  margin-left: 5px;
 }
 
 .checkUser-email {

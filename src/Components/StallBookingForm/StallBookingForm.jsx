@@ -44,7 +44,6 @@ const StallBookingForm = (props) => {
         props.userid
       );
     }
-
     console.log(props.role, props.userid);
     navigate("/dashboard");
   };
@@ -72,21 +71,24 @@ const StallBookingForm = (props) => {
       return (
         <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
           <div className="booking-form-box">
-            <div className="labels">
+            <div className="input-wrap">
               <label>Business name</label>
-              <input
-                type="text"
-                {...register("businessName", {
-                  required: {
-                    value: true,
-                    message: "Business name is required",
-                  },
-                })}
-              />
+              <div>
+                <input
+                  type="text"
+                  {...register("businessName", {
+                    required: {
+                      value: true,
+                      message: "Business name is required",
+                    },
+                  })}
+                />
+              </div>
             </div>
 
-            <div className="labels">
-              <label>Stall type</label>
+            <div className="input-wrap">
+              <label>Select</label>
+
               <select
                 {...register("stallType", {
                   required: {
@@ -106,46 +108,47 @@ const StallBookingForm = (props) => {
                 <option value="commercial">Commercial Items</option>
               </select>
             </div>
-            <div>
-              <div className="labels">
-                <label>Comments</label>
-                <textarea
-                  type="textarea"
-                  className="booking-textarea"
-                  rows="6"
-                  {...register("comments", {
-                    required: {
-                      value: true,
-                      message:
-                        "Tell us what you will be selling / promoting at the carnival ",
-                    },
-                  })}
-                  placeholder="Comments"
-                />
-              </div>
 
-              <Button className="add-button" variant="custom" type="submit">
-                Add Booking
-              </Button>
+            <div className="input-wrap">
+              <label>Comments</label>
+              <textarea
+                type="textarea"
+                className="booking-textarea"
+                rows="6"
+                {...register("comments", {
+                  required: {
+                    value: true,
+                    message:
+                      "Tell us what you will be selling / promoting at the carnival ",
+                  },
+                })}
+              />
             </div>
+
+            <Button className="add-button" variant="custom" type="submit">
+              Add Booking
+            </Button>
           </div>
         </form>
       );
     } else {
       return (
         <div>
-
           <div className="addNewStaff">
             <AddStall checkUserDetails={checkUserDetails} />
-            
-            <Link to="/addUser" className="btn btn-custom btn-change">
+
+            <Link
+              to="/addUser"
+              className="btn btn-custom btn-change btn-adduser"
+            >
               Add User
             </Link>
           </div>
 
           <form className="booking-container" onSubmit={handleSubmit(onSubmit)}>
             <div className="booking-form-box">
-              <div>
+              <div className="input-wrap hidden">
+                <label>User id</label>
                 <input
                   type="text"
                   value={checkUserID}
@@ -154,18 +157,21 @@ const StallBookingForm = (props) => {
                       value: true,
                     },
                   })}
-                  placeholder="UserId"
-                  className="hidden"
                 />
               </div>
-              <input
-                type="text"
-                value={checkUserEmail}
-                placeholder="User Email"
-              />
-
-              <div>
+              <div className="input-wrap">
+                <label>Email</label>
                 <input
+                  className="booking-input"
+                  type="text"
+                  value={checkUserEmail}
+                />
+              </div>
+              <div className="input-wrap">
+                <label>Business name</label>
+
+                <input
+                  className="booking-input"
                   type="text"
                   {...register("businessName", {
                     required: {
@@ -173,12 +179,13 @@ const StallBookingForm = (props) => {
                       message: "Business name is required",
                     },
                   })}
-                  placeholder="Business name"
                 />
               </div>
 
-              <div>
+              <div className="input-wrap">
+                <label>Select by type</label>
                 <select
+                  className="booking-input"
                   {...register("stallType", {
                     required: {
                       value: true,
@@ -192,12 +199,13 @@ const StallBookingForm = (props) => {
 
                   <option value="donation">Donation</option>
 
-                  <option value="food">Food Stall</option>
+                  <option value="food">Food</option>
 
-                  <option value="commercial">Commercial Items</option>
+                  <option value="commercial">Commercial</option>
                 </select>
               </div>
-              <div>
+              <div className="input-wrap">
+                <label>Comments</label>
                 <textarea
                   type="textarea"
                   className="booking-textarea"
@@ -209,7 +217,6 @@ const StallBookingForm = (props) => {
                         "Tell us what you will be selling / promoting at the carnival ",
                     },
                   })}
-                  placeholder="Comments"
                 />
               </div>
 
@@ -223,7 +230,15 @@ const StallBookingForm = (props) => {
     }
   };
 
-  return <>{adminBooking()}</>;
+  return (
+    <>
+      {/* <AddStall checkUserDetails={checkUserDetails} />
+      <Link to="/addUser" className="btn btn-custom btn-change btn-adduser">
+        Add User
+      </Link> */}
+      {adminBooking()}
+    </>
+  );
 };
 
 export default StallBookingForm;

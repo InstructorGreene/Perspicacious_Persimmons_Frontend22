@@ -1,0 +1,13 @@
+.pie {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+.pie-legend {
+  width: 40vw;
+  margin-right: 200px;
+  padding: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 6px;
+}

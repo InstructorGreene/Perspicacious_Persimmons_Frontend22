@@ -25,8 +25,9 @@ const Login = (props) => {
       <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
         <div className="login-form-box">
           <div className="input-wrap">
-            <label>Email </label>
+            <label className="login-label">Email </label>
             <input
+              className="login-input"
               type="email"
               name="email"
               {...register("email", {
@@ -45,8 +46,9 @@ const Login = (props) => {
             )}
           </div>
           <div className="input-wrap">
-            <label>Password </label>
+            <label className="login-label">Password </label>
             <input
+              className="login-input"
               type="password"
               name="password"
               {...register("password", {
@@ -61,7 +63,6 @@ const Login = (props) => {
                 },
               })}
             />
-
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
