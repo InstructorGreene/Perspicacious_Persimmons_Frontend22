@@ -46,7 +46,7 @@ const App = () => {
   return (
     <>
       <Router>
-        <NavbarMenu client={client} logout={logout} />
+        <NavbarMenu client={client} logout={logout} role={role} />
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route

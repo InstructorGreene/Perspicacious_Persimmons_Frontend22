@@ -44,7 +44,7 @@ input {
   justify-content: right;
   align-items: center;
   position: relative;
-  /* height: 50px; */
+  height: 50px;
 }
 
 /* .input-wrap label {

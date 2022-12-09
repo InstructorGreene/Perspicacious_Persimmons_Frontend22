@@ -75,6 +75,7 @@ function Register(props) {
                 },
               })}
             />
+
             {errors.firstName && (
               <div className="error">{errors.firstName.message}</div>
             )}
@@ -101,6 +102,7 @@ function Register(props) {
                 },
               })}
             />
+
             {errors.lastName && (
               <div className="error">{errors.lastName.message}</div>
             )}
@@ -141,6 +143,7 @@ function Register(props) {
                 },
               })}
             />
+
             {errors.mobileNumber && (
               <div className="error">{errors.mobileNumber.message}</div>
             )}
@@ -161,6 +164,7 @@ function Register(props) {
                 },
               })}
             />
+
             {errors.password && (
               <div className="error">{errors.password.message}</div>
             )}
@@ -176,6 +180,7 @@ function Register(props) {
                 },
               })}
             />
+
             {errors.confirmPassword && (
               <div className="error">{errors.confirmPassword.message}</div>
             )}
