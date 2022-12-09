@@ -11,16 +11,22 @@ import {
 import "./Dashboard.css";
 import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
+
+import Piechart from "../Piechart/Piechart";
+
 import PitchMap from "./PitchMap";
 import SortByDate from "./SortByDate";
+
 
 const Dashboard = (props) => {
   const [allBookings, setAllBookings] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
-  const [stallholder, setStallholder] = useState();
+
+   const [stallholder, setStallholder] = useState();
   const [pitchNumber, setPitchNumber] = useState(undefined);
   const [sortByDate, setSortByDate] = useState("newest");
+
 
   const findStallholder = async () => {
     const foundStallHolder = await props.client.getUserById(props.userid);
@@ -209,6 +215,7 @@ const Dashboard = (props) => {
     getBookingList();
     findStallholder();
   }, [chosenStatus, pitchNumber, sortByDate]);
+
   useEffect(() => {
     refreshList();
   }, []);
@@ -355,6 +362,16 @@ const Dashboard = (props) => {
         </div>
       )}
 
+      <>
+      {props.role === "committee" ? (
+       <Piechart allBookings={allBookings}/>
+      ) : (
+        <></>
+      )}
+      <div className="cards">{buildRows()}</div>
+      </>
+
+
       {props.role === "StallHolder" ? (
         <div className="stall-holder-details">
           <StallHolderDetails stallholder={stallholder} />
@@ -379,6 +396,7 @@ const Dashboard = (props) => {
         )}
         <div className="cards">{buildRows()}</div>
       </div>
+
     </>
   );
 };
