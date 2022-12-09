@@ -14,6 +14,7 @@ import "./Dashboard.css";
 import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
 import PitchMap from "./PitchMap";
+import Piechart from "../Piechart/Piechart";
 import SortByDate from "./SortByDate";
 
 const Dashboard = (props) => {
@@ -21,7 +22,7 @@ const Dashboard = (props) => {
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
   const [stallholder, setStallholder] = useState();
-  const [pitchNumber, setPitchNumber] = useState();
+  const [pitchNumber, setPitchNumber] = useState(undefined);
   const [sortByDate, setSortByDate] = useState("newest");
   const { resetField, register, handleSubmit } = useForm({
     defaultValues: {
@@ -38,12 +39,15 @@ const Dashboard = (props) => {
     const foundStallHolder = await props.client.getUserById(props.userid);
     setStallholder(foundStallHolder.data);
   };
+
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
+
   const choosePitchNumber = (chosenPitchNumber) => {
     setPitchNumber(chosenPitchNumber);
   };
+
   const chooseSortDate = (chosenSortDate) => {
     setSortByDate(chosenSortDate);
   };
@@ -125,7 +129,6 @@ const Dashboard = (props) => {
         props.client.updateBookingPitch(id, "0").then();
         setPitchNumber(false);
         return newIndex;
-      default:
     }
   };
 
@@ -157,7 +160,6 @@ const Dashboard = (props) => {
             ? window.alert("You can't change status")((newIndex = 1))
             : (newIndex = newIndex);
           break;
-        default:
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -188,7 +190,6 @@ const Dashboard = (props) => {
             ? window.alert("You can't change status")
             : (newIndex = newIndex);
           break;
-        default:
       }
       let newBstatus = statuses[newIndex];
       props.client
@@ -498,6 +499,7 @@ const Dashboard = (props) => {
           <h2 className="subtitle dashboard">All bookings</h2>
         </>
       )}
+
       {props.role === "StallHolder" ? (
         <></>
       ) : (
@@ -506,7 +508,7 @@ const Dashboard = (props) => {
           <SortByDate chooseSortDate={chooseSortDate} />
         </div>
       )}
-      )
+
       <div className="sticky-container">
         {props.role === "allocator" ? (
           <div className="pitch-map-wrap">
@@ -518,6 +520,12 @@ const Dashboard = (props) => {
               />
             </div>
           </div>
+        ) : (
+          <></>
+        )}
+
+        {props.role === "committee" ? (
+          <Piechart allBookings={allBookings} />
         ) : (
           <></>
         )}
