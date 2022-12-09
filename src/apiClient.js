@@ -62,6 +62,10 @@ export class ApiClient {
     });
   }
 
+  updateBookingPitch(id, pitch) {
+    return this.authenticatedCall("post", `${url}p/${id}`, { pitch });
+  }
+
   getBooking() {
     return this.authenticatedCall("get", url);
   }
@@ -84,11 +88,12 @@ export class ApiClient {
   updateBookingStatus(id, bstatus) {
     return this.authenticatedCall("post", `${url}s/${id}`, { bstatus });
   }
-  updateBookingPitch(id, pitch) {
-    return this.authenticatedCall("post", `${url}p/${id}`, { pitch });
-  }
 
-  updateBooking(booking, id) {
-    return this.authenticatedCall("put", `${url}${id}`, { ...booking });
+  updateBooking(id, businessName, stallType, comments) {
+    return this.authenticatedCall("post", `${url}updatePost/${id}`, {
+      businessName,
+      stallType,
+      comments,
+    });
   }
 }

@@ -7,7 +7,7 @@ const ChooseStatus = (props) => {
   return (
     <div className="select-container">
       <label className="select-label" htmlFor="select-status">
-        Select status of booking to show
+        Choose a status
       </label>
       <select
         className="select-status"

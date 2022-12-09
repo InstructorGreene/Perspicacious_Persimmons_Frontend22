@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "react-bootstrap/Card";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import {
   FaUndoAlt,
   FaRedoAlt,
@@ -11,35 +13,47 @@ import {
 import "./Dashboard.css";
 import StallHolderDetails from "./StallHolderDetails";
 import ChooseStatus from "./ChooseStatus";
-
-import Piechart from "../Piechart/Piechart";
-
 import PitchMap from "./PitchMap";
+import Piechart from "../Piechart/Piechart";
 import SortByDate from "./SortByDate";
-
 
 const Dashboard = (props) => {
   const [allBookings, setAllBookings] = useState([]);
   const [currentBooking, setCurrentBooking] = useState([]);
   const [chosenStatus, setChosenStatus] = useState("");
-
-   const [stallholder, setStallholder] = useState();
+  const [stallholder, setStallholder] = useState();
   const [pitchNumber, setPitchNumber] = useState(undefined);
   const [sortByDate, setSortByDate] = useState("newest");
-
+  const { resetField, register, handleSubmit } = useForm({
+    defaultValues: {
+      businessName: "",
+      stallType: "",
+      comments: "",
+    },
+  });
+  const navigate = useNavigate();
+  const client = props.client;
+  const role = props.role;
 
   const findStallholder = async () => {
     const foundStallHolder = await props.client.getUserById(props.userid);
     setStallholder(foundStallHolder.data);
   };
+
   const chooseStatus = (chosenStatus) => {
     setChosenStatus(chosenStatus);
   };
+
   const choosePitchNumber = (chosenPitchNumber) => {
     setPitchNumber(chosenPitchNumber);
   };
+
   const chooseSortDate = (chosenSortDate) => {
     setSortByDate(chosenSortDate);
+  };
+
+  const getBookingList = () => {
+    props.client.getBooking().then((response) => setAllBookings(response.data));
   };
 
   const statusFilter = (resData) => {
@@ -78,13 +92,11 @@ const Dashboard = (props) => {
         );
     }
   };
+
   const refreshList = () => {
     props.client
       .getBooking()
       .then((response) => setCurrentBooking(statusFilter(response.data)));
-  };
-  const getBookingList = () => {
-    props.client.getBooking().then((response) => setAllBookings(response.data));
   };
 
   //delete through admin
@@ -155,6 +167,7 @@ const Dashboard = (props) => {
         .then(() => refreshList());
     } else return;
   };
+
   // undo changing status of booking
   const undoStatus = (id, bstatus) => {
     if (window.confirm("Confirm changing status")) {
@@ -185,12 +198,27 @@ const Dashboard = (props) => {
     } else return;
   };
 
-  const editBooking = (id, item) => {
-    // props.client.updateBooking(id, item).then(() => refreshList());
-    // setBooking(item);
+  // Edit the booking form
+  const editBooking = (e, props) => {
+    e.preventDefault();
+    console.log(e.target);
+
+    client
+      .updateBooking(
+        props._id,
+        e.target[0].value === "" ? props.businessName : e.target[0].value,
+        e.target[1].value === "" ? props.stallType : e.target[1].value,
+        e.target[2].value === "" ? props.comments : e.target[2].value
+      )
+      .then(() => refreshList());
+    alert("Booking Updated");
+
+    resetField("businessName");
+    resetField("stallType");
+    resetField("comments");
   };
 
-  // Change colour depending on status
+  // It changes the color when the status changes
   const statusColor = (status) => {
     switch (status) {
       case "canceled":
@@ -220,139 +248,258 @@ const Dashboard = (props) => {
     refreshList();
   }, []);
 
-  const buildRows = () => {
-    return currentBooking.map((item) => {
-      return (
-        <div key={item._id}>
-          <Card className="card" key={item._id}>
-            <Card.Body id={item._id}>
-              <div
-                className="stall-holder-details"
-                style={{
-                  display: props.role === "StallHolder" ? "none" : "inline",
-                }}
-              >
-                <Card.Title className="creator-data">
-                  Stall Holder Details
-                </Card.Title>
-                <div className="data-wrap">
-                  <div className="data-name-wrap">
-                    <p className="lable text-muted">
-                      First name: <span> {item.firstName}</span>
-                    </p>
-                    <p className="lable text-muted">
-                      Last name: <span> {item.lastName}</span>
-                    </p>
-                  </div>
-                  <div className="data-name-wrap">
-                    <p className="lable text-muted">
-                      Email: <span> {item.email}</span>
-                    </p>
-                    <p className="lable text-muted">
-                      Mobile: <span> {item.mobileNumber}</span>
-                    </p>
-                  </div>
+  // Form component to update
+  const UpdateForm = (props) => {
+    return (
+      <form
+        className="booking-container"
+        onSubmit={(e) => editBooking(e, props.item)}
+      >
+        <div className="edit-form-box">
+          <Card.Title className="booking-edit-data">Edit Booking</Card.Title>
+          <div>
+            <label className="update-label">Business Name:</label>
+
+            <input
+              className="booking-input"
+              type="text"
+              {...register("businessName", {
+                required: {
+                  value: true,
+                  message: "Business name is required",
+                },
+              })}
+              placeholder={props.item.businessName}
+            ></input>
+          </div>
+          <div>
+            <label className="update-label">Type of stall:</label>
+            <select
+              className="booking-input"
+              {...register("stallType", {
+                required: {
+                  value: true,
+                  message: "Choose the category of the stall",
+                },
+              })}
+              placeholder={props.item.stallType}
+            >
+              <option value="">Select...</option>
+
+              <option value="craft">Craft</option>
+
+              <option value="donation">Donation</option>
+
+              <option value="food">Food Stall</option>
+
+              <option value="commercial">Commercial Items</option>
+            </select>
+          </div>
+          <div>
+            <label className="update-label">Additional comments:</label>
+            <textarea
+              type="textarea"
+              className="booking-textarea"
+              rows="6"
+              {...register("comments", {
+                required: {
+                  value: true,
+                  message:
+                    "Tell us what you will be selling / promoting at the carnival ",
+                },
+              })}
+              placeholder={props.item.comments}
+            ></textarea>
+          </div>
+          <div>
+            <button className="update-button" type="submit">
+              Update
+            </button>
+            <button
+              className="update-button"
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </form>
+    );
+  };
+
+  // Display Card Component
+  const DisplayCard = (props) => {
+    const item = props.post;
+    const index = props.index;
+
+    return (
+      <div key={index}>
+        <Card className="card" key={item._id}>
+          <Card.Body id={item._id}>
+            <div
+              className="stall-holder-details"
+              style={{
+                display: props.role === "StallHolder" ? "none" : "inline",
+              }}
+            >
+              <Card.Title className="creator-data">
+                Stall Holder Details
+              </Card.Title>
+              <div className="data-wrap">
+                <div className="data-name-wrap">
+                  <p className="lable text-muted">
+                    First name: <span> {item.firstName}</span>
+                  </p>
+                  <p className="lable text-muted">
+                    Last name: <span> {item.lastName}</span>
+                  </p>
+                </div>
+                <div className="data-name-wrap">
+                  <p className="lable text-muted">
+                    Email: <span> {item.email}</span>
+                  </p>
+                  <p className="lable text-muted">
+                    Mobile: <span> {item.mobileNumber}</span>
+                  </p>
                 </div>
               </div>
-              <Card.Title className="booking-data">Booking Details</Card.Title>
-              <p
-                className="lable"
-                style={{ backgroundColor: statusColor(item.bstatus) }}
+            </div>
+            <Card.Title className="booking-data">Booking Details</Card.Title>
+            <p
+              className="lable"
+              style={{ backgroundColor: statusColor(item.bstatus) }}
+            >
+              <span className="bookingText">Booking status:</span>
+              <span id="bstatus" className="description">
+                {" "}
+                {item.bstatus}
+              </span>
+            </p>
+            <p className="lable text-muted">
+              Pitch number:
+              <span className="description"> {item.pitch}</span>
+            </p>
+            <p className="lable text-muted">
+              Business/charity name:
+              <span className="description"> {item.businessName}</span>
+            </p>
+            <p className="lable text-muted">
+              Type of stall:
+              <span className="description"> {item.stallType}</span>
+            </p>
+            <p className="lable text-muted">
+              Additional comments:
+              <span className="description"> {item.comments}</span>
+            </p>
+            <div className="action-bar">
+              <button
+                style={{
+                  display:
+                    role === "StallHolder" || role === "admin"
+                      ? "inline"
+                      : "none",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => cancelStatus(item._id)}
               >
-                <span className="bookingText">Booking status:</span>
-                <span id="bstatus" className="description">
-                  {" "}
-                  {item.bstatus}
-                </span>
-              </p>
-              <p className="lable text-muted">
-                Pitch number:
-                <span className="description"> {item.pitch}</span>
-              </p>
-              <p className="lable text-muted">
-                Business/charity name:
-                <span className="description"> {item.businessName}</span>
-              </p>
-              <p className="lable text-muted">
-                Type of stall:
-                <span className="description"> {item.stallType}</span>
-              </p>
-              <p className="lable text-muted">
-                Additional comments:
-                <span className="description"> {item.comments}</span>
-              </p>
-              <div className="action-bar">
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "admin"
-                        ? "inline"
-                        : "none",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => cancelStatus(item._id)}
-                >
-                  <FaRegWindowClose />
-                </button>
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "committee"
-                        ? "none"
-                        : "inline",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => undoStatus(item._id, item.bstatus)}
-                >
-                  <FaUndoAlt />
-                </button>
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "committee"
-                        ? "none"
-                        : "inline",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => changeStatus(item._id, item.bstatus)}
-                >
-                  <FaRedoAlt className="icon-btn" />
-                </button>
-                <button
-                  style={{
-                    display:
-                      props.role === "StallHolder" || props.role === "admin"
-                        ? "inline"
-                        : "none",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => editBooking(item._id, item)}
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  style={{
-                    display: props.role === "admin" ? "inline" : "none",
-                  }}
-                  className="action-button"
-                  type="button"
-                  onClick={() => removeBookingStall(item._id)}
-                >
-                  <FaTrashAlt />
-                </button>
-              </div>
-            </Card.Body>
-          </Card>
+                <FaRegWindowClose />
+              </button>
+              <button
+                style={{
+                  display:
+                    role === "StallHolder" || role === "committee"
+                      ? "none"
+                      : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => undoStatus(item._id, item.bstatus)}
+              >
+                <FaUndoAlt />
+              </button>
+              <button
+                style={{
+                  display:
+                    role === "StallHolder" || role === "committee"
+                      ? "none"
+                      : "inline",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => changeStatus(item._id, item.bstatus)}
+              >
+                <FaRedoAlt className="icon-btn" />
+              </button>
+              <button
+                style={{
+                  display:
+                    role === "StallHolder" || role === "admin"
+                      ? "inline"
+                      : "none",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => {
+                  props.changeEditing(props.index);
+                }}
+              >
+                <FaEdit />
+              </button>
+              <button
+                style={{
+                  display: role === "admin" ? "inline" : "none",
+                }}
+                className="action-button"
+                type="button"
+                onClick={() => removeBookingStall(item._id)}
+              >
+                <FaTrashAlt />
+              </button>
+            </div>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  };
+
+  const BuildRows = (props) => {
+    const [editing, changeEditing] = useState(undefined);
+    return props.posts.map((item, index) => {
+      return (
+        <div key={index}>
+          {editing === index ? (
+            <UpdateForm
+              client={client}
+              item={item}
+              changeEditing={() => changeEditing()}
+            />
+          ) : (
+            <DisplayCard
+              changeEditing={(index) => changeEditing(index)}
+              index={index}
+              post={item}
+            />
+          )}
         </div>
       );
     });
   };
   return (
     <>
+      {props.role === "StallHolder" ? (
+        <div className="stall-holder-details">
+          <StallHolderDetails stallholder={stallholder} />
+          <h2 className="subtitle dashboard">Your bookings</h2>
+        </div>
+      ) : (
+        <>
+          <h2 className="subtitle dashboard">All bookings</h2>
+        </>
+      )}
+
       {props.role === "StallHolder" ? (
         <></>
       ) : (
@@ -362,24 +509,6 @@ const Dashboard = (props) => {
         </div>
       )}
 
-      <>
-      {props.role === "committee" ? (
-       <Piechart allBookings={allBookings}/>
-      ) : (
-        <></>
-      )}
-      <div className="cards">{buildRows()}</div>
-      </>
-
-
-      {props.role === "StallHolder" ? (
-        <div className="stall-holder-details">
-          <StallHolderDetails stallholder={stallholder} />
-          <h2 className="subtitle dashboard">Your bookings</h2>
-        </div>
-      ) : (
-        <></>
-      )}
       <div className="sticky-container">
         {props.role === "allocator" ? (
           <div className="pitch-map-wrap">
@@ -394,9 +523,17 @@ const Dashboard = (props) => {
         ) : (
           <></>
         )}
-        <div className="cards">{buildRows()}</div>
-      </div>
 
+        {props.role === "committee" ? (
+          <Piechart allBookings={allBookings} />
+        ) : (
+          <></>
+        )}
+
+        <div className="cards">
+          <BuildRows posts={currentBooking} />
+        </div>
+      </div>
     </>
   );
 };

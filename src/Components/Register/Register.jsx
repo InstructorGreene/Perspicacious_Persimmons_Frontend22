@@ -43,7 +43,6 @@ function Register(props) {
         alert("Password Confirmation should match the Password");
       }
     } else {
-      console.log(item.email);
       alert("The user with this email already exists, log in please");
       navigate("/login");
     }
@@ -54,8 +53,9 @@ function Register(props) {
       <form className="form-container" onSubmit={handleSubmit(createUser)}>
         <div className="form-box">
           <div className="input-wrap">
-            <label className="label1">First name</label>
+            <label className="label">First name</label>
             <input
+              className="register-input"
               {...register("firstName", {
                 required: {
                   value: true,
@@ -81,8 +81,9 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label className="label1">Last name</label>
+            <label className="label">Last name</label>
             <input
+              className="register-input"
               {...register("lastName", {
                 required: {
                   value: true,
@@ -108,8 +109,9 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label className="label1">Email</label>
+            <label className="label">Email</label>
             <input
+              className="register-input"
               type="email"
               {...register("email", {
                 required: {
@@ -128,8 +130,9 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label className="label1">Mobile number</label>
+            <label className="label">Mobile number</label>
             <input
+              className="register-input"
               type="number"
               {...register("mobileNumber", {
                 required: {
@@ -149,8 +152,9 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label className="label1">Password </label>
+            <label className="label">Password </label>
             <input
+              className="register-input"
               type="password"
               {...register("password", {
                 required: {
@@ -170,8 +174,9 @@ function Register(props) {
             )}
           </div>
           <div className="input-wrap">
-            <label className="label1">Confirm password</label>
+            <label className="label">Confirm password</label>
             <input
+              className="register-input"
               type="password"
               {...register("confirmPassword", {
                 required: {
@@ -186,7 +191,7 @@ function Register(props) {
             )}
           </div>
           <div>
-            <Button variant="custom" className="login-button" type="submit">
+            <Button variant="custom" className="register-button" type="submit">
               Register
             </Button>
           </div>

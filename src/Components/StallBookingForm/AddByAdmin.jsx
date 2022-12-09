@@ -23,6 +23,7 @@ const AddByAdmin = (props) => {
   );
 
   const onSubmit = async (item) => {
+    console.log(item);
     const checkUser = await props.client.getUserByEmail(item.email);
     if (checkUser.data.length === 0) {
       await props.client.addUser(
@@ -46,6 +47,7 @@ const AddByAdmin = (props) => {
           <div className="input-wrap">
             <label>First name</label>
             <input
+              className="register-input"
               {...register("firstName", {
                 required: {
                   value: true,
@@ -73,6 +75,7 @@ const AddByAdmin = (props) => {
           <div className="input-wrap">
             <label>Last name</label>
             <input
+              className="register-input"
               {...register("lastName", {
                 required: {
                   value: true,
@@ -101,6 +104,7 @@ const AddByAdmin = (props) => {
           <div className="input-wrap">
             <label>Email</label>
             <input
+              className="register-input"
               type="email"
               {...register("email", {
                 required: {
@@ -122,6 +126,7 @@ const AddByAdmin = (props) => {
           <div className="input-wrap">
             <label>Mobile number</label>
             <input
+              className="register-input"
               type="number"
               {...register("mobileNumber", {
                 required: {
@@ -144,6 +149,7 @@ const AddByAdmin = (props) => {
           <div className="input-wrap">
             <label>Password</label>
             <input
+              className="register-input"
               type="password"
               {...register("password", {
                 required: {

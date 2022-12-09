@@ -13,7 +13,7 @@
 .btn-change {
   padding: 5px;
   min-width: 100px;
-  margin-right: 10px;
+  margin: 10px;
   font-weight: 500;
   text-align: center;
   align-items: center;
@@ -43,6 +43,7 @@ a:hover {
 
 .btn-space {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   column-gap: 10px;
 }

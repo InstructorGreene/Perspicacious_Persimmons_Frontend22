@@ -1,41 +1,33 @@
-body {
-  width: 100vw;
-  height: 100vh;
-}
-
 .form-container {
   padding: 5%;
   display: flex;
   align-items: center;
   text-align: center;
-  justify-content: rightr;
+  justify-content: center;
 }
 
 .login-form-box {
-<<<<<<< 82-create-pagination-for-the-bookings
   width: 40vw;
-=======
-  display: flex;
-  flex-direction: column;
-  width: 45vw;
->>>>>>> main
-  height: 40vh;
-  padding: 5%;
+  padding: 2%;
   border: 1px solid black;
   box-shadow: 0 0 15px 4px rgba(0, 0, 0, 0.06);
-  border-radius: 4px;
+  border-radius: 10px;
+}
+
+.login-label {
+  /* display: inline-block; */
+  /* width: 20vw; */
+}
+
+.login-input {
+  width: 30vw;
+  height: 5vh;
+  margin: 10px 0;
 }
 
 .login-button {
-  align-items: center;
-  text-align: center;
-  justify-content: center;
-  background-color: cadetblue;
-}
-
-.login-button1 {
   display: block;
-  margin: 5px auto;
+  margin: 5% auto;
   background-color: cadetblue;
 }
 
@@ -43,36 +35,19 @@ body {
   color: white;
 }
 
-input {
-  align-items: center;
-<<<<<<< 82-create-pagination-for-the-bookings
-  width: 28vw;
-  height: 10vh;
-}
 .input-wrap {
   display: flex;
-  justify-content: right;
-  align-items: flex-start;
-=======
-  width: 30vw;
-  height: 5vh;
-  margin: 30px;
-}
-.input-wrap {
-  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
   position: relative;
->>>>>>> main
-}
-.error {
-  color: blue;
-  position: absolute;
-  text-align: right;
-  right: 30px;
-  bottom: 80%;
+  height: 50px;
 }
 
-label {
-  margin-right: 1%;
+.error {
+  /* color: blue; */
+  position: absolute;
+  /* text-align: right; */
+  right: 30px;
+  bottom: 80%;
 }
