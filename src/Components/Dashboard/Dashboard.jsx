@@ -261,7 +261,7 @@ const Dashboard = (props) => {
             <label className="update-label">Business Name:</label>
 
             <input
-              className="update-label-input"
+              className="booking-input"
               type="text"
               {...register("businessName", {
                 required: {
@@ -275,7 +275,7 @@ const Dashboard = (props) => {
           <div>
             <label className="update-label">Type of stall:</label>
             <select
-              className="update-label-input"
+              className="booking-input"
               {...register("stallType", {
                 required: {
                   value: true,
@@ -299,7 +299,7 @@ const Dashboard = (props) => {
             <label className="update-label">Additional comments:</label>
             <textarea
               type="textarea"
-              className="update-label-input"
+              className="booking-textarea"
               rows="6"
               {...register("comments", {
                 required: {
@@ -333,7 +333,7 @@ const Dashboard = (props) => {
   const DisplayCard = (props) => {
     const item = props.post;
     const index = props.index;
-    console.log(props);
+
     return (
       <div key={index}>
         <Card className="card" key={item._id}>

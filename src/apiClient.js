@@ -62,6 +62,10 @@ export class ApiClient {
     });
   }
 
+  updateBookingPitch(id, pitch) {
+    return this.authenticatedCall("post", `${url}p/${id}`, { pitch });
+  }
+
   getBooking() {
     return this.authenticatedCall("get", url);
   }
@@ -83,9 +87,6 @@ export class ApiClient {
   }
   updateBookingStatus(id, bstatus) {
     return this.authenticatedCall("post", `${url}s/${id}`, { bstatus });
-  }
-  updateBookingPitch(id, pitch) {
-    return this.authenticatedCall("post", `${url}p/${id}`, { pitch });
   }
 
   updateBooking(id, businessName, stallType, comments) {
