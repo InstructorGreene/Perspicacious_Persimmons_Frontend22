@@ -14,7 +14,7 @@ const NavbarMenu = (props) => {
     navigate("/");
   };
   return (
-    <>
+    <header>
       <Navbar>
         <Container className="nav-container">
           <Navbar.Brand href="/">
@@ -61,7 +61,7 @@ const NavbarMenu = (props) => {
           )}
         </Container>
       </Navbar>
-    </>
+    </header>
   );
 };
 

@@ -44,57 +44,60 @@ const App = () => {
     <>
       <Router>
         <NavbarMenu client={client} logout={logout} role={role} />
-        <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route
-            path="/login"
-            element={
-              <Login
-                loggedIn={(token, role, userid) => login(token, role, userid)}
-                client={client}
-              />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <Register
-                loggedIn={(token, role, userid) => login(token, role, userid)}
-                client={client}
-              />
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <Dashboard
-                client={client}
-                token={token}
-                role={role}
-                userid={userid}
-              />
-            }
-          />
+        <main className="main">
+          <Routes>
+            <Route exact path="/" element={<HomePage />} />
+            <Route
+              path="/login"
+              element={
+                <Login
+                  loggedIn={(token, role, userid) => login(token, role, userid)}
+                  client={client}
+                />
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <Register
+                  loggedIn={(token, role, userid) => login(token, role, userid)}
+                  client={client}
+                />
+              }
+            />
+            <Route
+              path="/dashboard"
+              element={
+                <Dashboard
+                  client={client}
+                  token={token}
+                  role={role}
+                  userid={userid}
+                />
+              }
+            />
 
-          <Route
-            path="/booking"
-            element={
-              <StallBookingForm role={role} userid={userid} client={client} />
-            }
-          />
-          <Route
-            path="/addUser"
-            element={
-              <AddByAdmin
-                token={token}
-                role={role}
-                userid={userid}
-                client={client}
-              />
-            }
-          />
-        </Routes>
+            <Route
+              path="/booking"
+              element={
+                <StallBookingForm role={role} userid={userid} client={client} />
+              }
+            />
+            <Route
+              path="/addUser"
+              element={
+                <AddByAdmin
+                  token={token}
+                  role={role}
+                  userid={userid}
+                  client={client}
+                />
+              }
+            />
+          </Routes>
+        </main>
       </Router>
+
       <Footer />
     </>
   );
