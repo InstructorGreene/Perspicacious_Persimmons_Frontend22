@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,12 @@ import "./Register.css";
 
 function Register(props) {
   const navigate = useNavigate();
+    
   const {
     register,
     handleSubmit,
+    getValues,
+    watch,
     formState: { errors },
   } = useForm(
     { mode: "onBlur" },
@@ -20,11 +23,16 @@ function Register(props) {
         mobileNumber: "",
         password: "",
         confirmPassword: "",
+        userexist: "" , 
+
+        
       },
     }
   );
-
+  let userexist ="";
+  const [messages, setMessages] = useState([]);
   const createUser = async (item) => {
+    
     const checkUser = await props.client.getUserByEmail(item.email);
     if (checkUser.data.length === 0) {
       if (item.password === item.confirmPassword) {
@@ -33,29 +41,33 @@ function Register(props) {
           item.lastName,
           item.email,
           item.mobileNumber,
-          item.password
+          item.password,
+          
         );
-        alert("Account created, you may book the place for stall!");
         const res = await props.client.login(item.email, item.password);
         props.loggedIn(res.data.token, res.data.role, res.data.userid);
-        navigate("/booking");
-      } else {
-        alert("Password Confirmation should match the Password");
-      }
+        navigate("/thankpage");
+      } 
+     
     } else {
-      alert("The user with this email already exists, log in please");
-      navigate("/login");
-    }
+      
+      userexist = "The user with this email already exists, log in please";
+      setMessages(userexist);  
+       
+    }    
   };
-
+  
   return (
-    <>
+    <>          
+    <h2 className="welcome">Welcome to the Stannington Carnival reservation system!</h2>
+     <h3 className="account">Create Account</h3>
       <form className="form-container" onSubmit={handleSubmit(createUser)}>
-        <div className="form-box">
+        <div className="form-box">        
+        <div className ='userexist'>{messages} </div>
           <div className="input-wrap">
             <label className="label">First name</label>
             <input
-              className="register-input"
+              className="register-input" placeholder="First name"
               {...register("firstName", {
                 required: {
                   value: true,
@@ -83,8 +95,8 @@ function Register(props) {
           <div className="input-wrap">
             <label className="label">Last name</label>
             <input
-              className="register-input"
-              {...register("lastName", {
+              className="register-input" placeholder="Last name"
+              {...register("lastName",   {
                 required: {
                   value: true,
                   message: "Last name is required",
@@ -111,7 +123,7 @@ function Register(props) {
           <div className="input-wrap">
             <label className="label">Email</label>
             <input
-              className="register-input"
+              className="register-input" placeholder="Elen@google.com"
               type="email"
               {...register("email", {
                 required: {
@@ -132,14 +144,10 @@ function Register(props) {
           <div className="input-wrap">
             <label className="label">Mobile number</label>
             <input
-              className="register-input"
+              className="register-input" placeholder="+4467990012 (not required)"
               type="number"
               {...register("mobileNumber", {
-                required: {
-                  value: true,
-                  message: "Mobile number is required",
-                },
-                minLength: {
+                  minLength: {
                   value: 10,
                   message:
                     "Mobile number is too short, it shoud be at least 10 characters",
@@ -154,7 +162,7 @@ function Register(props) {
           <div className="input-wrap">
             <label className="label">Password </label>
             <input
-              className="register-input"
+              className="register-input" placeholder="*******"
               type="password"
               {...register("password", {
                 required: {
@@ -176,7 +184,7 @@ function Register(props) {
           <div className="input-wrap">
             <label className="label">Confirm password</label>
             <input
-              className="register-input"
+              className="register-input" placeholder="*******"
               type="password"
               {...register("confirmPassword", {
                 required: {
@@ -185,7 +193,10 @@ function Register(props) {
                 },
               })}
             />
-
+             {watch("confirmPassword") !== watch("password") &&
+              getValues("confirmPassword") ? (
+              <div className="error">Password not match</div>
+            ) : null}
             {errors.confirmPassword && (
               <div className="error">{errors.confirmPassword.message}</div>
             )}
@@ -194,7 +205,7 @@ function Register(props) {
             <Button variant="custom" className="register-button" type="submit">
               Register
             </Button>
-          </div>
+          </div>          
         </div>
       </form>
     </>

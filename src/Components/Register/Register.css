@@ -1,5 +1,5 @@
 .form-container {
-  padding: 5%;
+  padding:1% 5% 5% 5%;
   display: flex;
   align-items: center;
   text-align: center;
@@ -46,9 +46,22 @@
   display: block;
   margin: 5px auto;
   background-color: cadetblue;
+  border-color: #093250;
 }
 
 .register-button:hover,
 .register-button:focus {
   color: white;
+}
+.welcome{
+  text-align: center;
+  color: #093250;
+}
+.account{
+  text-align: center;  
+  padding-top:4%;
+}
+.userexist{
+  background-color: #e76363;
+  padding: 10px 0;
 }

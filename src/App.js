@@ -6,6 +6,7 @@ import Login from "./Components/Login/Login";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import "./App.css";
 import Register from "./Components/Register/Register";
+import Thankpage from "./Components/Thankpage/Thankpage";
 import StallBookingForm from "./Components/StallBookingForm/StallBookingForm";
 import { ApiClient } from "./apiClient";
 import Footer from "./Components/Footer/Footer";
@@ -76,7 +77,12 @@ const App = () => {
                 />
               }
             />
-
+             <Route
+              path="/thankpage"
+              element={
+                <Thankpage role={role} userid={userid} client={client} />
+              }
+            />
             <Route
               path="/booking"
               element={
