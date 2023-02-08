@@ -1,0 +1,47 @@
+.header-thank{
+  text-align: center;
+  font-family: 'Kaushan Script', cursive;
+  font-size:2.5em;
+  letter-spacing:3px;
+  color:#093250; ;
+  margin:0;
+  margin-bottom:20px;
+  margin-top:50px;
+}
+.notific-thank{
+  text-align: center;
+  font-size:1.5em;
+  letter-spacing:2px;
+  margin:0;
+  margin-bottom:20px;
+  margin-top:20px;
+}
+.button-book  {
+    background-color: #093250;;
+    color: white;
+    padding: 20px 34px;
+    width: 20%;
+    text-decoration: none;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    justify-content: center;
+    font-size: 20px;
+    margin:30px auto;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1.5px solid transparent;    
+  }
+  
+  .button-book:hover {
+    background-color: white;
+    color: black;
+    border: 1.5px solid #093250;
+    border-radius: 4px;
+  }
+  .serpentina {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+  }

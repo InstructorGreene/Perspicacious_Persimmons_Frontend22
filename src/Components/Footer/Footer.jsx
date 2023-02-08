@@ -9,7 +9,7 @@ import {
 
 function Footer() {
   return (
-    <div className="main-footer">
+    <footer className="main-footer">
       <div className="container">
         <div className="row">
           <div className="col">
@@ -53,7 +53,7 @@ function Footer() {
           </p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
 
